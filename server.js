@@ -6,7 +6,6 @@ var bluebee = bluebee || (function(){
 	// Requirements
 
 		sys		= require( "sys" ),
-		http		= require( "http" ),
 		fs		= require( "fs" ),
 		socket		= require( "socket.io" ),
 		EventEmitter	= require( "events" ).EventEmitter,
@@ -16,13 +15,16 @@ var bluebee = bluebee || (function(){
 
 		debug	=  true,
 
-		system	= {},		//Some System ressources
-		bb	= {},		//Central object, which is assigned to all modules
-		core	= {},		//Holds all Core-Modules
-		modules	= {},		//Holds all feature-modules
+		host	= "0.0.0.0",					//The IP the http-server is listening to #ToDo check if its working
+		port	= 8080,						//The Port the http-server is listenig to
 
-		ip	= "0.0.0.0",	//The IP the http-server is listening to #ToDo check if its working
-		port	= 8080,		//The Port the http-server is listenig to
+		system	= {},						//Some System ressources
+		core	= {},						//Holds all Core-Modules
+		modules	= {},						//Holds all feature-modules
+		conf	= { host: host, port: port };			//Holds all the Configurations
+		bb	= { core: core, modules: modules, conf: conf },	//Central object, which is assigned to all modules
+
+
 
 	////=============================================================================================
 	// Methods
@@ -35,7 +37,6 @@ var bluebee = bluebee || (function(){
 
 			//Some initializations
 			loadCore();
-			//loadModules(); #ToDo should be done _after_ the core-module are loaded
 
 			process.on( "uncaughtException", function (err ) {
 				log( err, "error" );
@@ -45,13 +46,13 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
  		loadCore = function(){
-			loader( process.cwd() + "/server/core", core, loadModules );
+			loader( process.cwd() + "/server/core", bb.core, loadModules );
 		},
         
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Modules
  		loadModules = function(){
-			loader( process.cwd() + "/server/modules", modules, httpServer );
+			loader( process.cwd() + "/server/modules", bb.modules, bb.core.http.httpServer);
 		},
 
 		////-----------------------------------------------------------------------------------------
@@ -64,59 +65,31 @@ var bluebee = bluebee || (function(){
 					var i = 0;
 					var v = 0;
 					files.forEach( function( file ){
+						var moduleName			= file.split( "." )[ 0 ];
 						try{
-							i++;
-                         				var mod				= new require( path + "/" + file );
-							mod.module.prototype		= new EventEmitter;
-							modulesObj[ file ]		= new mod.module();
-							modulesObj[ file ].ready	= false;
+							if( file[ 0 ] != "." ){
+								i++;
+                	         				var mod				= new require( path + "/" + file );
+								mod.module.prototype		= new EventEmitter;
+								modulesObj[ moduleName ]	= new mod.module();
+								modulesObj[ moduleName ].bb	= bb;
+
+							}
 						} catch( e ) {
 							log( file + ": " + e, "error" );
 							log( "Module " + file + " crashed, bluebee is shutting down.", "prompt" );
 							//#ToDo shutdown of bluebee
 						}
-
-						modulesObj[ file ].on( "ready", function( file ){
+						modulesObj[ moduleName ].main( function(){
 							v++;
-							if( i === v ){ //Modules are loaded - call the callback
+							if( i === v ){ //Modules are loaded - trigger the callback
 								cb();
 							}
-						});
-						modulesObj[ file ].main();
+						}); 
 					});
 				}
 			});	
 		},
-
-		////-----------------------------------------------------------------------------------------
- 		//The http-server itself
-		httpServer = function(){
-			var server = http.createServer( function (req, res) {
-				var bbRequest = req; //#ToDo create the real request (a mix of req and res
-				httpHandler( bbRequest, res );
-			}).listen( port, ip );
-			// Add Socket-Support
-		},
-
-		////-----------------------------------------------------------------------------------------
- 		//The http-server itself
-		httpHandler = function( request, res ){
-			var listened = false;
-			for( moduleIndex in modules ){
-				var module = modules[ moduleIndex ];
-				var listeners	= module.listeners( request.url ).length;
-				if( listeners ){
-					listened = true;
-					module.emit( request.url, request, res );
-					break;
-				}
-			};
-
-			if( !listened ){ //No Module wanted to handle the request
-				res.writeHead(404, { "Content-Type": "text/plain" } );
-				res.end( "Not Found" );
-			}
-		}
 
 		////-----------------------------------------------------------------------------------------
 		// Output Messages
