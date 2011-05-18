@@ -8,14 +8,14 @@ exports.module = function(){
 	}
 
 	////-----------------------------------------------------------------------------------------
- 	//The http-server itself!
+	//The http-server itself!
 	this.httpServer = function(){
 		var server = http.createServer( function (req, res) {
 			var bbRequest = req; //#ToDo create the real request (a mix of req and res
 			bb.core.http.httpHandler( bbRequest, res );
 		}).listen( this.bb.conf.port, this.bb.conf.host );
 		// Add Socket-Support
-	},
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//The http-handler
@@ -28,12 +28,12 @@ exports.module = function(){
 				listened = true;
 				module.emit( request.url, request, res );
 				break;				}
-		};
+		}
 
 		if( !listened ){ //No Module wanted to handle the request
 			res.writeHead(404, { "Content-Type": "text/plain" } );
 			res.end( "Not Found" );
 		}
-	}
-}
+	};
+};
 

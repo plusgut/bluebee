@@ -16,15 +16,12 @@ var bluebee = bluebee || (function(){
 		debug	=  true,
 
 		host	= "0.0.0.0",					//The IP the http-server is listening to #ToDo check if its working
-		port	= 8080,						//The Port the http-server is listenig to
+		port	= process.env.C9_PORT,						//The Port the http-server is listenig to
 
 		system	= {},						//Some System ressources
 		core	= {},						//Holds all Core-Modules
 		modules	= {},						//Holds all feature-modules
 		conf	= { host: host, port: port };			//Holds all the Configurations
-		bb	= { core: core, modules: modules, conf: conf },	//Central object, which is assigned to all modules
-
-
 
 	////=============================================================================================
 	// Methods
@@ -41,22 +38,22 @@ var bluebee = bluebee || (function(){
 			process.on( "uncaughtException", function (err ) {
 				log( err, "error" );
 			});
-		},
+		};
 
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
- 		loadCore = function(){
+		loadCore = function(){
 			loader( process.cwd() + "/server/core", bb.core, loadModules );
-		},
+		};
         
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Modules
- 		loadModules = function(){
+		loadModules = function(){
 			loader( process.cwd() + "/server/modules", bb.modules, bb.core.http.httpServer);
-		},
+		};
 
 		////-----------------------------------------------------------------------------------------
- 		//The loader itself
+		//The loader itself
 	        loader = function( path, modulesObj, cb ){
 			fs.readdir( path, function( err, files ){
 				if( err ){
@@ -69,8 +66,8 @@ var bluebee = bluebee || (function(){
 						try{
 							if( file[ 0 ] != "." ){
 								i++;
-                	         				var mod				= new require( path + "/" + file );
-								mod.module.prototype		= new EventEmitter;
+                                var mod                     = new require( path + "/" + file );
+                                mod.module.prototype		= new EventEmitter();
 								modulesObj[ moduleName ]	= new mod.module();
 								modulesObj[ moduleName ].bb	= bb;
 
@@ -89,7 +86,7 @@ var bluebee = bluebee || (function(){
 					});
 				}
 			});	
-		},
+		};
 
 		////-----------------------------------------------------------------------------------------
 		// Output Messages
@@ -121,11 +118,9 @@ var bluebee = bluebee || (function(){
 				//Print if debug-mode #ToDo safe to file
 				console.log( content );
 			}
- 		};
-
+        };
         
-	////---------------------------------------------------------------------------------------------
-	;
+    bb      = { core: core, modules: modules, conf: conf };	//Central object, which is assigned to all modules
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
