@@ -8,7 +8,7 @@ exports.module = function(){
 	}
 
 	////-----------------------------------------------------------------------------------------
-	//The http-server itself!
+ 	//The http-server itself!
 	this.httpServer = function(){
 		var server = http.createServer( function (req, res) {
 			var bbRequest = req; //#ToDo create the real request (a mix of req and res
@@ -20,20 +20,29 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
 	//The http-handler
 	this.httpHandler = function( request, res ){//#ToDo outsorce in an core-file
-		var listened = false;
+		var found = false;
+		var url		= request.url.split( "/" )[ 1 ] ;
+		if( !url ){
+			url = "index";
+		}
 		for( moduleIndex in this.bb.modules ){
 			var module = bb.modules[ moduleIndex ];
-			var listeners	= module.listeners( request.url ).length;
+			var listeners	= module.listeners( url ).length;
 			if( listeners ){
-				listened = true;
-				module.emit( request.url, request, res );
-				break;				}
-		}
+				found = true;
+				module.emit( url, request, res );
+				break;
+			}
+		};
 
-		if( !listened ){ //No Module wanted to handle the request
-			res.writeHead(404, { "Content-Type": "text/plain" } );
-			res.end( "Not Found" );
+		if( !found ){ //No Module wanted to handle the request
+			this.writeNotFound( res );
 		}
 	};
+	////-----------------------------------------------------------------------------------------
+	//The http-handler
+	this.writeNotFound = function( res ){
+		res.writeHead(404, { "Content-Type": "text/plain" } );
+		res.end( "Not Found" );
+	}	
 };
-

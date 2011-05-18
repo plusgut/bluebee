@@ -16,12 +16,12 @@ var bluebee = bluebee || (function(){
 		debug	=  true,
 
 		host	= "0.0.0.0",					//The IP the http-server is listening to #ToDo check if its working
-		port	= process.env.C9_PORT,						//The Port the http-server is listenig to
+		port	= 8080,						//The Port the http-server is listenig to
 
 		system	= {},						//Some System ressources
 		core	= {},						//Holds all Core-Modules
 		modules	= {},						//Holds all feature-modules
-		conf	= { host: host, port: port };			//Holds all the Configurations
+		conf	= { host: host, port: port, path: process.cwd() };			//Holds all the Configurations
 
 	////=============================================================================================
 	// Methods
@@ -43,13 +43,13 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
 		loadCore = function(){
-			loader( process.cwd() + "/server/core", bb.core, loadModules );
+			loader( bb.conf.path + "/server/core", bb.core, loadModules );
 		};
         
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Modules
 		loadModules = function(){
-			loader( process.cwd() + "/server/modules", bb.modules, bb.core.http.httpServer);
+			loader( bb.conf.path + "/server/modules", bb.modules, bb.core.http.httpServer);
 		};
 
 		////-----------------------------------------------------------------------------------------
@@ -66,8 +66,8 @@ var bluebee = bluebee || (function(){
 						try{
 							if( file[ 0 ] != "." ){
 								i++;
-                                var mod                     = new require( path + "/" + file );
-                                mod.module.prototype		= new EventEmitter();
+								var mod				= new require( path + "/" + file );
+								mod.module.prototype		= new EventEmitter();
 								modulesObj[ moduleName ]	= new mod.module();
 								modulesObj[ moduleName ].bb	= bb;
 
