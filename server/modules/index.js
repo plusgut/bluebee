@@ -27,12 +27,31 @@ exports.module = function(){
 						res.write(err);
 						res.end();
 					} else {
-						res.writeHead( 200 );
+
+						var mimeType = bb.modules.index.getFileType( filename );
+
+						res.writeHead( 200, {"Content-Type": mimeType } );
 						res.write( file, "binary" );
 						res.end();
 					}
 				});	
 			}
 		});
+	};
+
+	this.getFileType = function( filename ){
+		var file = filename.split( "." );
+		var fileType = file[ file.length - 1 ];
+		var mimeType;
+		if( fileType == "html" ){
+			mimeType = "text/html";
+		} else if( fileType == "js" ){
+			mimeType = "text/javascript";
+		} else if( fileType == "css" ){
+			mimeType = "text/css";
+		} else {
+			mimeType = "text/plain";
+		}
+		return mimeType;
 	};
 }
