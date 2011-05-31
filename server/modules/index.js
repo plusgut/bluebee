@@ -11,7 +11,9 @@ exports.module = function(){
 	});
 
 	this.on( "client", function( req, res ){
-		bb.modules.index.getFile( bb.conf.path + req.url, res );
+		var url = req.url.split( "?" )[ 0 ];
+		url = url.split( "#" )[ 0 ] ;
+		bb.modules.index.getFile( bb.conf.path + url, res );
 	});
 
 	this.getFile = function( filename, res){
@@ -19,14 +21,14 @@ exports.module = function(){
 			if (!exists) {
 				bb.core.http.writeNotFound( res )
 			} else {
-				fs.readFile(filename, "binary", function(err, file) {
-					if (err) {
-						res.writeHead(500, {"Content-Type": "text/plain"});
+				fs.readFile( filename, "binary", function( err, file ) {
+					if ( err ) {
+						res.writeHead( 500, {"Content-Type": "text/plain"} );
 						res.write(err);
 						res.end();
-					} else { 
-						res.writeHead(200);
-						res.write(file, "binary");
+					} else {
+						res.writeHead( 200 );
+						res.write( file, "binary" );
 						res.end();
 					}
 				});	

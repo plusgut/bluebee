@@ -20,6 +20,7 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
 	//The http-handler
 	this.httpHandler = function( request, res ){//#ToDo outsorce in an core-file
+		//#ToDo throw 401 if a .. exists
 		var found = false;
 		var url		= request.url.split( "/" )[ 1 ] ;
 		if( !url ){
