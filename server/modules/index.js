@@ -13,10 +13,10 @@ exports.module = function(){
 	this.on( "client", function( req, res ){
 		var url = req.url.split( "?" )[ 0 ];
 		url = url.split( "#" )[ 0 ] ;
-		bb.modules.index.getFile( bb.conf.path + url, res );
+		bb.modules.index.getFile( bb.conf.path + url, res, req );
 	});
 
-	this.getFile = function( filename, res){
+	this.getFile = function( filename, res, req){
 		path.exists(filename, function(exists) {
 			if (!exists) {
 				bb.core.http.writeNotFound( res )
