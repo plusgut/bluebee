@@ -1,5 +1,6 @@
 var path	= require( "path" );
 var fs		= require( "fs" );
+var mime	= require( "mime" );
 
 exports.module = function(){
 	this.main = function( cb ){
@@ -28,7 +29,7 @@ exports.module = function(){
 						res.end();
 					} else {
 
-						var mimeType = bb.modules.index.getFileType( filename );
+						var mimeType = mime.lookup( filename );
 
 						res.writeHead( 200, {"Content-Type": mimeType } );
 						res.write( file, "binary" );
@@ -37,21 +38,5 @@ exports.module = function(){
 				});	
 			}
 		});
-	};
-
-	this.getFileType = function( filename ){
-		var file = filename.split( "." );
-		var fileType = file[ file.length - 1 ];
-		var mimeType;
-		if( fileType == "html" ){
-			mimeType = "text/html";
-		} else if( fileType == "js" ){
-			mimeType = "text/javascript";
-		} else if( fileType == "css" ){
-			mimeType = "text/css";
-		} else {
-			mimeType = "text/plain";
-		}
-		return mimeType;
 	};
 }
