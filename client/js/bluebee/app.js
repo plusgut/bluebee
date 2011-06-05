@@ -12,4 +12,4 @@ BB.log = function log( content ){
 	if( BB.debug ){
 		console.log( content )
 	}
-}
+};
