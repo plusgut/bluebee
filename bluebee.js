@@ -14,15 +14,15 @@ var bluebee = bluebee || (function(){
 	////=============================================================================================
 	// Propertys
 
-		debug	=  true,
+/*		host	= "0.0.0.0",					//The host of the http-server is listening to #ToDo check if its working
+		port	= 8080,						//The Port of the http-server is listenig to*/
 
-		host	= "0.0.0.0",					//The IP the http-server is listening to #ToDo check if its working
-		port	= 8080,						//The Port the http-server is listenig to
+		debug	= true;
+		path	= process.cwd();
 
 		system	= {},						//Some System ressources
 		core	= {},						//Holds all Core-Modules
 		modules	= {},						//Holds all feature-modules
-		conf	= { host: host, port: port, path: process.cwd() };			//Holds all the Configurations
 
 	////=============================================================================================
 	// Methods
@@ -36,7 +36,7 @@ var bluebee = bluebee || (function(){
 			//Some initializations
 			loadCore();
 
-			process.on( "uncaughtException", function (err ) {
+			process.on( "uncaughtException", function ( err ) {
 				log( err, "error" );
 			});
 		};
@@ -44,13 +44,13 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
 		loadCore = function(){
-			loader( bb.conf.path + "/server/core", bb.core, loadModules );
+			loader( bb.path + "/server/core", bb.core, loadModules );
 		};
         
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Modules
 		loadModules = function(){
-			loader( bb.conf.path + "/server/modules", bb.modules, bb.core.http.httpServer);
+			loader( bb.path + "/server/modules", bb.modules, bb.core.http.httpServer);
 		};
 
 		////-----------------------------------------------------------------------------------------
@@ -82,7 +82,6 @@ var bluebee = bluebee || (function(){
 								//#ToDo shutdown of bluebee
 							}
 
-							log( moduleName );
 							modulesObj[ moduleName ].main( function(){
 								v++;
 								if( i === v ){ //Modules are loaded - trigger the callback
@@ -98,12 +97,11 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		// Output Messages
 		log = function( content, type ){
-
 			if( type == "error" ){
 				//Safe to file #ToDo
 
 				//Print if debug-mode
-				if( debug ){
+				if( bb.debug ){
 					console.log( "---------------------------------------------------------------" );
 					console.log( "ERROR - " + new Date() ); //#ToDo change the format
 					console.log( content );
@@ -114,20 +112,20 @@ var bluebee = bluebee || (function(){
 				//Safe to file #ToDo
 
 				//Print if debug-mode
-				if( debug ){
+				if( bb.debug ){
 					console.log( "ACCESS:" );
 					console.log( content );
 				}
 			} else if( type == "prompt" ){
 				//Prints it directly to the console
 				sys.puts( content );
-			} else if( debug ){
+			} else if( bb.debug ){
 				//Print if debug-mode #ToDo safe to file
 				console.log( content );
 			}
         };
         
-	bb	= { core: core, modules: modules, conf: conf, log: log };	//Central object, which is assigned to all modules
+	bb	= { core: core, modules: modules, log: log, path: path, debug: debug };	//Central object, which is assigned to all modules
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
