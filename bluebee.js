@@ -62,28 +62,34 @@ var bluebee = bluebee || (function(){
 				} else {
 					var i = 0;
 					var v = 0;
+
+					files.forEach( function( file ){//Counts the modules
+						if( file[ 0 ] != "." ){
+							i++;
+						}
+					});
 					files.forEach( function( file ){
 						var moduleName			= file.split( "." )[ 0 ];
-						try{
-							if( file[ 0 ] != "." ){
-								i++;
+						if( file[ 0 ] != "." ){
+							try{//initializing of the module
 								var mod				= new require( path + "/" + file );
 								mod.module.prototype		= new EventEmitter();
 								modulesObj[ moduleName ]	= new mod.module();
 								modulesObj[ moduleName ].bb	= bb;
+							} catch( e ) {
+								log( file + ": " + e, "error" );
+								log( "Module " + file + " crashed, bluebee is shutting down.", "prompt" );
+								//#ToDo shutdown of bluebee
+							}
 
-							}
-						} catch( e ) {
-							log( file + ": " + e, "error" );
-							log( "Module " + file + " crashed, bluebee is shutting down.", "prompt" );
-							//#ToDo shutdown of bluebee
+							log( moduleName );
+							modulesObj[ moduleName ].main( function(){
+								v++;
+								if( i === v ){ //Modules are loaded - trigger the callback
+									cb();
+								}
+							}); 
 						}
-						modulesObj[ moduleName ].main( function(){
-							v++;
-							if( i === v ){ //Modules are loaded - trigger the callback
-								cb();
-							}
-						}); 
 					});
 				}
 			});	
@@ -121,7 +127,7 @@ var bluebee = bluebee || (function(){
 			}
         };
         
-    bb      = { core: core, modules: modules, conf: conf };	//Central object, which is assigned to all modules
+	bb	= { core: core, modules: modules, conf: conf, log: log };	//Central object, which is assigned to all modules
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
