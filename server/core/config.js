@@ -12,6 +12,9 @@ exports.module = function(){
 			} else {
 				try{
 					bb.conf		= JSON.parse( file );
+					if( bb.conf.cloud9 ){
+						bb.conf.port = process.env.C9_PORT;
+					}
 					cb();
 				} catch( err ) {
 					bb.log( "Configuration-file was invalid, shutting down bb  [" + err + "]", "error" );
