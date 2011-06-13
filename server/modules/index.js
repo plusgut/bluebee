@@ -8,13 +8,13 @@ exports.module = function(){
 	}
 
 	this.on( "index", function( req, res ){
-		bb.modules.index.getFile( bb.conf.path + "/client/index.html", res );
+		bb.modules.index.getFile( bb.path + "/client/index.html", res );
 	});
 
 	this.on( "client", function( req, res ){
 		var url = req.url.split( "?" )[ 0 ];
 		url = url.split( "#" )[ 0 ] ;
-		bb.modules.index.getFile( bb.conf.path + url, res, req );
+		bb.modules.index.getFile( bb.path + url, res, req );
 	});
 
 	this.getFile = function( filename, res, req){
