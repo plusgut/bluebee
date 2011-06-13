@@ -10,7 +10,6 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//The http-server itself!
 	this.httpServer = function(){
-		bb.log( bb.conf );
 		var server = http.createServer( function (req, res) {
 			var bbRequest = req; //#ToDo create the real request (a mix of req and res
 			bb.core.http.httpHandler( bbRequest, res );
