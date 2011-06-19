@@ -5,9 +5,9 @@
 var handlebars = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"root":3,"program":4,"EOF":5,"statements":6,"simpleInverse":7,"statement":8,"openInverse":9,"closeBlock":10,"openBlock":11,"mustache":12,"partial":13,"CONTENT":14,"COMMENT":15,"OPEN_BLOCK":16,"inMustache":17,"CLOSE":18,"OPEN_INVERSE":19,"OPEN_ENDBLOCK":20,"path":21,"OPEN":22,"OPEN_UNESCAPED":23,"OPEN_PARTIAL":24,"params":25,"hash":26,"param":27,"STRING":28,"hashSegments":29,"hashSegment":30,"ID":31,"EQUALS":32,"pathSegments":33,"SEP":34,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",14:"CONTENT",15:"COMMENT",16:"OPEN_BLOCK",18:"CLOSE",19:"OPEN_INVERSE",20:"OPEN_ENDBLOCK",22:"OPEN",23:"OPEN_UNESCAPED",24:"OPEN_PARTIAL",28:"STRING",31:"ID",32:"EQUALS",34:"SEP"},
-productions_: [0,[3,2],[4,3],[4,1],[4,0],[6,1],[6,2],[8,3],[8,3],[8,1],[8,1],[8,1],[8,1],[11,3],[9,3],[10,3],[12,3],[12,3],[13,3],[13,4],[7,2],[17,3],[17,2],[17,2],[17,1],[25,2],[25,1],[27,1],[27,1],[26,1],[29,2],[29,1],[30,3],[30,3],[21,1],[33,3],[33,1]],
+symbols_: {"error":2,"root":3,"program":4,"EOF":5,"statements":6,"simpleInverse":7,"statement":8,"openInverse":9,"closeBlock":10,"openBlock":11,"mustache":12,"partial":13,"CONTENT":14,"COMMENT":15,"OPEN_BLOCK":16,"inMustache":17,"CLOSE":18,"OPEN_INVERSE":19,"OPEN_ENDBLOCK":20,"path":21,"OPEN":22,"OPEN_UNESCAPED":23,"OPEN_PARTIAL":24,"params":25,"hash":26,"param":27,"STRING":28,"INTEGER":29,"BOOLEAN":30,"hashSegments":31,"hashSegment":32,"ID":33,"EQUALS":34,"pathSegments":35,"SEP":36,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",14:"CONTENT",15:"COMMENT",16:"OPEN_BLOCK",18:"CLOSE",19:"OPEN_INVERSE",20:"OPEN_ENDBLOCK",22:"OPEN",23:"OPEN_UNESCAPED",24:"OPEN_PARTIAL",28:"STRING",29:"INTEGER",30:"BOOLEAN",33:"ID",34:"EQUALS",36:"SEP"},
+productions_: [0,[3,2],[4,3],[4,1],[4,0],[6,1],[6,2],[8,3],[8,3],[8,1],[8,1],[8,1],[8,1],[11,3],[9,3],[10,3],[12,3],[12,3],[13,3],[13,4],[7,2],[17,3],[17,2],[17,2],[17,1],[25,2],[25,1],[27,1],[27,1],[27,1],[27,1],[26,1],[31,2],[31,1],[32,3],[32,3],[32,3],[32,3],[21,1],[35,3],[35,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
@@ -68,26 +68,34 @@ case 27: this.$ = $$[$0]
 break;
 case 28: this.$ = new yy.StringNode($$[$0]) 
 break;
-case 29: this.$ = new yy.HashNode($$[$0]) 
+case 29: this.$ = new yy.IntegerNode($$[$0]) 
 break;
-case 30: $$[$0-1].push($$[$0]); this.$ = $$[$0-1] 
+case 30: this.$ = new yy.BooleanNode($$[$0]) 
 break;
-case 31: this.$ = [$$[$0]] 
+case 31: this.$ = new yy.HashNode($$[$0]) 
 break;
-case 32: this.$ = [$$[$0-2], $$[$0]] 
+case 32: $$[$0-1].push($$[$0]); this.$ = $$[$0-1] 
 break;
-case 33: this.$ = [$$[$0-2], new yy.StringNode($$[$0])] 
+case 33: this.$ = [$$[$0]] 
 break;
-case 34: this.$ = new yy.IdNode($$[$0]) 
+case 34: this.$ = [$$[$0-2], $$[$0]] 
 break;
-case 35: $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
+case 35: this.$ = [$$[$0-2], new yy.StringNode($$[$0])] 
 break;
-case 36: this.$ = [$$[$0]] 
+case 36: this.$ = [$$[$0-2], new yy.IntegerNode($$[$0])] 
+break;
+case 37: this.$ = [$$[$0-2], new yy.BooleanNode($$[$0])] 
+break;
+case 38: this.$ = new yy.IdNode($$[$0]) 
+break;
+case 39: $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
+break;
+case 40: this.$ = [$$[$0]] 
 break;
 }
 },
-table: [{3:1,4:2,5:[2,4],6:3,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],22:[1,13],23:[1,14],24:[1,15]},{1:[3]},{5:[1,16]},{5:[2,3],7:17,8:18,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,19],20:[2,3],22:[1,13],23:[1,14],24:[1,15]},{5:[2,5],14:[2,5],15:[2,5],16:[2,5],19:[2,5],20:[2,5],22:[2,5],23:[2,5],24:[2,5]},{4:20,6:3,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],20:[2,4],22:[1,13],23:[1,14],24:[1,15]},{4:21,6:3,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],20:[2,4],22:[1,13],23:[1,14],24:[1,15]},{5:[2,9],14:[2,9],15:[2,9],16:[2,9],19:[2,9],20:[2,9],22:[2,9],23:[2,9],24:[2,9]},{5:[2,10],14:[2,10],15:[2,10],16:[2,10],19:[2,10],20:[2,10],22:[2,10],23:[2,10],24:[2,10]},{5:[2,11],14:[2,11],15:[2,11],16:[2,11],19:[2,11],20:[2,11],22:[2,11],23:[2,11],24:[2,11]},{5:[2,12],14:[2,12],15:[2,12],16:[2,12],19:[2,12],20:[2,12],22:[2,12],23:[2,12],24:[2,12]},{17:22,21:23,31:[1,25],33:24},{17:26,21:23,31:[1,25],33:24},{17:27,21:23,31:[1,25],33:24},{17:28,21:23,31:[1,25],33:24},{21:29,31:[1,25],33:24},{1:[2,1]},{6:30,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],22:[1,13],23:[1,14],24:[1,15]},{5:[2,6],14:[2,6],15:[2,6],16:[2,6],19:[2,6],20:[2,6],22:[2,6],23:[2,6],24:[2,6]},{17:22,18:[1,31],21:23,31:[1,25],33:24},{10:32,20:[1,33]},{10:34,20:[1,33]},{18:[1,35]},{18:[2,24],21:40,25:36,26:37,27:38,28:[1,41],29:39,30:42,31:[1,43],33:24},{18:[2,34],28:[2,34],31:[2,34],34:[1,44]},{18:[2,36],28:[2,36],31:[2,36],34:[2,36]},{18:[1,45]},{18:[1,46]},{18:[1,47]},{18:[1,48],21:49,31:[1,25],33:24},{5:[2,2],8:18,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],20:[2,2],22:[1,13],23:[1,14],24:[1,15]},{14:[2,20],15:[2,20],16:[2,20],19:[2,20],22:[2,20],23:[2,20],24:[2,20]},{5:[2,7],14:[2,7],15:[2,7],16:[2,7],19:[2,7],20:[2,7],22:[2,7],23:[2,7],24:[2,7]},{21:50,31:[1,25],33:24},{5:[2,8],14:[2,8],15:[2,8],16:[2,8],19:[2,8],20:[2,8],22:[2,8],23:[2,8],24:[2,8]},{14:[2,14],15:[2,14],16:[2,14],19:[2,14],20:[2,14],22:[2,14],23:[2,14],24:[2,14]},{18:[2,22],21:40,26:51,27:52,28:[1,41],29:39,30:42,31:[1,43],33:24},{18:[2,23]},{18:[2,26],28:[2,26],31:[2,26]},{18:[2,29],30:53,31:[1,54]},{18:[2,27],28:[2,27],31:[2,27]},{18:[2,28],28:[2,28],31:[2,28]},{18:[2,31],31:[2,31]},{18:[2,36],28:[2,36],31:[2,36],32:[1,55],34:[2,36]},{31:[1,56]},{14:[2,13],15:[2,13],16:[2,13],19:[2,13],20:[2,13],22:[2,13],23:[2,13],24:[2,13]},{5:[2,16],14:[2,16],15:[2,16],16:[2,16],19:[2,16],20:[2,16],22:[2,16],23:[2,16],24:[2,16]},{5:[2,17],14:[2,17],15:[2,17],16:[2,17],19:[2,17],20:[2,17],22:[2,17],23:[2,17],24:[2,17]},{5:[2,18],14:[2,18],15:[2,18],16:[2,18],19:[2,18],20:[2,18],22:[2,18],23:[2,18],24:[2,18]},{18:[1,57]},{18:[1,58]},{18:[2,21]},{18:[2,25],28:[2,25],31:[2,25]},{18:[2,30],31:[2,30]},{32:[1,55]},{21:59,28:[1,60],31:[1,25],33:24},{18:[2,35],28:[2,35],31:[2,35],34:[2,35]},{5:[2,19],14:[2,19],15:[2,19],16:[2,19],19:[2,19],20:[2,19],22:[2,19],23:[2,19],24:[2,19]},{5:[2,15],14:[2,15],15:[2,15],16:[2,15],19:[2,15],20:[2,15],22:[2,15],23:[2,15],24:[2,15]},{18:[2,32],31:[2,32]},{18:[2,33],31:[2,33]}],
-defaultActions: {16:[2,1],37:[2,23],51:[2,21]},
+table: [{3:1,4:2,5:[2,4],6:3,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],22:[1,13],23:[1,14],24:[1,15]},{1:[3]},{5:[1,16]},{5:[2,3],7:17,8:18,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,19],20:[2,3],22:[1,13],23:[1,14],24:[1,15]},{5:[2,5],14:[2,5],15:[2,5],16:[2,5],19:[2,5],20:[2,5],22:[2,5],23:[2,5],24:[2,5]},{4:20,6:3,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],20:[2,4],22:[1,13],23:[1,14],24:[1,15]},{4:21,6:3,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],20:[2,4],22:[1,13],23:[1,14],24:[1,15]},{5:[2,9],14:[2,9],15:[2,9],16:[2,9],19:[2,9],20:[2,9],22:[2,9],23:[2,9],24:[2,9]},{5:[2,10],14:[2,10],15:[2,10],16:[2,10],19:[2,10],20:[2,10],22:[2,10],23:[2,10],24:[2,10]},{5:[2,11],14:[2,11],15:[2,11],16:[2,11],19:[2,11],20:[2,11],22:[2,11],23:[2,11],24:[2,11]},{5:[2,12],14:[2,12],15:[2,12],16:[2,12],19:[2,12],20:[2,12],22:[2,12],23:[2,12],24:[2,12]},{17:22,21:23,33:[1,25],35:24},{17:26,21:23,33:[1,25],35:24},{17:27,21:23,33:[1,25],35:24},{17:28,21:23,33:[1,25],35:24},{21:29,33:[1,25],35:24},{1:[2,1]},{6:30,8:4,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],22:[1,13],23:[1,14],24:[1,15]},{5:[2,6],14:[2,6],15:[2,6],16:[2,6],19:[2,6],20:[2,6],22:[2,6],23:[2,6],24:[2,6]},{17:22,18:[1,31],21:23,33:[1,25],35:24},{10:32,20:[1,33]},{10:34,20:[1,33]},{18:[1,35]},{18:[2,24],21:40,25:36,26:37,27:38,28:[1,41],29:[1,42],30:[1,43],31:39,32:44,33:[1,45],35:24},{18:[2,38],28:[2,38],29:[2,38],30:[2,38],33:[2,38],36:[1,46]},{18:[2,40],28:[2,40],29:[2,40],30:[2,40],33:[2,40],36:[2,40]},{18:[1,47]},{18:[1,48]},{18:[1,49]},{18:[1,50],21:51,33:[1,25],35:24},{5:[2,2],8:18,9:5,11:6,12:7,13:8,14:[1,9],15:[1,10],16:[1,12],19:[1,11],20:[2,2],22:[1,13],23:[1,14],24:[1,15]},{14:[2,20],15:[2,20],16:[2,20],19:[2,20],22:[2,20],23:[2,20],24:[2,20]},{5:[2,7],14:[2,7],15:[2,7],16:[2,7],19:[2,7],20:[2,7],22:[2,7],23:[2,7],24:[2,7]},{21:52,33:[1,25],35:24},{5:[2,8],14:[2,8],15:[2,8],16:[2,8],19:[2,8],20:[2,8],22:[2,8],23:[2,8],24:[2,8]},{14:[2,14],15:[2,14],16:[2,14],19:[2,14],20:[2,14],22:[2,14],23:[2,14],24:[2,14]},{18:[2,22],21:40,26:53,27:54,28:[1,41],29:[1,42],30:[1,43],31:39,32:44,33:[1,45],35:24},{18:[2,23]},{18:[2,26],28:[2,26],29:[2,26],30:[2,26],33:[2,26]},{18:[2,31],32:55,33:[1,56]},{18:[2,27],28:[2,27],29:[2,27],30:[2,27],33:[2,27]},{18:[2,28],28:[2,28],29:[2,28],30:[2,28],33:[2,28]},{18:[2,29],28:[2,29],29:[2,29],30:[2,29],33:[2,29]},{18:[2,30],28:[2,30],29:[2,30],30:[2,30],33:[2,30]},{18:[2,33],33:[2,33]},{18:[2,40],28:[2,40],29:[2,40],30:[2,40],33:[2,40],34:[1,57],36:[2,40]},{33:[1,58]},{14:[2,13],15:[2,13],16:[2,13],19:[2,13],20:[2,13],22:[2,13],23:[2,13],24:[2,13]},{5:[2,16],14:[2,16],15:[2,16],16:[2,16],19:[2,16],20:[2,16],22:[2,16],23:[2,16],24:[2,16]},{5:[2,17],14:[2,17],15:[2,17],16:[2,17],19:[2,17],20:[2,17],22:[2,17],23:[2,17],24:[2,17]},{5:[2,18],14:[2,18],15:[2,18],16:[2,18],19:[2,18],20:[2,18],22:[2,18],23:[2,18],24:[2,18]},{18:[1,59]},{18:[1,60]},{18:[2,21]},{18:[2,25],28:[2,25],29:[2,25],30:[2,25],33:[2,25]},{18:[2,32],33:[2,32]},{34:[1,57]},{21:61,28:[1,62],29:[1,63],30:[1,64],33:[1,25],35:24},{18:[2,39],28:[2,39],29:[2,39],30:[2,39],33:[2,39],36:[2,39]},{5:[2,19],14:[2,19],15:[2,19],16:[2,19],19:[2,19],20:[2,19],22:[2,19],23:[2,19],24:[2,19]},{5:[2,15],14:[2,15],15:[2,15],16:[2,15],19:[2,15],20:[2,15],22:[2,15],23:[2,15],24:[2,15]},{18:[2,34],33:[2,34]},{18:[2,35],33:[2,35]},{18:[2,36],33:[2,36]},{18:[2,37],33:[2,37]}],
+defaultActions: {16:[2,1],37:[2,23],53:[2,21]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
 },
@@ -412,13 +420,13 @@ case 9: yy_.yytext = yy_.yytext.substr(3,yy_.yyleng-5); this.begin("INITIAL"); r
 break;
 case 10: return 22; 
 break;
-case 11: return 32; 
+case 11: return 34; 
 break;
-case 12: return 31; 
+case 12: return 33; 
 break;
-case 13: return 31; 
+case 13: return 33; 
 break;
-case 14: return 34; 
+case 14: return 36; 
 break;
 case 15: /*ignore whitespace*/ 
 break;
@@ -428,23 +436,48 @@ case 17: this.begin("INITIAL"); return 18;
 break;
 case 18: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\"/g,'"'); return 28; 
 break;
-case 19: return 31; 
+case 19: return 30; 
 break;
-case 20: return 'INVALID'; 
+case 20: return 30; 
 break;
-case 21: return 5; 
+case 21: return 29; 
+break;
+case 22: return 33; 
+break;
+case 23: return 'INVALID'; 
+break;
+case 24: return 5; 
 break;
 }
 };
-lexer.rules = [/^[^\x00]*?(?=(\{\{))/,/^[^\x00]+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{![\s\S]*?\}\}/,/^\{\{/,/^=/,/^\.(?=[} ])/,/^\.\./,/^[/.]/,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^[a-zA-Z0-9_-]+(?=[=} /.])/,/^./,/^$/];
-lexer.conditions = {"mu":{"rules":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],"inclusive":false},"INITIAL":{"rules":[0,1,21],"inclusive":true}};return lexer;})()
+lexer.rules = [/^[^\x00]*?(?=(\{\{))/,/^[^\x00]+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{![\s\S]*?\}\}/,/^\{\{/,/^=/,/^\.(?=[} ])/,/^\.\./,/^[/.]/,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^true(?=[}\s])/,/^false(?=[}\s])/,/^[0-9]+(?=[}\s])/,/^[a-zA-Z0-9_$-]+(?=[=}\s/.])/,/^./,/^$/];
+lexer.conditions = {"mu":{"rules":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"inclusive":false},"INITIAL":{"rules":[0,1,24],"inclusive":true}};return lexer;})()
 parser.lexer = lexer;
 return parser;
 })();
+if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
+exports.parser = handlebars;
+exports.parse = function () { return handlebars.parse.apply(handlebars, arguments); }
+exports.main = function commonjsMain(args) {
+    if (!args[1])
+        throw new Error('Usage: '+args[0]+' FILE');
+    if (typeof process !== 'undefined') {
+        var source = require('fs').readFileSync(require('path').join(process.cwd(), args[1]), "utf8");
+    } else {
+        var cwd = require("file").path(require("file").cwd());
+        var source = cwd.join(args[1]).read({charset: "utf-8"});
+    }
+    return exports.parser.parse(source);
+}
+if (typeof module !== 'undefined' && require.main === module) {
+  exports.main(typeof process !== 'undefined' ? process.argv.slice(1) : require("system").args);
+}
+};
+;
 // lib/handlebars/base.js
 Handlebars = {};
 
-Handlebars.VERSION = "1.0.beta.1";
+Handlebars.VERSION = "1.0.beta.2";
 
 Handlebars.Parser = handlebars;
 
@@ -628,6 +661,16 @@ Handlebars.log = function(level, str) { Handlebars.logger.log(level, str); };
     this.string = string;
   };
 
+  Handlebars.AST.IntegerNode = function(integer) {
+    this.type = "INTEGER";
+    this.integer = integer;
+  };
+
+  Handlebars.AST.BooleanNode = function(boolean) {
+    this.type = "BOOLEAN";
+    this.boolean = boolean;
+  };
+
   Handlebars.AST.CommentNode = function(comment) {
     this.type = "comment";
     this.comment = comment;
@@ -659,11 +702,14 @@ Handlebars.SafeString.prototype.toString = function() {
 (function() {
   var escape = {
     "<": "&lt;",
-    ">": "&gt;"
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "`": "&#x60;"
   };
 
-  var badChars = /&(?!\w+;)|[<>]/g;
-  var possible = /[&<>]/;
+  var badChars = /&(?!\w+;)|[<>"'`]/g;
+  var possible = /[&<>"'`]/;
 
   var escapeChar = function(chr) {
     return escape[chr] || "&amp;"
@@ -921,6 +967,14 @@ Handlebars.JavaScriptCompiler = function() {};
       this.opcode('pushString', string.string);
     },
 
+    INTEGER: function(integer) {
+      this.opcode('push', integer.integer);
+    },
+
+    BOOLEAN: function(boolean) {
+      this.opcode('push', boolean.boolean);
+    },
+
     comment: function() {},
 
     // HELPERS
@@ -985,8 +1039,10 @@ Handlebars.JavaScriptCompiler = function() {};
     // PUBLIC API: You can override these methods in a subclass to provide
     // alternative compiled forms for name lookup and buffering semantics
     nameLookup: function(parent, name, type) {
-      if(JavaScriptCompiler.RESERVED_WORDS[name] || name.indexOf('-') !== -1) {
+      if(JavaScriptCompiler.RESERVED_WORDS[name] || name.indexOf('-') !== -1 || !isNaN(name)) {
         return parent + "['" + name + "']";
+      } else if (/^[0-9]+$/.test(name)) {
+        return parent + "[" + name + "]";
       } else {
         return parent + "." + name;
       }
@@ -1558,24 +1614,24 @@ SC.platform.create = Object.create;
 
 //@if (legacy)
 if (!SC.platform.create) {
-  var O_ctor = function() {}, 
+  var O_ctor = function() {},
       O_proto = O_ctor.prototype;
 
   SC.platform.create = function(obj, descs) {
     O_ctor.prototype = obj;
     obj = new O_ctor();
     O_ctor.prototype = O_proto;
-    
+
     if (descs !== undefined) {
       for(var key in descs) {
         if (!descs.hasOwnProperty(key)) continue;
         SC.platform.defineProperty(obj, key, descs[key]);
       }
     }
-    
+
     return obj;
   };
-  
+
   SC.platform.create.isSimulated = true;
 }
 //@endif
@@ -1583,13 +1639,47 @@ if (!SC.platform.create) {
 /**
   Identical to Object.defineProperty().  Implements as much functionality
   as possible if not available natively.
-  
+
   @param {Object} obj The object to modify
   @param {String} keyName property name to modify
   @param {Object} desc descriptor hash
   @returns {void}
 */
 SC.platform.defineProperty = Object.defineProperty;
+
+// This is for Safari 5.0, which supports Object.defineProperty, but not
+// on DOM nodes.
+
+SC.platform.definePropertyOnDOM = (function(){
+  if (Object.defineProperty) {
+    try {
+      Object.defineProperty(document.body, 'definePropertyOnDOM', {});
+      return true;
+    } catch(e) {};
+  }
+  return false;
+})();
+
+if (SC.platform.defineProperty && !SC.platform.definePropertyOnDOM) {
+  SC.platform.defineProperty = function(obj, keyName, desc){
+    var isNode;
+
+    if (typeof Node === "object") {
+      isNode = obj instanceof Node;
+    } else {
+      isNode = typeof obj === "object" &&
+        typeof obj.nodeType === "number" &&
+        typeof obj.nodeName === "string"
+    }
+
+    if (isNode) {
+      // TODO: Should we have a warning here?
+      return obj[keyName] = desc.value;
+    } else {
+      return Object.defineProperty(obj, keyName, desc);
+    }
+  };
+}
 
 /**
   Set to true if the platform supports native getters and setters.
@@ -1604,7 +1694,7 @@ if (!SC.platform.defineProperty) {
     sc_assert("property descriptor cannot have `get` or `set` on this platform", !desc.get && !desc.set);
     obj[keyName] = desc.value;
   };
-  
+
   SC.platform.defineProperty.isSimulated = true;
 }
 //@endif
@@ -1626,7 +1716,7 @@ if (!SC.platform.defineProperty) {
 // 
 
 // Used for guid generation...
-var GUID_KEY = '__sc'+Date.now();
+var GUID_KEY = '__sc'+ (+ new Date());
 var uuid, numberCache, stringCache;
 
 uuid         = 0;
@@ -1681,7 +1771,9 @@ SC.generateGuid = function(obj, prefix) {
   if (!prefix) prefix = 'sc';
   var ret = (prefix + (uuid++));
   if (obj) {
-    obj[GUID_KEY] = ret;
+    GUID_DESC.value = ret;
+    o_defineProperty(obj, GUID_KEY, GUID_DESC);
+    GUID_DESC.value = null;
   }
 
   return ret ;
@@ -1739,7 +1831,7 @@ SC.guidFor = function(obj) {
 
 var META_DESC = {
   writable:    true,
-  confgurable: false,
+  configurable: false,
   enumerable:  false,
   value: null
 };
@@ -3705,6 +3797,8 @@ var a_map = Array.prototype.map;
 var EMPTY_META = {}; // dummy for non-writable meta
 var META_SKIP = { __scproto__: true, __sc_count__: true };
 
+var o_create = SC.platform.create;
+
 function meta(obj, writable) {
   var m = SC.meta(obj, writable!==false), ret = m.mixins;
   if (writable===false) return ret || EMPTY_META;
@@ -3712,7 +3806,7 @@ function meta(obj, writable) {
   if (!ret) {
     ret = m.mixins = { __scproto__: obj };
   } else if (ret.__scproto__ !== obj) {
-    ret = m.mixins = Object.create(ret);
+    ret = m.mixins = o_create(ret);
     ret.__scproto__ = obj;
   }
   return ret;
@@ -3814,7 +3908,7 @@ var defineProperty = SC.defineProperty;
 function writableReq(obj) {
   var m = SC.meta(obj), req = m.required;
   if (!req || (req.__scproto__ !== obj)) {
-    req = m.required = req ? Object.create(req) : { __sc_count__: 0 };
+    req = m.required = req ? o_create(req) : { __sc_count__: 0 };
     req.__scproto__ = obj;
   }
   return req;
@@ -4065,7 +4159,7 @@ function processNames(paths, root, seen) {
 
     if (obj && obj.toString === classToString) {
       obj[NAME_KEY] = paths.join('.');
-    } else if (key==='SC' || (obj instanceof SC.Namespace)) {
+    } else if (key==='SC' || (SC.Namespace && obj instanceof SC.Namespace)) {
       if (seen[SC.guidFor(obj)]) continue;
       seen[SC.guidFor(obj)] = true;
       processNames(paths, obj, seen);
@@ -7692,11 +7786,11 @@ SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
 
 // ..........................................................
 // HELPERS
-// 
+//
 
 var slice = Array.prototype.slice;
 
-// invokes passed params - normalizing so you can pass target/func, 
+// invokes passed params - normalizing so you can pass target/func,
 // target/string or just func
 function invoke(target, method, args, ignore) {
 
@@ -7704,7 +7798,7 @@ function invoke(target, method, args, ignore) {
     method = target;
     target = undefined;
   }
-  
+
   if ('string'===typeof method) method = target[method];
   if (args && ignore>0) {
     args = args.length>ignore ? slice.call(args, ignore) : null;
@@ -7715,39 +7809,39 @@ function invoke(target, method, args, ignore) {
 
 // ..........................................................
 // RUNLOOP
-// 
+//
 
 var timerMark; // used by timers...
 
 var RunLoop = SC.Object.extend({
 
   _prev: null,
-  
+
   init: function(prev) {
     this._prev = prev;
     this.onceTimers = {};
   },
-  
+
   end: function() {
-    this.flush();  
+    this.flush();
     return this._prev;
   },
 
   // ..........................................................
   // Delayed Actions
-  // 
-  
+  //
+
   schedule: function(queueName, target, method) {
     var queues = this._queues, queue;
     if (!queues) queues = this._queues = {};
     queue = queues[queueName];
     if (!queue) queue = queues[queueName] = [];
-    
+
     var args = arguments.length>3 ? slice.call(arguments, 3) : null;
     queue.push({ target: target, method: method, args: args });
     return this;
   },
-  
+
   flush: function(queueName) {
     var queues = this._queues, queueNames, idx, len, queue, log;
 
@@ -7758,11 +7852,11 @@ var RunLoop = SC.Object.extend({
     }
 
     SC.watch.flushPending(); // make sure all chained watchers are setup
-    
+
     if (queueName) {
       while (this._queues && (queue = this._queues[queueName])) {
         this._queues[queueName] = null;
-        
+
         //@if (debug)
         log = SC.LOG_BINDINGS && queueName==='sync';
         if (log) SC.Logger.log('Begin: Flush Sync Queue');
@@ -7773,7 +7867,7 @@ var RunLoop = SC.Object.extend({
         if (queueName === 'sync') SC.beginPropertyChanges();
         queue.forEach(iter);
         if (queueName === 'sync') SC.endPropertyChanges();
-        
+
         //@if (debug)
         if (log) SC.Logger.log('End: Flush Sync Queue');
         //@endif
@@ -7788,7 +7882,7 @@ var RunLoop = SC.Object.extend({
         for(idx=0;idx<len;idx++) {
           queueName = queueNames[idx];
           queue = queues[queueName];
-          
+
           //@if (debug)
           log = SC.LOG_BINDINGS && queueName==='sync';
           if (log) SC.Logger.log('Begin: Flush Sync Queue');
@@ -7797,7 +7891,7 @@ var RunLoop = SC.Object.extend({
           if (queueName === 'sync') SC.beginPropertyChanges();
           if (queue) queue.forEach(iter);
           if (queueName === 'sync') SC.endPropertyChanges();
-          
+
           //@if (debug)
           if (log) SC.Logger.log('End: Flush Sync Queue');
           //@endif
@@ -7806,47 +7900,47 @@ var RunLoop = SC.Object.extend({
 
       } while (queues = this._queues); // go until queues stay clean
     }
-    
+
     timerMark = null;
-    
+
     return this;
   }
-  
+
 });
 
 SC.RunLoop = RunLoop;
 
 // ..........................................................
 // SC.run - this is ideally the only public API the dev sees
-// 
+//
 
 var run;
 
 /**
-  Runs the passed target and method inside of a runloop, ensuring any 
+  Runs the passed target and method inside of a runloop, ensuring any
   deferred actions including bindings and views updates are flushed at the
   end.
-  
+
   Normally you should not need to invoke this method yourself.  However if
-  you are implementing raw event handlers when interfacing with other 
+  you are implementing raw event handlers when interfacing with other
   libraries or plugins, you should probably wrap all of your code inside this
   call.
 
   @function
   @param {Object} target
     (Optional) target of method to call
-    
+
   @param {Function|String} method
     Method to invoke.  May be a function or a string.  If you pass a string
     then it will be looked up on the passed target.
-    
+
   @param {Object...} args
     Any additional arguments you wish to pass to the method.
-    
+
   @returns {Object} return value from invoking the passed function.
 */
 SC.run = run = function(target, method) {
-  
+
   var ret, loop;
   run.begin();
   if (target || method) ret = invoke(target, method);
@@ -7856,9 +7950,9 @@ SC.run = run = function(target, method) {
 
 /**
   Begins a new RunLoop.  Any deferred actions invoked after the begin will
-  be buffered until you invoke a matching call to SC.run.end().  This is 
+  be buffered until you invoke a matching call to SC.run.end().  This is
   an lower-level way to use a RunLoop instead of using SC.run().
-  
+
   @returns {void}
 */
 SC.run.begin = function() {
@@ -7869,7 +7963,7 @@ SC.run.begin = function() {
   Ends a RunLoop.  This must be called sometime after you call SC.run.begin()
   to flush any deferred actions.  This is a lower-level way to use a RunLoop
   instead of using SC.run().
-  
+
   @returns {void}
 */
 SC.run.end = function() {
@@ -7878,40 +7972,40 @@ SC.run.end = function() {
 };
 
 /**
-  Array of named queues.  This array determines the order in which queues 
+  Array of named queues.  This array determines the order in which queues
   are flushed at the end of the RunLoop.  You can define your own queues by
   simply adding the queue name to this array.  Normally you should not need
   to inspect or modify this property.
-  
+
   @property {String}
 */
 SC.run.queues = ['sync', 'actions', 'timers'];
 
 /**
-  Adds the passed target/method and any optional arguments to the named 
+  Adds the passed target/method and any optional arguments to the named
   queue to be executed at the end of the RunLoop.  If you have not already
   started a RunLoop when calling this method one will be started for you
   automatically.
-  
+
   At the end of a RunLoop, any methods scheduled in this way will be invoked.
   Methods will be invoked in an order matching the named queues defined in
   the run.queues property.
-  
+
   @param {String} queue
     The name of the queue to schedule against.  Default queues are 'sync' and
     'actions'
-    
+
   @param {Object} target
     (Optional) target object to use as the context when invoking a method.
-  
+
   @param {String|Function} method
-    The method to invoke.  If you pass a string it will be resolved on the 
+    The method to invoke.  If you pass a string it will be resolved on the
     target object at the time the scheduled item is invoked allowing you to
     change the target function.
-    
+
   @param {Object} arguments...
     Optional arguments to be passed to the queued method.
-    
+
   @returns {void}
 */
 SC.run.schedule = function(queue, target, method) {
@@ -7927,26 +8021,26 @@ function autorun() {
 }
 
 /**
-  Begins a new RunLoop is necessary and schedules a timer to flush the 
+  Begins a new RunLoop is necessary and schedules a timer to flush the
   RunLoop at a later time.  This method is used by parts of SproutCore to
   ensure the RunLoop always finishes.  You normally do not need to call this
   method directly.  Instead use SC.run().
-  
+
   @returns {SC.RunLoop} the new current RunLoop
 */
 SC.run.autorun = function() {
-    
+
   if (!run.currentRunLoop) run.begin();
   if (!autorunTimer) autorunTimer = setTimeout(autorun, 1);
-  
+
   return run.currentRunLoop;
 };
 
 /**
-  Immediately flushes any events scheduled in the 'sync' queue.  Bindings 
+  Immediately flushes any events scheduled in the 'sync' queue.  Bindings
   use this queue so this method is a useful way to immediately force all
   bindings in the application to sync.
-  
+
   You should call this method anytime you need any changed state to propogate
   throughout the app immediately without repainting the UI.
 
@@ -7959,13 +8053,13 @@ SC.run.sync = function() {
 
 // ..........................................................
 // TIMERS
-// 
+//
 
 var timers = {}; // active timers...
 
 var laterScheduled = false;
 function invokeLaterTimers() {
-  var now = Date.now(), earliest = -1;
+  var now = (+ new Date()), earliest = -1;
   for(var key in timers) {
     if (!timers.hasOwnProperty(key)) continue;
     var timer = timers[key];
@@ -7978,34 +8072,34 @@ function invokeLaterTimers() {
       }
     }
   }
-  
+
   // schedule next timeout to fire...
-  if (earliest>0) setTimeout(invokeLaterTimers, earliest-Date.now()); 
+  if (earliest>0) setTimeout(invokeLaterTimers, earliest-(+ new Date())); 
 }
 
 /**
   Invokes the passed target/method and optional arguments after a specified
   period if time.  The last parameter of this method must always be a number
-  of milliseconds. 
+  of milliseconds.
 
-  You should use this method whenever you need to run some action after a 
+  You should use this method whenever you need to run some action after a
   period of time inside of using setTimeout().  This method will ensure that
-  items that expire during the same script execution cycle all execute 
+  items that expire during the same script execution cycle all execute
   together, which is often more efficient than using a real setTimeout.
-  
+
   @param {Object} target
     (optional) target of method to invoke
-    
+
   @param {Function|String} method
     The method to invoke.  If you pass a string it will be resolved on the
     target at the time the method is invoked.
-    
+
   @param {Object...} args
     Optional arguments to pass to the timeout.
-    
+
   @param {Number} wait
     Number of milliseconds to wait.
-    
+
   @returns {Timer} an object you can use to cancel a timer at a later time.
 */
 SC.run.later = function(target, method) {
@@ -8017,13 +8111,13 @@ SC.run.later = function(target, method) {
     method = target;
     target = undefined;
     args   = [target, method];
-    
+
   } else {
     args = slice.call(arguments);
     wait = args.pop();
   }
   
-  expires = Date.now()+wait;
+  expires = (+ new Date())+wait;
   timer   = { target: target, method: method, expires: expires, args: args };
   guid    = SC.guidFor(timer);
   timers[guid] = timer;
@@ -8038,23 +8132,23 @@ function invokeOnceTimer(guid, onceTimers) {
 }
 
 /**
-  Schedules an item to run one time during the current RunLoop.  Calling 
+  Schedules an item to run one time during the current RunLoop.  Calling
   this method with the same target/method combination will have no effect.
-  
-  Note that although you can pass optional arguments these will not be 
+
+  Note that although you can pass optional arguments these will not be
   considered when looking for duplicates.  New arguments will replace previous
   calls.
-  
+
   @param {Object} target
     (optional) target of method to invoke
-    
+
   @param {Function|String} method
     The method to invoke.  If you pass a string it will be resolved on the
     target at the time the method is invoked.
-    
+
   @param {Object...} args
     Optional arguments to pass to the timeout.
-    
+
 
   @returns {Object} timer
 */
@@ -8067,14 +8161,14 @@ SC.run.once = function(target, method) {
     timers[guid].args = slice.call(arguments); // replace args
 
   } else {
-    timer = { 
+    timer = {
       target: target,
       method: method,
-      args:   slice.call(arguments), 
-      tguid:  tguid, 
-      mguid:  mguid 
+      args:   slice.call(arguments),
+      tguid:  tguid,
+      mguid:  mguid
     };
-    
+
     guid  = SC.guidFor(timer);
     timers[guid] = timer;
     if (!onceTimers[tguid]) onceTimers[tguid] = {};
@@ -8082,7 +8176,7 @@ SC.run.once = function(target, method) {
 
     run.schedule('timers', timer, invokeOnceTimer, guid, onceTimers);
   }
-  
+
   return guid;
 };
 
@@ -8105,29 +8199,29 @@ function invokeNextTimers() {
 
   @param {Object} target
     (optional) target of method to invoke
-  
+
   @param {Function|String} method
     The method to invoke.  If you pass a string it will be resolved on the
     target at the time the method is invoked.
-  
+
   @param {Object...} args
     Optional arguments to pass to the timeout.
-  
+
   @returns {Object} timer
 */
 SC.run.next = function(target, method) {
   var timer, guid;
-  
-  timer = { 
-    target: target, 
-    method: method, 
-    args: slice.call(arguments), 
-    next: true 
+
+  timer = {
+    target: target,
+    method: method,
+    args: slice.call(arguments),
+    next: true
   };
-  
+
   guid = SC.guidFor(timer);
   timers[guid] = timer;
-  
+
   if (!scheduledNext) scheduledNext = setTimeout(invokeNextTimers, 1);
   return guid;
 };
@@ -8135,10 +8229,10 @@ SC.run.next = function(target, method) {
 /**
   Cancels a scheduled item.  Must be a value returned by `SC.run.later()`,
   `SC.run.once()`, or `SC.run.next()`.
-  
+
   @param {Object} timer
     Timer object to cancel
-    
+
   @returns {void}
 */
 SC.run.cancel = function(timer) {
@@ -8148,12 +8242,12 @@ SC.run.cancel = function(timer) {
 
 // ..........................................................
 // DEPRECATED API
-// 
+//
 
 /**
   @deprecated
   @method
-  
+
   Use `#js:SC.run.begin()` instead
 */
 SC.RunLoop.begin = SC.run.begin;
@@ -8161,7 +8255,7 @@ SC.RunLoop.begin = SC.run.begin;
 /**
   @deprecated
   @method
-  
+
   Use `#js:SC.run.end()` instead
 */
 SC.RunLoop.end = SC.run.end;
@@ -9550,7 +9644,7 @@ SC._RenderBuffer = SC.Object.extend(
         }
       }
 
-      openTag.push('style="' + styleBuffer.join() + '"');
+      openTag.push('style="' + styleBuffer.join("") + '"');
     }
 
     for (prop in attrs) {
@@ -9558,11 +9652,10 @@ SC._RenderBuffer = SC.Object.extend(
         openTag.push(prop + '="' + attrs[prop] + '"');
       }
     }
-    openTag.push('>');
 
-    openTag = openTag.join(" ");
+    openTag = openTag.join(" ") + '>';
 
-    content = content.join();
+    content = content.join("");
 
     if (get(this, 'escapeContent')) {
       content = get(this, 'escapeFunction')(content);
@@ -9617,7 +9710,7 @@ SC.EventDispatcher = SC.Object.extend(
     would like to register the listeners on different element, set the event
     dispatcher's `root` property.
   */
-  setup: function() {
+  setup: function(addedEvents) {
     var event, events = {
       touchstart  : 'touchStart',
       touchmove   : 'touchMove',
@@ -9635,8 +9728,11 @@ SC.EventDispatcher = SC.Object.extend(
       focusout    : 'focusOut',
       mouseenter  : 'mouseEnter',
       mouseleave  : 'mouseLeave',
+      submit      : 'submit',
       change      : 'change'
     };
+
+    jQuery.extend(events, addedEvents || {})
 
     for (event in events) {
       if (events.hasOwnProperty(event)) {
@@ -9749,6 +9845,12 @@ SC.Application = SC.Object.extend(
   */
   eventDispatcher: null,
 
+  /**
+    @type Object
+    @default null
+  */
+  customEvents: null,
+
   /** @private */
   init: function() {
     var eventDispatcher,
@@ -9760,9 +9862,17 @@ SC.Application = SC.Object.extend(
 
     set(this, 'eventDispatcher', eventDispatcher);
 
+    var self = this;
     SC.$(document).ready(function() {
-      eventDispatcher.setup();
+      self.ready();
     });
+  },
+
+  ready: function() {
+    var eventDispatcher = get(this, 'eventDispatcher'),
+        customEvents    = get(this, 'customEvents');
+
+    eventDispatcher.setup(customEvents);
   },
 
   /** @private */
@@ -9784,6 +9894,23 @@ SC.Application = SC.Object.extend(
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
+// Add a new named queue for rendering views that happens
+// after bindings have synced.
+var queues = SC.run.queues;
+queues.insertAt(queues.indexOf('actions')+1, 'render');
+
+})();
+
+
+(function() {
+// ==========================================================================
+// Project:   SproutCore - JavaScript Application Framework
+// Copyright: ©2006-2011 Strobe Inc. and contributors.
+//            Portions ©2008-2011 Apple Inc. All rights reserved.
+// License:   Licensed under MIT license (see license.js)
+// ==========================================================================
+
+
 
 
 })();
@@ -9798,7 +9925,7 @@ SC.Application = SC.Object.extend(
 // ==========================================================================
 /*globals sc_assert */
 
-var get = SC.get, set = SC.set;
+var get = SC.get, set = SC.set, addObserver = SC.addObserver;
 
 /**
   @static
@@ -9820,7 +9947,7 @@ SC.View = SC.Object.extend(
 /** @scope SC.View.prototype */ {
 
   /** @private */
-  concatenatedProperties: ['classNames', 'classNameBindings'],
+  concatenatedProperties: ['classNames', 'classNameBindings', 'attributeBindings'],
 
   /**
     @type Boolean
@@ -9999,7 +10126,7 @@ SC.View = SC.Object.extend(
         }
       };
 
-      SC.addObserver(this, property, observer);
+      addObserver(this, property, observer);
 
       // Get the class name for the property at its current value
       dasherizedClass = this._classStringForProperty(property);
@@ -10013,6 +10140,48 @@ SC.View = SC.Object.extend(
         // if the observer fires. Remember that this variable has
         // been closed over by the observer.
         oldClass = dasherizedClass;
+      }
+    }, this);
+  },
+
+  /**
+    Iterates through the view's attribute bindings, sets up observers for each,
+    then applies the current value of the attributes to the passed render buffer.
+
+    @param {SC.RenderBuffer} buffer
+  */
+  _applyAttributeBindings: function(buffer) {
+    var attributeBindings = get(this, 'attributeBindings'),
+        attributeValue, elem;
+
+    if (!attributeBindings) { return; }
+
+    attributeBindings.forEach(function(attribute) {
+      // Create an observer to add/remove/change the attribute if the
+      // JavaScript property changes.
+      var observer = function() {
+        elem = this.$();
+        attributeValue = get(this, attribute);
+
+        if (typeof attributeValue === 'string') {
+          elem.attr(attribute, attributeValue);
+        } else if (attributeValue && typeof attributeValue === 'boolean') {
+          elem.attr(attribute, attribute);
+        } else {
+          elem.removeAttr(attribute);
+        }
+      };
+
+      addObserver(this, attribute, observer);
+
+      // Determine the current value and add it to the render buffer
+      // if necessary.
+      attributeValue = get(this, attribute);
+      if (typeof attributeValue === 'string') {
+        buffer.attr(attribute, attributeValue);
+      } else if (attributeValue && typeof attributeValue === 'boolean') {
+        // Apply boolean attributes in the form attribute="attribute"
+        buffer.attr(attribute, attribute);
       }
     }, this);
   },
@@ -10131,14 +10300,54 @@ SC.View = SC.Object.extend(
     If the view does not have an HTML representation yet, `createElement()`
     will be called automatically.
 
+    Note that this method just schedules the view to be appended; the DOM
+    element will not be appended to the given element until all bindings have
+    finished synchronizing.
+
     @param {String|DOMElement|jQuery} A selector, element, HTML string, or jQuery object
     @returns {SC.View} receiver
   */
   appendTo: function(target) {
-    var elem = get(this, 'element');
-    if (!elem) { this.createElement(); }
+    // Schedule the DOM element to be created and appended to the given
+    // element after bindings have synchronized.
+    this._insertElementLater(function() {
+      this.$().appendTo(target);
+    });
 
-    this.$().appendTo(target);
+    return this;
+  },
+
+  /**
+    @private
+
+    Schedules a DOM operation to occur during the next render phase. This
+    ensures that all bindings have finished synchronizing before the view is
+    rendered.
+
+    To use, pass a function that performs a DOM operation..
+
+    Before your function is called, this view and all child views will receive
+    the `willInsertElement` event. After your function is invoked, this view
+    and all of its child views will receive the `didInsertElement` event.
+
+        view._insertElementLater(function() {
+          this.createElement();
+          this.$().appendTo('body');
+        });
+
+    @param {Function} fn the function that inserts the element into the DOM
+  */
+  _insertElementLater: function(fn) {
+    SC.run.schedule('render', this, function() {
+      // If we don't have an element, guarantee that it exists before
+      // invoking the willInsertElement event.
+      this.createElement();
+
+      this._notifyWillInsertElement();
+      fn.call(this);
+      this._notifyDidInsertElement();
+    });
+
     return this;
   },
 
@@ -10146,6 +10355,10 @@ SC.View = SC.Object.extend(
     Appends the view's element to the document body. If the view does
     not have an HTML representation yet, `createElement()` will be called
     automatically.
+
+    Note that this method just schedules the view to be appended; the DOM
+    element will not be appended to the document body until all bindings have
+    finished synchronizing.
 
     @returns {SC.View} receiver
   */
@@ -10202,7 +10415,7 @@ SC.View = SC.Object.extend(
     @returns {SC.RenderBuffer}
   */
   renderBuffer: function(tagName) {
-    return SC.RenderBuffer(tagName);
+    return SC.RenderBuffer(tagName || get(this, 'tagName'));
   },
 
   /**
@@ -10217,35 +10430,51 @@ SC.View = SC.Object.extend(
   createElement: function() {
     if (get(this, 'element')) { return this; }
 
-    var buffer = this.renderBuffer(get(this, 'tagName'));
-
-    // now prepare the content like normal.
-    this.renderToBuffer(buffer);
+    var buffer = this.renderToBuffer();
     set(this, 'element', buffer.element());
-
-    // now notify the view and its child views..
-    this._notifyDidCreateElement();
 
     return this;
   },
 
   /**
-    Called when the element of the view is created. Override this function
-    to do any set up that requires an element.
+    Called when the element of the view is created but before it is inserted
+    into the DOM.  Override this function to do any set up that requires an
+    element.
   */
-  didCreateElement: function() {},
+  willInsertElement: SC.K,
+
+  /**
+    Called when the element of the view has been inserted into the DOM.
+    Override this function to do any set up that requires an element in the
+    document body.
+  */
+  didInsertElement: SC.K,
 
   /**
     @private
 
-    Invokes the receivers didCreateElement() method if it exists and then
+    Invokes the receiver's willInsertElement() method if it exists and then
     invokes the same on all child views.
   */
-  _notifyDidCreateElement: function() {
-    this.didCreateElement();
+  _notifyWillInsertElement: function() {
+    this.willInsertElement();
 
     this.forEachChildView(function(view) {
-      view._notifyDidCreateElement();
+      view._notifyWillInsertElement();
+    });
+  },
+
+  /**
+    @private
+
+    Invokes the receiver's didInsertElement() method if it exists and then
+    invokes the same on all child views.
+  */
+  _notifyDidInsertElement: function() {
+    this.didInsertElement();
+
+    this.forEachChildView(function(view) {
+      view._notifyDidInsertElement();
     });
   },
 
@@ -10334,19 +10563,23 @@ SC.View = SC.Object.extend(
     @private
 
     Renders to a buffer.
+
     Rendering only happens for the initial rendering. Further updates happen 
     in updateElement, and are not done to buffers, but to elements.
     Note: You should not generally override nor directly call this method. 
     This method is only called by createElement to set up the element 
     initially, and by renderChildViews, to write to a buffer.
 
-    @param {SC.RenderBuffer} buffer the render buffer.
+    @param {SC.RenderBuffer} buffer the render buffer. If no buffer is
+      passed, a default buffer, using the current view's `tagName`, will
+      be used.
   */
   renderToBuffer: function(buffer) {
+    buffer = buffer || this.renderBuffer();
+
     var mixins, idx, len;
 
     SC.beginPropertyChanges(this);
-    set(this, 'elementNeedsUpdate', NO);
 
     this.applyAttributesToBuffer(buffer);
     this.render(buffer);
@@ -10355,20 +10588,28 @@ SC.View = SC.Object.extend(
     // render any child views now.
     if (!this._didRenderChildViews) { this.renderChildViews(buffer); }
 
-    // Reset the flag so that if the element is recreated we re-render the 
+    // Reset the flag so that if the element is recreated we re-render the
     // child views
-    this._didRenderChildViews = NO;
+    this._didRenderChildViews = false;
 
     SC.endPropertyChanges(this);
+
+    return buffer;
   },
 
   /**
     @private
   */
   applyAttributesToBuffer: function(buffer) {
-    // Creates observers for all registered class name bindings,
-    // then adds them to the classNames array.
+    // Creates observers for all registered class name and attribute bindings,
+    // then adds them to the element.
     this._applyClassNameBindings();
+
+    // Pass the render buffer so the method can apply attributes directly.
+    // This isn't needed for class name bindings because they use the
+    // existing classNames infrastructure.
+    this._applyAttributeBindings(buffer);
+
 
     buffer.addClass(get(this, 'classNames').join(' '));
     buffer.id(get(this, 'elementId'));
@@ -10480,6 +10721,28 @@ SC.View = SC.Object.extend(
   */
   classNameBindings: [],
 
+  /**
+    A list of properties of the view to apply as attributes. If the property is
+    a string value, the value of that string will be applied as the attribute.
+
+        // Applies the type attribute to the element
+        // with the value "button", like <div type="button">
+        SC.View.create({
+          attributeBindings: ['type'],
+          type: 'button'
+        });
+
+    If the value of the property is a Boolean, the name of that property is
+    added as an attribute.
+
+        // Renders something like <div enabled="enabled">
+        SC.View.create({
+          attributeBindings: ['enabled'],
+          enabled: true
+        });
+  */
+  attributeBindings: [],
+
   // .......................................................
   // CORE DISPLAY METHODS
   //
@@ -10489,8 +10752,6 @@ SC.View = SC.Object.extend(
 
     Setup a view, but do not finish waking it up.
     - configure childViews
-    - Determine the view's theme
-    - Fetch a render delegate from the theme, if necessary
     - register the view with the global views hash, which is used for event
       dispatch
   */
@@ -10749,7 +11010,7 @@ SC.CollectionView = SC.View.extend(
     In case a default content was set, trigger the child view creation
     as soon as the empty layer was created
   */
-  didCreateElement: function() {
+  willInsertElement: function() {
     var content = get(this, 'content');
     if (content) {
       var len = get(content, 'length');
@@ -10830,24 +11091,32 @@ SC.CollectionView = SC.View.extend(
     @param {Number} changeIndex 
       the index at which the changes occurred
   */
-  arrayDidChange: function(content, start, removedCount, addedCount) {
+  arrayDidChange: function(content, start, removed, added) {
     if (!get(this, 'element')) { return; }
 
+    SC.run.schedule('render', this, function() {
+      this._updateElements(content, start, removed, added)
+    });
+  },
+
+  _updateElements: function(content, start, removed, added) {
     var itemViewClass = get(this, 'itemViewClass'),
         childViews = get(this, 'childViews'),
         addedViews = [],
         renderFunc, view, childView, itemOptions, elem,
-        insertAtElement, item, itemElem, idx, len;
+        insertAtElement, item, fragment, idx, len;
 
     elem = this.$();
 
     if (content) {
-      var addedObjects = content.slice(start, start+addedCount);
+      var addedObjects = content.slice(start, start+added);
 
       childView = childViews.objectAt(start - 1);
       insertAtElement = childView ? childView.$() : null;
 
       len = get(addedObjects, 'length');
+
+      var buffer = "";
 
       for (idx = 0; idx < len; idx++) {
         item = addedObjects.objectAt(idx);
@@ -10855,15 +11124,17 @@ SC.CollectionView = SC.View.extend(
           content: item
         });
 
-        itemElem = view.createElement().$();
-        if (!insertAtElement) {
-          elem.append(itemElem);
-        } else {
-          itemElem.insertAfter(insertAtElement);
-        }
-        insertAtElement = itemElem;
+        buffer = buffer + view.renderToBuffer().string();
 
         addedViews.push(view);
+      }
+
+      fragment = SC.$(buffer);
+
+      if (!insertAtElement) {
+        elem.append(fragment);
+      } else {
+        fragment.insertAfter(insertAtElement);
       }
 
       childViews.replace(start, 0, addedViews);
@@ -10926,6 +11197,8 @@ SC.Button = SC.View.extend({
   classNameBindings: ['isActive'],
 
   tagName: 'button',
+  attributeBindings: ['type'],
+  type: 'button',
   
   targetObject: function() {
     var target = get(this, 'target');
@@ -11390,23 +11663,16 @@ SC._BindableSpanView = SC.View.extend(
     it into DOM.
   */
   rerender: function() {
-    var elem;
-
     this.destroyAllChildren();
 
-    // Destroy the existing element and replace it with
-    // a new element by re-running the render method.
-    // This is used instead of calling destroyElement()/createElement()
-    // to maintain position in the DOM.
-    var buffer = this.renderBuffer(get(this, 'tagName'));
-    if(get(this, 'isEscaped')) { set(buffer, 'escapeContent', true); }
-    this.renderToBuffer(buffer);
+    // Store a reference to the current element so that
+    // it can be replaced in-line in the DOM.
+    var oldElem = this.$();
+    set(this, 'element', null);
 
-    elem = buffer.element();
-    this.$().replaceWith(elem);
-    set(this, 'element', elem);
-
-    this._notifyDidCreateElement();
+    this._insertElementLater(function() {
+      oldElem.replaceWith(get(this, 'element'));
+    });
   }
 });
 
@@ -11472,8 +11738,8 @@ var get = SC.get, getPath = SC.getPath;
       // tells the SC._BindableSpan to re-render.
       SC.addObserver(ctx, property, invoker);
 
-      var buffer = bindView.renderBuffer(get(bindView, 'tagName'));
-      bindView.renderToBuffer(buffer);
+
+      var buffer = bindView.renderToBuffer();
       return new Handlebars.SafeString(buffer.string());
     } else {
       // The object is not observable, so just render it out and
@@ -11582,7 +11848,7 @@ Handlebars.registerHelper('unless', function(context, options) {
   @returns {String} HTML string
 */
 Handlebars.registerHelper('bindAttr', function(options) {
-  
+
   var attrs = options.hash;
   var view = options.data.view;
   var ret = [];
@@ -11624,16 +11890,18 @@ Handlebars.registerHelper('bindAttr', function(options) {
         return;
       }
 
+      var currentValue = elem.attr(attr);
+
       // A false result will remove the attribute from the element. This is
       // to support attributes such as disabled, whose presence is meaningful.
-      if (result === NO) {
+      if (result === NO && currentValue) {
         elem.removeAttr(attr);
 
       // Likewise, a true result will set the attribute's name as the value.
-      } else if (result === YES) {
+      } else if (result === YES && currentValue !== attr) {
         elem.attr(attr, attr);
 
-      } else {
+      } else if (currentValue !== result) {
         elem.attr(attr, result);
       }
     };
@@ -11661,7 +11929,7 @@ Handlebars.registerHelper('bindAttr', function(options) {
 
   // Add the unique identifier
   ret.push('data-handlebars-id="' + dataId + '"');
-  return ret.join(' ');
+  return new Handlebars.SafeString(ret.join(' '));
 });
 
 /**
@@ -11861,8 +12129,7 @@ SC.Handlebars.ViewHelper = SC.Object.create({
 
     childViews.pushObject(childView);
 
-    var buffer = SC.RenderBuffer(get(childView, 'tagName'));
-    childView.renderToBuffer(buffer);
+    var buffer = childView.renderToBuffer();
 
     return new Handlebars.SafeString(buffer.string());
   }
@@ -11918,7 +12185,8 @@ SC.Handlebars.CONTAINER_MAP = {
   thead: 'tr',
   tbody: 'tr',
   tfoot: 'tr',
-  tr: 'td'
+  tr: 'td',
+  select: 'option'
 };
 
 /**
@@ -11974,9 +12242,10 @@ Handlebars.registerHelper('collection', function(path, options) {
     delete options.fn;
   }
 
-  if (inverse) {
+  if (inverse !== Handlebars.VM.noop) {
     hash.emptyView = SC.View.extend({
-      template: inverse
+      template: inverse,
+      tagName: itemHash.tagName || childTag
     });
   }
 
@@ -12073,8 +12342,12 @@ SC.$(document).ready(function() {
       template: template
     });
 
-    view.createElement();
-    script.replaceWith(view.$());
+    view._insertElementLater(function() {
+      script.replaceWith(this.$());
+
+      // Avoid memory leak in IE
+      script = null;
+    });
   });
 });
 
