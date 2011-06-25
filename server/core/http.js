@@ -12,17 +12,37 @@ exports.module = function(){
 	this.httpServer = function(){
 		var self = this;
 		var server = http.createServer( function (req, res) {
-			var bbRequest = { 
-						write: bb.core.http.write, 
-						writeNotFound: bb.core.http.writeNotFound, 
-						ready: false, 
-						url: req.url,
-						origin: { 
-							req: req, 
-							res: res 
-						}
-					}; 
-			bb.core.http.httpHandler( bbRequest );
+			req.setEncoding("utf8");
+			req.content = "";
+			req.on( "data", function( content ){
+				req.content += content;
+			});
+
+			req.on( "end", function(){
+				if( req.content ){
+					var values = req.content.split('&') ;
+					var data = Array();
+
+					for ( valueIndex in values ){
+						var pair = values[ valueIndex ].split('=');
+						data[ pair[ 0 ] ] = pair[ 1 ];
+					}
+				}
+				var bbRequest = {
+							write: bb.core.http.write, 
+							writeNotFound: bb.core.http.writeNotFound, 
+							ready: false, 
+							url: req.url,
+							method: req.method,
+							data: data,
+							origin: { 
+								req: req, 
+								res: res 
+							}
+						}; 
+					bb.core.http.httpHandler( bbRequest );
+			});
+
 		}).listen( this.bb.conf.port, this.bb.conf.host );
 		// Add Socket-Support
 	};
