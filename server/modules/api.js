@@ -9,9 +9,13 @@ exports.module = function(){
 	}
 
 	this.on( "api", function( req ){
-		bb.log( "uh, someone wants to use the api :)" );
-		var apiDefault = { bluebee: "Oh, hi!", version: bb.version };
-                req.write( JSON.stringify( apiDefault ) );
+		if( req.data.api ){
+			
+		} else {
+			bb.log( "uh, someone wants to use the api :)" );
+			var apiDefault = { bluebee: "Oh, hi!", version: bb.version };
+                	req.write( JSON.stringify( apiDefault ) );
+		}
 	});
 
 }

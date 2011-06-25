@@ -8,31 +8,12 @@ exports.module = function(){
 	}
 
 	this.on( "index", function( req ){
-		bb.modules.index.getFile( bb.path + "/client/index.html", req );
+		req.writeFile( bb.path + "/client/index.html" );
 	});
 
-	this.on( "client", function( req, res ){
+	this.on( "client", function( req ){
 		var url = req.url.split( "?" )[ 0 ];
 		url = url.split( "#" )[ 0 ] ;
-		bb.modules.index.getFile( bb.path + url,req );
+		req.writeFile( bb.path + url );
 	});
-
-	this.getFile = function( filename, req){
-		path.exists(filename, function(exists) {
-			if (!exists) {
-				req.writeNotFound();
-			} else {
-				fs.readFile( filename, "binary", function( err, file ) {
-					if ( err ) {
-						req.write( 500, err );
-					} else {
-
-						var mimeType = mime.lookup( filename );
-
-						req.write( file, 200, {"Content-Type": mimeType }, "binary" );
-					}
-				});	
-			}
-		});
-	};
 }

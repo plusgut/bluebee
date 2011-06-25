@@ -1,6 +1,10 @@
 exports.module = function(){
 	
 	var http	= require( "http" );
+	var path	= require( "path" );
+	var fs		= require( "fs" );
+	var mime	= require( "mime" );
+
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
 	this.main = function( cb ){
@@ -30,6 +34,7 @@ exports.module = function(){
 				}
 				var bbRequest = {
 							write: bb.core.http.write, 
+							writeFile: bb.core.http.writeFile, 
 							writeNotFound: bb.core.http.writeNotFound, 
 							ready: false, 
 							url: req.url,
@@ -49,10 +54,10 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	//The http-handler
-	this.httpHandler = function( request ){//#ToDo outsorce in an core-file
+	this.httpHandler = function( req ){//#ToDo outsorce in an core-file
 		//#ToDo throw 401 if a .. exists
 		var found = false;
-		var url		= request.url.split( "/" )[ 1 ] ;
+		var url		= req.url.split( "/" )[ 1 ] ;
 		if( !url ){
 			url = "index";
 		}
@@ -61,13 +66,13 @@ exports.module = function(){
 			var listeners	= module.listeners( url ).length;
 			if( listeners ){
 				found = true;
-				module.emit( url, request );
+				module.emit( url, req );
 				break;
 			}
 		};
 
 		if( !found ){ //No Module wanted to handle the request
-			request.writeNotFound();
+			req.writeNotFound();
 		}
 	};
 	////-----------------------------------------------------------------------------------------
@@ -89,10 +94,32 @@ exports.module = function(){
 		this.origin.res.end();
 	}
 
+	////-----------------------------------------------------------------------------------------
+	//The file-handler
+	this.writeFile = function( filename ){
+		var req	= this;
+		path.exists(filename, function(exists) {
+			if (!exists) {
+				req.writeNotFound();
+			} else {
+				fs.readFile( filename, "binary", function( err, file ) {
+					if ( err ) {
+						req.write( 500, err );
+					} else {
+
+						var mimeType = mime.lookup( filename );
+
+						req.write( file, 200, {"Content-Type": mimeType }, "binary" );
+					}
+				});	
+			}
+		});
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//The 404-handler
 	this.writeNotFound = function( res ){
 		this.write( "Not Found", 404 );
 	}	
+
 };
