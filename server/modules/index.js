@@ -1,7 +1,3 @@
-var path	= require( "path" );
-var fs		= require( "fs" );
-var mime	= require( "mime" );
-
 exports.module = function(){
 	this.main = function( cb ){
 		cb();
