@@ -10,7 +10,9 @@ exports.module = function(){
 
 	this.on( "api", function( req, res ){
 		bb.log( "uh, someone wants to use the api :)" );
-		res.end();
+                res.writeHead(200, { "Content-Type": "text/plain" } );
+		var apiDefault = { bluebee: "Oh, hi!", version: bb.version };
+                res.end( JSON.stringify( apiDefault ) );
 	});
 
 }
