@@ -10,16 +10,26 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//The http-server itself!
 	this.httpServer = function(){
+		var self = this;
 		var server = http.createServer( function (req, res) {
-			var bbRequest = req; //#ToDo create the real request (a mix of req and res
-			bb.core.http.httpHandler( bbRequest, res );
+			var bbRequest = { 
+						write: bb.core.http.write, 
+						writeNotFound: bb.core.http.writeNotFound, 
+						ready: false, 
+						url: req.url,
+						origin: { 
+							req: req, 
+							res: res 
+						}
+					}; 
+			bb.core.http.httpHandler( bbRequest );
 		}).listen( this.bb.conf.port, this.bb.conf.host );
 		// Add Socket-Support
 	};
 
 	////-----------------------------------------------------------------------------------------
 	//The http-handler
-	this.httpHandler = function( request, res ){//#ToDo outsorce in an core-file
+	this.httpHandler = function( request ){//#ToDo outsorce in an core-file
 		//#ToDo throw 401 if a .. exists
 		var found = false;
 		var url		= request.url.split( "/" )[ 1 ] ;
@@ -31,19 +41,38 @@ exports.module = function(){
 			var listeners	= module.listeners( url ).length;
 			if( listeners ){
 				found = true;
-				module.emit( url, request, res );
+				module.emit( url, request );
 				break;
 			}
 		};
 
 		if( !found ){ //No Module wanted to handle the request
-			this.writeNotFound( res );
+			request.writeNotFound();
 		}
 	};
 	////-----------------------------------------------------------------------------------------
-	//The http-handler
+	//The http-answerer
+	this.write = function( response, status, header, encoding ){
+		//Setting some defaults
+		if( !status ){
+			status = 200;
+		}
+		if( !header ){
+			header = { "Content-Type": "text/plain" };
+		}
+		if( !encoding ){
+			encoding = "utf8";
+		}
+
+		this.origin.res.writeHead( status, header );
+		this.origin.res.write( response, encoding );
+		this.origin.res.end();
+	}
+
+
+	////-----------------------------------------------------------------------------------------
+	//The 404-handler
 	this.writeNotFound = function( res ){
-		res.writeHead(404, { "Content-Type": "text/plain" } );
-		res.end( "Not Found" );
+		this.write( "Not Found", 404 );
 	}	
 };

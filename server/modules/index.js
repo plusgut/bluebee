@@ -7,33 +7,29 @@ exports.module = function(){
 		cb();
 	}
 
-	this.on( "index", function( req, res ){
-		bb.modules.index.getFile( bb.path + "/client/index.html", res );
+	this.on( "index", function( req ){
+		bb.modules.index.getFile( bb.path + "/client/index.html", req );
 	});
 
 	this.on( "client", function( req, res ){
 		var url = req.url.split( "?" )[ 0 ];
 		url = url.split( "#" )[ 0 ] ;
-		bb.modules.index.getFile( bb.path + url, res, req );
+		bb.modules.index.getFile( bb.path + url,req );
 	});
 
-	this.getFile = function( filename, res, req){
+	this.getFile = function( filename, req){
 		path.exists(filename, function(exists) {
 			if (!exists) {
-				bb.core.http.writeNotFound( res )
+				req.writeNotFound();
 			} else {
 				fs.readFile( filename, "binary", function( err, file ) {
 					if ( err ) {
-						res.writeHead( 500, {"Content-Type": "text/plain"} );
-						res.write(err);
-						res.end();
+						req.write( 500, err );
 					} else {
 
 						var mimeType = mime.lookup( filename );
 
-						res.writeHead( 200, {"Content-Type": mimeType } );
-						res.write( file, "binary" );
-						res.end();
+						req.write( file, 200, {"Content-Type": mimeType }, "binary" );
 					}
 				});	
 			}
