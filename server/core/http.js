@@ -63,9 +63,7 @@ exports.module = function(){
 		}
 		for( var moduleIndex in this.bb.modules ){
 			var module = bb.modules[ moduleIndex ];
-			console.log( module );
 			var listeners	= module.listeners( url ).length;
-			console.log( "uh, it wasn't the listener" );
 			if( listeners ){
 				found = true;
 				module.emit( url, req );
@@ -128,9 +126,9 @@ exports.module = function(){
 		var filename	= bb.path + "/client/404.html";
 		path.exists( filename , function( exists ) {
 			if( !exists ) {
-				req.write( "Not Found", 200 );
+				req.write( "Not Found", 404 );
 			} else {
-				req.writeFile( filename, 200 );
+				req.writeFile( filename, 404 );
 			}
 		});
 	}	
