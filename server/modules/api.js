@@ -5,10 +5,10 @@
 */
 exports.module = function(){
 
-	this.modules = Array();
+	this.apiModules = Array();
 
 	this.main = function( cb ){
-		modules[ "updateRecord" ] = this.updateRecord;
+		this.apiModules[ "updateRecord" ] = this.updateRecord;
 		cb();
 	}
 
@@ -47,7 +47,7 @@ exports.module = function(){
 					content = api[ apiIndex ];
 				}
 
-				if( modules[ type ] ){
+				if( this.apiModules[ type ] ){
 					this[ type ]( content, function( result ){
 						var key	= type + "Result";
 						if ( api instanceof Array ){
@@ -63,7 +63,7 @@ exports.module = function(){
 						}
 					});
 				} else {
-					req.write( "your type isn't supported" );
+					req.write( "your type isn't supported" );//ToDo better handling for not supported types
 				}
 				i++;
 			}

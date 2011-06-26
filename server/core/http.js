@@ -27,7 +27,7 @@ exports.module = function(){
 					var values = req.content.split('&') ;
 					var data = Array();
 
-					for ( valueIndex in values ){
+					for( var valueIndex in values ){
 						var pair = values[ valueIndex ].split('=');
 						data[ pair[ 0 ] ] = pair[ 1 ];
 					}
@@ -61,15 +61,17 @@ exports.module = function(){
 		if( !url ){
 			url = "index";
 		}
-		for( moduleIndex in this.bb.modules ){
+		for( var moduleIndex in this.bb.modules ){
 			var module = bb.modules[ moduleIndex ];
+			console.log( module );
 			var listeners	= module.listeners( url ).length;
+			console.log( "uh, it wasn't the listener" );
 			if( listeners ){
 				found = true;
 				module.emit( url, req );
 				break;
 			}
-		};
+		}
 
 		if( !found ){ //No Module wanted to handle the request
 			req.writeNotFound();
@@ -96,10 +98,13 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	//The file-handler
-	this.writeFile = function( filename ){
+	this.writeFile = function( filename, status ){
+		if( !status ){
+			status = 200;
+		}
 		var req	= this;
-		path.exists(filename, function(exists) {
-			if (!exists) {
+		path.exists( filename, function( exists ){
+			if( !exists ){
 				req.writeNotFound();
 			} else {
 				fs.readFile( filename, "binary", function( err, file ) {
@@ -109,7 +114,7 @@ exports.module = function(){
 
 						var mimeType = mime.lookup( filename );
 
-						req.write( file, 200, {"Content-Type": mimeType }, "binary" );
+						req.write( file, status, {"Content-Type": mimeType }, "binary" );
 					}
 				});	
 			}
@@ -118,8 +123,16 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	//The 404-handler
-	this.writeNotFound = function( res ){
-		this.write( "Not Found", 404 );
+	this.writeNotFound = function(){
+		var req	= this;
+		var filename	= bb.path + "/client/404.html";
+		path.exists( filename , function( exists ) {
+			if( !exists ) {
+				req.write( "Not Found", 200 );
+			} else {
+				req.writeFile( filename, 200 );
+			}
+		});
 	}	
 
 };
