@@ -34,12 +34,23 @@ var bluebee = bluebee || (function(){
 			log( "BlueBee is starting now", "prompt" );
 
 			//Some initializations
-			loadCore();
+			loadConfig();
 
 			process.on( "uncaughtException", function ( err ) {
 				log( err, "error" );
 			});
 		};
+
+		////-----------------------------------------------------------------------------------------
+		//Loads the config
+		loadConfig = function(){
+			//First the config
+			var conf			= new require( bb.path + "/server/core/config.js" );
+			conf.module.prototype		= new EventEmitter();
+			bb.core[ "config" ]		= new conf.module();
+			bb.core[ "config" ].bb		= bb;
+			bb.core[ "config" ].main( loadCore );
+		}
 
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
@@ -64,13 +75,15 @@ var bluebee = bluebee || (function(){
 					var v = 0;
 
 					files.forEach( function( file ){//Counts the modules
-						if( file[ 0 ] != "." ){
+						var moduleName			= file.split( "." )[ 0 ];
+						if( file[ 0 ] != "." && !modulesObj[ moduleName ] ){
 							i++;
 						}
 					});
 					files.forEach( function( file ){
 						var moduleName			= file.split( "." )[ 0 ];
-						if( file[ 0 ] != "." ){
+
+						if( file[ 0 ] != "." && !modulesObj[ moduleName ]){
 							try{//initializing of the module
 								var mod				= new require( path + "/" + file );
 								mod.module.prototype		= new EventEmitter();
