@@ -125,7 +125,7 @@ var bluebee = bluebee || (function(){
 			}
         };
         
-	bb	= { core: core, modules: modules, log: log, path: path, debug: debug };	//Central object, which is assigned to all modules
+	bb	= { core: core, modules: modules, log: log, path: path, debug: debug, version: '0.0.1' };//Central object, which is assigned to all modules
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
