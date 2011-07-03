@@ -13,7 +13,7 @@ exports.module = function(){
 		var server = http.createServer( function (req, res) {
 			var bbRequest = req; //#ToDo create the real request (a mix of req and res
 			bb.core.http.httpHandler( bbRequest, res );
-		}).listen( this.bb.conf.port, this.bb.conf.host );
+		}).listen( this.bb.conf.http.port, this.bb.conf.http.host );
 		// Add Socket-Support
 	};
 

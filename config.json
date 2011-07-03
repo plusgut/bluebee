@@ -1,6 +1,15 @@
 {
-	"debug"  : true,
-	"host"   : "0.0.0.0",
-	"port"   : 8080,
-	"cloud9" : false
+	"debug"		: true,
+	"http"		: 
+	{
+		"host"	: "0.0.0.0",
+		"port"	: 8080
+	},
+	"database"	:
+	"couchdb"	:
+	{
+		"host"	: "127.0.0.1",
+		"port"	: 5984
+	},
+	"cloud9"	: false
 }
