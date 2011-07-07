@@ -13,7 +13,7 @@ exports.module = function(){
 				try{
 					bb.conf		= JSON.parse( file );
 					if( bb.conf.cloud9 ){
-						bb.conf.port = process.env.C9_PORT;
+						bb.conf.http.port = process.env.C9_PORT;
 					}
 					cb();
 				} catch( err ) {
