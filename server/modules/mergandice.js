@@ -13,7 +13,10 @@ exports.module = function(){
 					if ( err ) {
 						bb.log( err, "error" );
 					} else {
-						content += "/* Content of " +path + "*/\n\n";
+						if( i != results.length ){
+							content += "\n\n";
+						}
+						content += "/* Content of " +path + " */\n\n";
 						content += file
 					}
 					if( !--i ){
