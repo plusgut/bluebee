@@ -20,7 +20,7 @@ exports.module = function(){
 						content += file
 					}
 					if( !--i ){
-						req.write( content );
+						req.write( content, 200, { "Content-Type": "text/css" } );
 					}
 				})
 			});
