@@ -1,5 +1,6 @@
 {
 	"debug"		: true,
+	"caching"	: false,
 	"http"		: 
 	{
 		"host"	: "0.0.0.0",

@@ -69,7 +69,7 @@ var bluebee = bluebee || (function(){
 	        loader = function( path, modulesObj, cb ){
 			fs.readdir( path, function( err, files ){
 				if( err ){
-					log( err );
+					log( err, "error" );
 				} else {
 					var i = 0;
 					var v = 0;
