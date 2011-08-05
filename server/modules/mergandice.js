@@ -17,7 +17,7 @@ exports.module = function(){
 							content += "\n\n";
 						}
 						content += "/* Content of " +path + " */\n\n";
-						content += file
+						content += file;
 					}
 					if( !--i ){
 						req.write( content, 200, { "Content-Type": "text/css" } );
@@ -27,12 +27,9 @@ exports.module = function(){
 		});
 	});
 
-	this.on( "javascript.js", function( req ){
-		bb.modules.mergandice.readDir( "client", "js", "client/js/libs/sproutcore" ,function( results ){
-			bb.log( path );
-		});
-		req.write( "blarg" );
-	});
+/*	bb.modules.mergandice.readDir( "client", "js", "client/js/libs/sproutcore" ,function( results ){
+		req.write( content, 200, { "Content-Type": "application/javascript"} );	
+	});*/
 
 	this.readDir = function( path, fileType, exclude, cb ){
 		var results = [];
@@ -55,6 +52,10 @@ exports.module = function(){
 											cb( results );
 										}
 									});
+								} else { 
+									if( !--i ){
+										cb( results );
+									}
 								}
 							} else {
 								var splittedFile = file.split( "." );
