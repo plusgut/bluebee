@@ -30,13 +30,24 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		// Initializer ( Constructor ) 
 		init = function(){
-			// Output 
-			log( "BlueBee is starting now", "prompt" );
+			if( process.argv[ 2 ] == "start" ){
+				// Output
+				log( "BlueBee is starting now" );
 
-			processHandler();
+				processHandler();
 
-			//Some initializations
-			loadConfig();
+				//Some initializations
+				loadConfig();
+			} else if( process.argv[ 2 ] == "stop" ){
+				log( "BlueBee is stopping now" );
+			} else if( process.argv[ 2 ] == "restart" ){
+				log( "BlueBee is restarting now" );
+			} else if( process.argv[ 2 ] == "status" ){
+				log( "BlueBee status is: " );
+			} else {
+				log( "Usage: bluebee {start|stop|restart|status}" );
+			}
+
 
 		};
 
