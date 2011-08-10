@@ -33,12 +33,11 @@ var bluebee = bluebee || (function(){
 			// Output 
 			log( "BlueBee is starting now", "prompt" );
 
+			processHandler();
+
 			//Some initializations
 			loadConfig();
 
-			process.on( "uncaughtException", function ( err ) {
-				log( err, "error" );
-			});
 		};
 
 		////-----------------------------------------------------------------------------------------
@@ -106,6 +105,30 @@ var bluebee = bluebee || (function(){
 				}
 			});	
 		};
+
+		////-----------------------------------------------------------------------------------------
+		// Process handler
+		processHandler = function(){
+			process.on( "uncaughtException", function ( err ) {
+				log( err, "error" );
+			});
+
+			process.on( "exit", function(){
+				log( "Im stopping now, right?", "prompt" );
+			});
+
+			process.on( "SIGKILL", function(){
+				process.exit();
+			});
+
+			process.on( "SIGTERM", function(){
+				process.exit();
+			});
+
+			process.on('SIGINT', function () {//Handles shutdown
+				process.exit();
+			});
+		},
 
 		////-----------------------------------------------------------------------------------------
 		// Output Messages

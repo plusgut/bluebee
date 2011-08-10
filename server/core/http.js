@@ -48,7 +48,7 @@ exports.module = function(){
 					bb.core.http.httpHandler( bbRequest );
 			});
 
-		}).listen( this.bb.conf.http.port, this.bb.conf.http.host );
+		}).listen( this.bb.conf.http.port, this.bb.conf.http.bind );
 		// Add Socket-Support
 	};
 
