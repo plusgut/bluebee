@@ -1,65 +1,5 @@
 exports.module = function(){
-	
-	/*How it looks like:
-
-	Collections:
-		type: "collection",
-		name: "name",
-		application: "system"
-		user: userId,
-		rights: 
-			{
-				users: 
-					{
-						userId: 
-							{
-								create: true,
-								read: true,
-								update: true,
-								delete: true,
-							},
-						userId: 
-							{
-								create: true,
-								read: true,
-								update: true,
-								delete: true,
-							},
-						rest:
-							{
-								create: false,
-								read: false,
-								update: false,
-								delete: false,
-							}
-					},
-				groups: 
-					{
-						groupId: 
-							{
-								create: false,
-								read: false,
-								update: false,
-								delete: false,
-							},
-						groupId:
-							{
-								create: false,
-								read: false,
-								update: false,
-								delete: false,
-							}
-					},
-				rest:
-					{
-						create: false,
-						read: false,
-						update: false,
-						delete: false,
-					}
-			},
-		subs: [ userID, userID, userID ],
-
+	/*
 	Models:
 		type: "model",
 		name: "name",
@@ -109,6 +49,7 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//Abstract method for checking if database is their
 	this.readInserts = function( cb ){
+		var user	= { id: 0, group: 0}
 		var content = null;
 		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
 			if( err ){
@@ -128,10 +69,14 @@ exports.module = function(){
 					var value = content[ key ];
 					for( var type in value ){
 						switch( type ){
-							case "createCollection" :		
-								if( !--length ){
-									cb();
-								}
+							case "createCollection" :
+								bb.core.couchdb.createCollection( value[ type ], user, 
+									function( err, result ){
+										if( !--length ){
+											cb();
+										}
+									}
+								);
 								break;
 							case "createModel" :
 								if( !--length ){
@@ -142,7 +87,6 @@ exports.module = function(){
 								if( !--length ){
 									cb();
 								}
-							}
 						}
 					}
 				}
@@ -167,6 +111,13 @@ exports.module = function(){
 	}
 
 	////-----------------------------------------------------------------------------------------
+ 	//Abstract method for checking if database is their
+	this.createCollection = function( name, user, cb){
+		log( new this.Collection() );
+		cb();
+	};
+
+	////-----------------------------------------------------------------------------------------
  	//Makes the real requests to the database
 	this.makeRequest = function( uri, method, body, cb ){
 		var options = {
@@ -177,8 +128,6 @@ exports.module = function(){
 		};
 
 		var req = http.request(options, function(res) {
-//			console.log('STATUS: ' + res.statusCode);
-//			console.log('HEADERS: ' + JSON.stringify(res.headers));
 			res.setEncoding( "utf8" );
 			var content = "";
 			res.on( "data", function ( chunk ) {
@@ -208,5 +157,43 @@ exports.module = function(){
 			req.write('data\n');*/
 		}	
 		req.end();
+	}
+
+	this.Collection = function(){
+		this.type = "collection",
+		this.name = null,
+		this.application = null
+		this.user = null
+		this.rights = 
+			{
+				users: 
+					{
+						user_0: 
+							{
+								create: true,
+								read: true,
+								update: true,
+								delete: true,
+							},
+					},
+				groups: 
+					{
+						group_0: 
+							{
+								create: true,
+								read: true,
+								update: true,
+								delete: true,
+							},
+					},
+				rest:
+					{
+						create: false,
+						read: false,
+						update: false,
+						delete: false,
+					}
+			},
+		subs = []
 	}
 };
