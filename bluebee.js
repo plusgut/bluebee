@@ -14,9 +14,6 @@ var bluebee = bluebee || (function(){
 	////=============================================================================================
 	// Propertys
 
-/*		host	= "0.0.0.0",					//The host of the http-server is listening to #ToDo check if its working
-		port	= 8080,						//The Port of the http-server is listenig to*/
-
 		debug	= true;
 		path	= process.cwd();
 
@@ -30,14 +27,16 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		// Initializer ( Constructor ) 
 		init = function(){
-			if( process.argv[ 2 ] == "start" ){
+			if( process.argv[ 2 ] == "start" || bb.debug ){
 				// Output
 				log( "BlueBee is starting now" );
 
+				//Handles the process-events
 				processHandler();
 
-				//Some initializations
-				loadConfig();
+				//Writes the pid into a file, and gives a callback for success, and fail
+				writePid( loadConfig, function(){ log( "BlueBee is already started") } );
+
 			} else if( process.argv[ 2 ] == "stop" ){
 				log( "BlueBee is stopping now" );
 			} else if( process.argv[ 2 ] == "restart" ){
@@ -139,6 +138,13 @@ var bluebee = bluebee || (function(){
 			process.on('SIGINT', function () {//Handles shutdown
 				process.exit();
 			});
+		},
+
+		
+		////-----------------------------------------------------------------------------------------
+		// Writes the Pid
+		writePid = function( cbSuccess, cbFail ){
+			cbSuccess(); //ToDo the real handling, and deactivation if in debug-mode
 		},
 
 		////-----------------------------------------------------------------------------------------
