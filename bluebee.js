@@ -27,24 +27,31 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		// Initializer ( Constructor ) 
 		init = function(){
-			if( process.argv[ 2 ] == "start" || bb.debug ){
-				// Output
-				log( "BlueBee is starting now" );
+			switch( process.argv[ 2 ] ){
+				case "start":
+					// Output
+					log( "BlueBee is starting now" );
 
-				//Handles the process-events
-				processHandler();
+					//Handles the process-events
+					processHandler();
 
-				//Writes the pid into a file, and gives a callback for success, and fail
-				writePid( loadConfig, function(){ log( "BlueBee is already started") } );
-
-			} else if( process.argv[ 2 ] == "stop" ){
-				log( "BlueBee is stopping now" );
-			} else if( process.argv[ 2 ] == "restart" ){
-				log( "BlueBee is restarting now" );
-			} else if( process.argv[ 2 ] == "status" ){
-				log( "BlueBee status is: " );
-			} else {
-				log( "Usage: bluebee {start|stop|restart|status}" );
+					//Writes the pid into a file, and gives a callback for success, and fail
+					writePid( loadConfig, function(){ log( "BlueBee is already started") } );
+					break
+				case "stop":
+					log( "BlueBee is stopping now" );
+					break
+				case "restart":
+					log( "BlueBee is restarting now" );
+					break
+				case "status" :
+					log( "BlueBee status is: " );
+					break
+				case "install" :
+					log( "BlueBee will now be installed" );
+					break
+				default:
+					log( "Usage: bluebee {start|stop|restart|status}" );
 			}
 
 
