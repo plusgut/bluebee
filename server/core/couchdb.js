@@ -72,6 +72,7 @@ exports.module = function(){
 	*/
 
 	var http = require( "http" );
+	var fs = require( "fs" );
 
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
@@ -96,10 +97,54 @@ exports.module = function(){
 				log( "Stopping installation" );
 			} else {
 				if( result ){
-					cb();
+					bb.core.couchdb.readInserts( cb );
 				} else {
 					log( "Database " + bb.conf.couchdb.database + " doesn't exist", "prompt" );
 					log( "If you fixed this, try installing installing bluebee again" );
+				}
+			}
+		});
+	}
+	
+	////-----------------------------------------------------------------------------------------
+ 	//Abstract method for checking if database is their
+	this.readInserts = function( cb ){
+		var content = null;
+		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
+			if( err ){
+				log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "error" );
+				log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "prompt" );
+			} else {
+				try{
+					content	= JSON.parse( file );
+				} catch( err ) {
+					log( "CouchDB-file was invalid, installation stopped  [" + err + "]", "error" );
+					log( "CouchDB-file was invalid, installation stopped", "prompt" );
+					return;
+				}
+
+				var length = content.length;
+				for( var key in content ){
+					var value = content[ key ];
+					for( var type in value ){
+						switch( type ){
+							case "createCollection" :		
+								if( !--length ){
+									cb();
+								}
+								break;
+							case "createModel" :
+								if( !--length ){
+									cb();
+								}
+								break;
+							default:
+								if( !--length ){
+									cb();
+								}
+							}
+						}
+					}
 				}
 			}
 		});

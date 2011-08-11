@@ -1,0 +1,5 @@
+[
+	{"createCollection":{ "user": 0, "application": "system", "name":"user"}},
+	{"createModel":{"_id": 0, "user":0, "application": "system", "name": "user", "owner": 0, "content":{"name":"root","group":0}}}
+]
+
