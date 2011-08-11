@@ -60,7 +60,9 @@ var bluebee = bluebee || (function(){
 						bb.core[ "couchdb" ]		= new couch.module();
 						bb.core[ "couchdb" ].bb		= bb;
 						bb.core[ "couchdb" ].main( function(){
-							bb.core[ "couchdb" ].install();
+							bb.core[ "couchdb" ].install( function(){
+								log( "finished installing" );
+							});
 						} );
 
 					});
