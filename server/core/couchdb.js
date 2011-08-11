@@ -80,12 +80,17 @@ exports.module = function(){
 	}
 
 	this.install = function( cb ){
-		bb.core.couchdb.databaseExists( bb.conf.couchdb.database, function( result ){
-			if( result ){
-				cb();
+		bb.core.couchdb.databaseExists( bb.conf.couchdb.database, function( err, result ){
+			if( err ){
+				log( "CouchDB: " + err );
+				log( "Stopping installation" );
 			} else {
-				log( "Database " + bb.conf.couchdb.database + " doesn't exist", "prompt" );
-				log( "If you fixed this, try installing installing bluebee again" );
+				if( result ){
+					cb();
+				} else {
+					log( "Database " + bb.conf.couchdb.database + " doesn't exist", "prompt" );
+					log( "If you fixed this, try installing installing bluebee again" );
+				}
 			}
 		});
 	}
@@ -135,12 +140,12 @@ exports.module = function(){
 	this.databaseExists = function( name, cb){
 		bb.core.couchdb.makeRequest( name, "GET", null, function( err, res ){
 			if( err ){
-				cb( false );
+				cb( err, false );
 			} else {
 				if( res.error ){
-					cb( false );
+					cb( res.error, false );
 				} else {
-					cb( true );
+					cb( null, true );
 				}
 			}
 		});
