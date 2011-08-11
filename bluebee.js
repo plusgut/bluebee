@@ -154,7 +154,7 @@ var bluebee = bluebee || (function(){
 			moduleArr[ name ]		= new mod.module();
 			moduleArr[ name ].bb		= bb;
 			moduleArr[ name ].main( cb );
-		]		
+		}		
 
 		////-----------------------------------------------------------------------------------------
 		// Process handler
