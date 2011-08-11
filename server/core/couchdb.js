@@ -1,21 +1,77 @@
 exports.module = function(){
+	
+	/*How it looks like:
 
-	/*
 	Collections:
 		type: "collection",
-		name: name,
+		name: "name",
+		application: "system"
 		user: userId,
-		group: groupId,
-		rights: [ crud, crud, crud ],
+		rights: 
+			{
+				users: 
+					{
+						userId: 
+							{
+								create: true,
+								read: true,
+								update: true,
+								delete: true,
+							},
+						userId: 
+							{
+								create: true,
+								read: true,
+								update: true,
+								delete: true,
+							},
+						rest:
+							{
+								create: false,
+								read: false,
+								update: false,
+								delete: false,
+							}
+					},
+				groups: 
+					{
+						groupId: 
+							{
+								create: false,
+								read: false,
+								update: false,
+								delete: false,
+							},
+						groupId:
+							{
+								create: false,
+								read: false,
+								update: false,
+								delete: false,
+							}
+					},
+				rest:
+					{
+						create: false,
+						read: false,
+						update: false,
+						delete: false,
+					}
+			},
+		subs: [ userID, userID, userID ],
 
-	Model:
+	Models:
 		type: "model",
-		collection: collectionId,
-		user: userId,
-		time: timestamp,
+		name: "name",
+		application: "system"
+		user: userId,//From the collection
+		owner: userId
+		group: groupId,
+		subs: [ userID, userID, userID ],
 		content: {}
 	*/
-	
+
+
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
 	this.main = function( cb ){
