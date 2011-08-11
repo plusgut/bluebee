@@ -77,4 +77,9 @@ exports.module = function(){
 	this.main = function( cb ){
 		cb();
 	}
+
+	this.install = function( cb ){
+		log( "im installing.." );
+		cb();
+	}
 };

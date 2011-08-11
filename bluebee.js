@@ -30,28 +30,43 @@ var bluebee = bluebee || (function(){
 			switch( process.argv[ 2 ] ){
 				case "start":
 					// Output
-					log( "BlueBee is starting now" );
+					log( "BlueBee is starting now", "prompt" );
 
 					//Handles the process-events
 					processHandler();
 
 					//Writes the pid into a file, and gives a callback for success, and fail
-					writePid( loadConfig, function(){ log( "BlueBee is already started") } );
-					break
+					writePid( 
+						function(){
+							loadConfig( loadCore );
+						}, function(){ 
+							log( "BlueBee is already started") 	
+					});
+					break;
 				case "stop":
-					log( "BlueBee is stopping now" );
-					break
+					log( "BlueBee is stopping now", "prompt" );
+					break;
 				case "restart":
-					log( "BlueBee is restarting now" );
-					break
+					log( "BlueBee is restarting now", "prompt" );
+					break;
 				case "status" :
-					log( "BlueBee status is: " );
-					break
+					log( "BlueBee status is: ", "prompt" );
+					break;
 				case "install" :
-					log( "BlueBee will now be installed" );
-					break
+					log( "BlueBee will now be installed", "prompt" );
+					loadConfig( function(){
+						var couch			= new require( bb.path + "/server/core/couchdb.js" );
+						couch.module.prototype		= new EventEmitter();
+						bb.core[ "couchdb" ]		= new couch.module();
+						bb.core[ "couchdb" ].bb		= bb;
+						bb.core[ "couchdb" ].main( function(){
+							bb.core[ "couchdb" ].install();
+						} );
+
+					});
+					break;
 				default:
-					log( "Usage: bluebee {start|stop|restart|status}" );
+					log( "Usage: bluebee {start|stop|restart|status}", "prompt" );
 			}
 
 
@@ -59,13 +74,13 @@ var bluebee = bluebee || (function(){
 
 		////-----------------------------------------------------------------------------------------
 		//Loads the config
-		loadConfig = function(){
+		loadConfig = function( cb ){
 			//First the config
 			var conf			= new require( bb.path + "/server/core/config.js" );
 			conf.module.prototype		= new EventEmitter();
 			bb.core[ "config" ]		= new conf.module();
 			bb.core[ "config" ].bb		= bb;
-			bb.core[ "config" ].main( loadCore );
+			bb.core[ "config" ].main( cb );
 		}
 
 		////-----------------------------------------------------------------------------------------
@@ -122,6 +137,24 @@ var bluebee = bluebee || (function(){
 				}
 			});	
 		};
+
+		////-----------------------------------------------------------------------------------------
+		// loadModule
+		loadModule = function( type, name ){//currently not used
+			var moduleArr;
+			if( type == "core" ){
+				moduleArr = bb.core;
+			} else if( type == "modules" ){
+				moduleArr = bb.modules;
+			} else {
+				throw "loadModule: undefined type";
+			}
+			var mod				= new require( bb.path + "/server/" + type + "/" + name + ".js" );
+			mod.module.prototype		= new EventEmitter();
+			moduleArr[ name ]		= new mod.module();
+			moduleArr[ name ].bb		= bb;
+			moduleArr[ name ].main( cb );
+		]		
 
 		////-----------------------------------------------------------------------------------------
 		// Process handler

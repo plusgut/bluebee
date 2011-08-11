@@ -15,11 +15,12 @@ exports.module = function(){
 					if( bb.conf.cloud9 ){
 						bb.conf.http.port = process.env.C9_PORT;
 					}
-					cb();
 				} catch( err ) {
 					bb.log( "Configuration-file was invalid, shutting down bb  [" + err + "]", "error" );
 					bb.log( "Configuration-file was invalid, shutting down bb", "prompt" );
+					return;
 				}
+				cb();
 			}
 		});
 	}
