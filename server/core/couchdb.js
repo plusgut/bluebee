@@ -76,9 +76,19 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
 	this.main = function( cb ){
-		cb();
+		bb.core.couchdb.databaseExists( bb.conf.couchdb.database, function( err, result ){
+			if( err ){
+				log( "CouchDB: " + err, "error" );
+			} else if ( !result ){ 
+				log( "Database " + bb.conf.couchdb.database + " doesn't exist" )
+			} else {
+				cb();
+			}
+		});
 	}
 
+	////-----------------------------------------------------------------------------------------
+ 	//Makes the installation
 	this.install = function( cb ){
 		bb.core.couchdb.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
@@ -95,6 +105,24 @@ exports.module = function(){
 		});
 	}
 
+	////-----------------------------------------------------------------------------------------
+ 	//Abstract method for checking if database is their
+	this.databaseExists = function( name, cb){
+		bb.core.couchdb.makeRequest( name, "GET", null, function( err, res ){
+			if( err ){
+				cb( err, false );
+			} else {
+				if( res.error ){
+					cb( res.error, false );
+				} else {
+					cb( null, true );
+				}
+			}
+		});
+	}
+
+	////-----------------------------------------------------------------------------------------
+ 	//Makes the real requests to the database
 	this.makeRequest = function( uri, method, body, cb ){
 		var options = {
 			host: bb.conf.couchdb.host,
@@ -135,19 +163,5 @@ exports.module = function(){
 			req.write('data\n');*/
 		}	
 		req.end();
-	}
-
-	this.databaseExists = function( name, cb){
-		bb.core.couchdb.makeRequest( name, "GET", null, function( err, res ){
-			if( err ){
-				cb( err, false );
-			} else {
-				if( res.error ){
-					cb( res.error, false );
-				} else {
-					cb( null, true );
-				}
-			}
-		});
 	}
 };
