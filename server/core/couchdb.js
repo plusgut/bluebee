@@ -113,10 +113,18 @@ exports.module = function(){
 	//Abstract method to create a collection
 	this.createCollection = function( newCol, user, cb){
 		self.createViews( newCol.user, newCol.application, newCol.name, function( err, res ){
-			var col = self.buildDocument( new self.Collection(), newCol, user );
-			self.createDocument( col, function( err, res ){
+			if( err ){
+				log( "CouchDB: " + err );
 				cb( err, res );
-			});
+			} else if( res.error ){
+				log( "CouchDB: " + err );
+				cb( err, res.error );
+			} else {
+				var col = self.buildDocument( new self.Collection(), newCol, user );
+				self.createDocument( col, function( err, res ){
+					cb( err, res );
+				});
+			}
 		});
 	}
 

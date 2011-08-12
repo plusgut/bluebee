@@ -5,6 +5,8 @@ exports.module = function(){
 	var fs		= require( "fs" );
 	var mime	= require( "mime" );
 
+	var self        = this;
+
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
 	this.main = function( cb ){
@@ -45,10 +47,10 @@ exports.module = function(){
 								res: res 
 							}
 						}; 
-					bb.core.http.httpHandler( bbRequest );
+					self.httpHandler( bbRequest );
 			});
 
-		}).listen( this.bb.conf.http.port, this.bb.conf.http.bind );
+		}).listen( self.bb.conf.http.port, self.bb.conf.http.bind );
 		// Add Socket-Support
 	};
 
