@@ -3,10 +3,11 @@ exports.module = function(){
 	var http	= require( "http" );
 	var fs		= require( "fs" );
 
+	var self	= this;
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
 	this.main = function( cb ){
-		bb.core.couchdb.databaseExists( bb.conf.couchdb.database, function( err, result ){
+		self.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
 				log( "CouchDB: " + err, "error" );
 			} else if ( !result ){ 
@@ -20,13 +21,13 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//Makes the installation
 	this.install = function( cb ){
-		bb.core.couchdb.databaseExists( bb.conf.couchdb.database, function( err, result ){
+		self.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
 				log( "CouchDB: " + err );
 				log( "Stopping installation" );
 			} else {
 				if( result ){
-					bb.core.couchdb.readInserts( cb );
+					self.readInserts( cb );
 				} else {
 					log( "Database " + bb.conf.couchdb.database + " doesn't exist", "prompt" );
 					log( "If you fixed this, try installing installing bluebee again" );
@@ -59,7 +60,7 @@ exports.module = function(){
 					for( var type in value ){
 						switch( type ){
 							case "createCollection" :
-								bb.core.couchdb.createCollection( value[ type ], user, 
+								self.createCollection( value[ type ], user, 
 									function( err, result ){
 										if( !--length ){
 											cb();
@@ -86,7 +87,7 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//Abstract method for checking if database is their
 	this.databaseExists = function( name, cb){
-		bb.core.couchdb.makeRequest( name, "GET", null, function( err, res ){
+		self.makeRequest( name, "GET", null, function( err, res ){
 			if( err ){
 				cb( err, false );
 			} else {
@@ -100,18 +101,30 @@ exports.module = function(){
 	}
 
 	////-----------------------------------------------------------------------------------------
- 	//Abstract method for checking if database is their
+	//Abstract method to create a collection
 	this.createCollection = function( newCol , user, cb){
-		var col = bb.core.couchdb.buildDocument( new this.Collection(), newCol, user );
-		bb.core.couchdb.createDocument( col, function( err, res ){
+		var col = self.buildDocument( new this.Collection(), newCol, user );
+		self.createDocument( col, function( err, res ){
 			cb( err, res );
 		});
+	};
+	////-----------------------------------------------------------------------------------------
+ 	//Method for creating a view (calls makeRequest
+	this.createView = function( user, application, name, type, cb ){
+		if( !user || !application || !name || !type ){
+			cb( "incomplete" );
+		} else {
+			if( type == "collection" || type == "model" ){
+				bb.core
+				cb();
+			}
+		}
 	};
 
 	////-----------------------------------------------------------------------------------------
  	//Method for creating a document (calls makeRequest )
 	this.createDocument = function( doc, cb ){
-		bb.core.couchdb.makeRequest( bb.conf.couchdb.database, "POST", JSON.stringify( doc ), function( err, res ){
+		self.makeRequest( bb.conf.couchdb.database, "POST", JSON.stringify( doc ), function( err, res ){
 			cb( err, res );
 		});	
 	}
