@@ -39,35 +39,41 @@ exports.module = function(){
 			} else {
 				var i = files.length;
 				files.forEach( function( file ){
-					fs.stat( bb.path + "/" + path + "/" + file, function( err, stat ){
-						if( err ){
-							bb.log( err, "error" );
-						} else {
-							var newPath = path + "/" + file;
-							if( stat && stat.isDirectory() ){
-								if( newPath != exclude ){
-									bb.modules.mergandice.readDir( newPath, fileType, exclude, function( res ){
-										results = results.concat( res );
+					if( file[ 0 ] != "." ){
+						fs.stat( bb.path + "/" + path + "/" + file, function( err, stat ){
+							if( err ){
+								bb.log( err, "error" );
+							} else {
+								var newPath = path + "/" + file;
+								if( stat && stat.isDirectory() ){
+									if( newPath != exclude ){
+										bb.modules.mergandice.readDir( newPath, fileType, exclude, function( res ){	
+											results = results.concat( res );
+											if( !--i ){
+												cb( results );
+											}
+										});
+									} else { 
 										if( !--i ){
 											cb( results );
 										}
-									});
-								} else { 
+									}
+								} else {
+									var splittedFile = file.split( "." );
+									if( splittedFile[ splittedFile.length - 1 ] == fileType ){
+										results.push( newPath );
+									}
 									if( !--i ){
 										cb( results );
 									}
 								}
-							} else {
-								var splittedFile = file.split( "." );
-								if( splittedFile[ splittedFile.length - 1 ] == fileType ){
-									results.push( newPath );
-								}
-								if( !--i ){
-									cb( results );
-								}
 							}
+						})
+					} else {
+						if( !--i ){
+							cb( results );
 						}
-					})
+					}
 				})
 			}
 		})
