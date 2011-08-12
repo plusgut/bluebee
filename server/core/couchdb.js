@@ -113,13 +113,13 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
  	//Method for creating a view (calls makeRequest
-	this.createViews = function( namespace, application, name, cb ){
-		if( !namespace || !application || !name ){
+	this.createViews = function( user, application, name, cb ){
+		if( !user || !application || !name ){
 			cb( "incomplete" );
 		} else {
-			var id = "_design/" + namespace + "_" + application + "_" + name;
-			var mapCollection = "function( doc ){ if( doc.type == 'collection' && doc.application == '" + application + "'){ emit( null, doc )} };"
-			var mapModel = "function( doc ){ emit( null, doc )};"
+			var id = "_design/" + user + "_" + application + "_" + name;
+			var mapCollection = "function( doc ){ if( doc.type == 'collection'  && doc.user == '" + user + "' && doc.application == '" + application + "' && doc.name == '" + name + "'){ emit( null, doc )} };"
+			var mapModel = "function( doc ){ if( doc.type == 'model'  && doc.user == '" + user + "' && doc.application == '" + application + "' && doc.name == '" + name + "'){ emit( null, doc )} };"
 
 			var view = { "_id" : id, views: { collection: { map: mapCollection }, model: { map: mapModel }} }
 			self.createDocument( view, function( err, res ){
