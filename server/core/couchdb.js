@@ -102,22 +102,29 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	//Abstract method to create a collection
-	this.createCollection = function( newCol , user, cb){
-		var col = self.buildDocument( new this.Collection(), newCol, user );
-		self.createDocument( col, function( err, res ){
-			cb( err, res );
+	this.createCollection = function( newCol, user, cb){
+		self.createViews( newCol.user, newCol.application, newCol.name, function( err, res ){
+			var col = self.buildDocument( new self.Collection(), newCol, user );
+			self.createDocument( col, function( err, res ){
+				cb( err, res );
+			});
 		});
-	};
+	}
+
 	////-----------------------------------------------------------------------------------------
  	//Method for creating a view (calls makeRequest
-	this.createView = function( user, application, name, type, cb ){
-		if( !user || !application || !name || !type ){
+	this.createViews = function( namespace, application, name, cb ){
+		if( !namespace || !application || !name ){
 			cb( "incomplete" );
 		} else {
-			if( type == "collection" || type == "model" ){
-				bb.core
-				cb();
-			}
+			var id = "_design/" + namespace + "_" + application + "_" + name;
+			var mapCollection = "function( doc ){ if( doc.type == 'collection' && doc.application == '" + application + "'){ emit( null, doc )} };"
+			var mapModel = "function( doc ){ emit( null, doc )};"
+
+			var view = { "_id" : id, views: { collection: { map: mapCollection }, model: { map: mapModel }} }
+			self.createDocument( view, function( err, res ){
+				cb( err, res );
+			});
 		}
 	};
 
