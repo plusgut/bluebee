@@ -61,22 +61,31 @@ exports.module = function(){
 						switch( type ){
 							case "createCollection" :
 								self.createCollection( value[ type ], user, 
-									function( err, result ){
-										if( !--length ){
-											cb();
-										}
+									function( err, res ){
+										handleResponse( err, res, cb );
 									}
 								);
 								break;
 							case "createModel" :
-								if( !--length ){
-									cb();
-								}
+								self.createModel( value[ type ], user, 
+									function( err, res ){
+										handleResponse( err, res, cb );
+									}
+								);
 								break;
 							default:
-								if( !--length ){
-									cb();
-								}
+								handleResponse( null, {}, cb );
+						}
+					}
+				}
+				function handleResponse( err, res, cb){
+					if( err ){
+						log( "CouchDB: " + err, "error" );
+					} else if( res.error ){
+						log( "CouchDB: " + err, "error" );
+					} else {
+						if( !--length ){
+							cb();
 						}
 					}
 				}
@@ -108,6 +117,16 @@ exports.module = function(){
 			self.createDocument( col, function( err, res ){
 				cb( err, res );
 			});
+		});
+	}
+
+	////-----------------------------------------------------------------------------------------
+	//Abstract method to create a collection
+	this.createModel = function( newMod, user, cb){
+		var mod = self.buildDocument( new self.Model(), newMod, user );
+
+		self.createDocument( mod, function( err, res ){
+			cb( err, res );
 		});
 	}
 
