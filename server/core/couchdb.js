@@ -1,18 +1,7 @@
 exports.module = function(){
-	/*
-	Models:
-		type: "model",
-		name: "name",
-		application: "system"
-		user: userId,//From the collection
-		owner: userId
-		group: groupId,
-		subs: [ userID, userID, userID ],
-		content: {}
-	*/
 
-	var http = require( "http" );
-	var fs = require( "fs" );
+	var http	= require( "http" );
+	var fs		= require( "fs" );
 
 	////-----------------------------------------------------------------------------------------
  	//The Constructor
@@ -112,8 +101,18 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
  	//Abstract method for checking if database is their
-	this.createCollection = function( name, user, cb){
-		log( new this.Collection() );
+	this.createCollection = function( newCol , user, cb){
+		var col = new this.Collection();
+		for( var colKey in col ){
+			if( colKey == "_id" && newCol[ colKey ]){
+				if( user.id == 0 ){
+					col[ colKey ] = newCol[ colKey ];
+				}
+			} else if( newCol[ colKey ] ){
+				col[ colKey ] = newCol[ colKey ];//Finetuning is needed, for recursive changings
+			}
+		}
+		log( col );
 		cb();
 	};
 
@@ -195,5 +194,16 @@ exports.module = function(){
 					}
 			},
 		subs = []
+	}
+
+	this.Models = function(){
+		this.type = "model",
+		this.name = null,
+		this.application = null,
+		this.user = null,//From the collection
+		this.owner = null,
+		this.group = null,
+		this.subs = [],
+		this.content = {}
 	}
 };
