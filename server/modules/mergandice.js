@@ -37,6 +37,7 @@ exports.module = function(){
 			if( err ){
 				bb.log( err, "error" );
 			} else {
+				files.sort();
 				var i = files.length;
 				files.forEach( function( file ){
 					if( file[ 0 ] != "." ){
