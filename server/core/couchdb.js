@@ -38,7 +38,7 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//Abstract method for checking if database is their
 	this.readInserts = function( cb ){
-		var user	= { id: "user_0", group: 0}
+		var user	= { id: "user0", group: 0}
 		var content = null;
 		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
 			if( err ){
@@ -169,7 +169,7 @@ exports.module = function(){
  	//Builds the new document
 	this.buildDocument = function( col, newCol,user ){
 		for( var colKey in newCol ){
-			if( !col[ colKey ] ){
+			if( col[ colKey ] === undefined){
 				if( user.id == "user0" ){
 					col[ colKey ] = newCol[ colKey ];
 				}
