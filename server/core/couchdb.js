@@ -38,7 +38,7 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//Abstract method for checking if database is their
 	this.readInserts = function( cb ){
-		var user	= { id: 0, group: 0}
+		var user	= { id: "user_0", group: 0}
 		var content = null;
 		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
 			if( err ){
@@ -102,28 +102,37 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
  	//Abstract method for checking if database is their
 	this.createCollection = function( newCol , user, cb){
-		var col = new this.Collection();
-		for( var colKey in col ){
-			if( colKey == "_id" && newCol[ colKey ]){
-				if( user.id == 0 ){
-					col[ colKey ] = newCol[ colKey ];
-				}
-			} else if( newCol[ colKey ] ){
-				col[ colKey ] = newCol[ colKey ];//Finetuning is needed, for recursive changings
-			}
-		}
-		log( col );
-		cb();
+		var col = bb.core.couchdb.buildDocument( new this.Collection(), newCol, user );
+		bb.core.couchdb.createDocument( col, function( err, res ){
+			cb( err, res );
+		});
 	};
 
 	////-----------------------------------------------------------------------------------------
+ 	//Method for creating a document (calls makeRequest )
+	this.createDocument = function( doc, cb ){
+		bb.core.couchdb.makeRequest( bb.conf.couchdb.database, "POST", JSON.stringify( doc ), function( err, res ){
+			cb( err, res );
+		});	
+	}
+	////-----------------------------------------------------------------------------------------
  	//Makes the real requests to the database
 	this.makeRequest = function( uri, method, body, cb ){
+		var headers = {
+			"Host": bb.conf.couchdb.host,
+			"Content-Type": "application/json",
+		};
+
+		if( body ){
+			headers[ "Content-Length" ] = body.length;
+		}
+
 		var options = {
 			host: bb.conf.couchdb.host,
 			port: bb.conf.couchdb.port,
 			path: "/" + uri,
-			method: method
+			method: method,
+			headers: headers
 		};
 
 		var req = http.request(options, function(res) {
@@ -134,7 +143,7 @@ exports.module = function(){
 			});
 
 			res.on( "end", function(){
-				var parsedContent
+				var parsedContent = null;
 				try{
 					parsedContent = JSON.parse( content );
 				} catch( err ){
@@ -150,14 +159,29 @@ exports.module = function(){
 			cb( err.message, null );
 		});
 
-		if( method == "POST" ){
-			// write data to request body
-			/*req.write('data\n');
-			req.write('data\n');*/
+		if( body ){
+			req.write( body );
 		}	
 		req.end();
 	}
 
+	////-----------------------------------------------------------------------------------------
+ 	//Builds the new document
+	this.buildDocument = function( col, newCol,user ){
+		for( var colKey in newCol ){
+			if( !col[ colKey ] ){
+				if( user.id == "user0" ){
+					col[ colKey ] = newCol[ colKey ];
+				}
+			} else {
+				col[ colKey ] = newCol[ colKey ];//Finetuning is needed, for recursive changings
+			}
+		}
+		return col;
+	}
+
+	////-----------------------------------------------------------------------------------------
+ 	//Default-Value for Collections
 	this.Collection = function(){
 		this.type = "collection",
 		this.name = null,
@@ -167,7 +191,7 @@ exports.module = function(){
 			{
 				users: 
 					{
-						user_0: 
+						user0: 
 							{
 								create: true,
 								read: true,
@@ -177,7 +201,7 @@ exports.module = function(){
 					},
 				groups: 
 					{
-						group_0: 
+						group0: 
 							{
 								create: true,
 								read: true,
@@ -196,7 +220,9 @@ exports.module = function(){
 		subs = []
 	}
 
-	this.Models = function(){
+	////-----------------------------------------------------------------------------------------
+ 	//Default-Value for Models
+	this.Model = function(){
 		this.type = "model",
 		this.name = null,
 		this.application = null,
