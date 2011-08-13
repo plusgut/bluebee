@@ -1,6 +1,7 @@
 exports.module = function(){
 	
 	var http	= require( "http" );
+	var io		= require( "socket.io" );
 	var path	= require( "path" );
 	var fs		= require( "fs" );
 	var mime	= require( "mime" );
@@ -48,8 +49,19 @@ exports.module = function(){
 					bb.core.http.httpHandler( bbRequest );
 			});
 
-		}).listen( bb.conf.http.port, bb.conf.http.bind );
+		});
+
+		server.listen( bb.conf.http.port, bb.conf.http.bind );
 		// Add Socket-Support
+
+		/*var socket = io.listen( server, { log: function(){} } );//ToDo deactivate loggin-function
+		socket.on('connection', function(client){
+			log( "here we have a new connection" );
+			client.on('message', function(msg){
+				log( "ohai message" );
+				socket.broadcast(msg);
+			})
+		});*/
 	};
 
 	////-----------------------------------------------------------------------------------------
