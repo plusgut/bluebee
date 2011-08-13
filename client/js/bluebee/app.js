@@ -2,13 +2,12 @@ var bb = SC.Application.create();
 
 
 SC.$(document).ready(function() {//I had to use this one, instead of BB.ready.. because frameworks were not loaded
-	BB.DataSource = ThothSC.DataSource.extend( { connectUsing: ThothSC.WEBSOCKET, ThothHost:"localhost",ThothPort:"8080", ThothURLPrefix: '/thoth'} )
-//	BB.DataSource = ThothSC.WebSocketClient.extend( { ThothHost:"localhost",ThothPort:"8080", ThothURLPrefix: '/thoth'} )
-	BB.store = SC.Store.create({ commitRecordsAutomatically: true}).from('BB.DataSource');
-	var data = BB.store.createRecord( BB.Data, { title: "blub"} );
-/*	BB.store.find( SC.Query.local( BB.Data ) ).forEach( function( con ){
+	bb.DataSource = SC.DataSource.extend()
+	bb.store = SC.Store.create().from('BB.DataSource');
+	var data = bb.store.createRecord( bb.Data, { title: "blub"} );
+	bb.store.find( SC.Query.local( bb.Data ) ).forEach( function( con ){
 		console.log( con.get( "title" ) );
-	});*/
+	});
 });
 
 bb.debug = true;
