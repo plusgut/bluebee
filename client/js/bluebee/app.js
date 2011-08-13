@@ -14,12 +14,12 @@ bb.debug = true;
 
 bb.Index = SC.View.extend({
 	mouseDown: function() {
-		BB.log( "ah, clicki is working" );
+		bb.log( "ah, clicki is working" );
 	},
 });
 
 bb.log = function log( content ){
-	if( BB.debug ){
+	if( bb.debug ){
 		console.log( content )
 	}
 };
