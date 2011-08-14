@@ -5,12 +5,12 @@
 */
 exports.module = function(){
 
-	this.apiModules = Array();
+	this.apiModules = [];
 
 	this.main = function( cb ){
-		this.apiModules[ "updateRecord" ] = this.updateRecord;
+		this.apiModules.updateRecord= this.updateRecord;
 		cb();
-	}
+	};
 
 	this.on( "api", function( req ){
 		if( req.data && req.data.api ){
@@ -25,20 +25,20 @@ exports.module = function(){
 
 			var apiResult;
 			if ( api instanceof Array ){
-				apiResult	= Array();
+				apiResult	= [];
 			} else {
 				apiResult	= Object();
 			}
 
 			var i = 0;
 			var v = 0;
-			var finish = false;;
+			var finish = false;
 
-			for( apiIndex in api ){
+			for( var apiIndex in api ){
 				var type;
 				var content;
 				if ( api instanceof Array ){
-					for( apiType in api[ apiIndex ] ){
+					for( var apiType in api[ apiIndex ] ){
 						type = apiType;
 						content = api[ apiIndex ][ apiType ];
 					}
@@ -87,5 +87,5 @@ exports.module = function(){
 
 	this.updateRecord = function( content, cb ){
 		cb( { content: content } );
-	}
-}
+	};
+};

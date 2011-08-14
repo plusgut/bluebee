@@ -5,21 +5,21 @@ exports.module = function(){
 
 	var self	= this;
 	////-----------------------------------------------------------------------------------------
- 	//The Constructor
+	//The Constructor
 	this.main = function( cb ){
 		self.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
 				log( "CouchDB: " + err, "error" );
 			} else if ( !result ){ 
-				log( "Database " + bb.conf.couchdb.database + " doesn't exist" )
+				log( "Database " + bb.conf.couchdb.database + " doesn't exist" );
 			} else {
 				cb();
 			}
 		});
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Makes the installation
+	//Makes the installation
 	this.install = function( cb ){
 		self.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
@@ -34,22 +34,22 @@ exports.module = function(){
 				}
 			}
 		});
-	}
+	};
 	
 	////-----------------------------------------------------------------------------------------
- 	//Abstract method for checking if database is their
+	//Abstract method for checking if database is their
 	this.readInserts = function( cb ){
-		var user	= { id: "user0", group: 0}
+		var user	= { id: "user0", group: 0};
 		var content = null;
 		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
 			if( err ){
 				log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "error" );
 				log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "prompt" );
-			} else {
+			} else{
 				try{
 					content	= JSON.parse( file );
-				} catch( err ) {
-					log( "CouchDB-file was invalid, installation stopped  [" + err + "]", "error" );
+				} catch( error ) {
+					log( "CouchDB-file was invalid, installation stopped  [" + error + "]", "error" );
 					log( "CouchDB-file was invalid, installation stopped", "prompt" );
 					return;
 				}
@@ -91,10 +91,10 @@ exports.module = function(){
 				}
 			}
 		});
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Abstract method for checking if database is their
+	//Abstract method for checking if database is their
 	this.databaseExists = function( name, cb){
 		self.makeRequest( name, "GET", null, function( err, res ){
 			if( err ){
@@ -107,7 +107,7 @@ exports.module = function(){
 				}
 			}
 		});
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//Abstract method to create a collection
@@ -126,7 +126,7 @@ exports.module = function(){
 				});
 			}
 		});
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//Abstract method to create a collection
@@ -136,19 +136,19 @@ exports.module = function(){
 		self.createDocument( mod, function( err, res ){
 			cb( err, res );
 		});
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Method for creating a view (calls makeRequest
+	//Method for creating a view (calls makeRequest
 	this.createViews = function( user, application, name, cb ){
 		if( !user || !application || !name ){
 			cb( "incomplete" );
 		} else {
 			var id = "_design/" + user + "_" + application + "_" + name;
-			var mapCollection = "function( doc ){ if( doc.type == 'collection'  && doc.user == '" + user + "' && doc.application == '" + application + "' && doc.name == '" + name + "'){ emit( null, doc )} };"
-			var mapModel = "function( doc ){ if( doc.type == 'model'  && doc.user == '" + user + "' && doc.application == '" + application + "' && doc.name == '" + name + "'){ emit( null, doc )} };"
+			var mapCollection = "function( doc ){ if( doc.type == 'collection'  && doc.user == '" + user + "' && doc.application == '" + application + "' && doc.name == '" + name + "'){ emit( null, doc )} };";
+			var mapModel = "function( doc ){ if( doc.type == 'model'  && doc.user == '" + user + "' && doc.application == '" + application + "' && doc.name == '" + name + "'){ emit( null, doc )} };";
 
-			var view = { "_id" : id, views: { collection: { map: mapCollection }, model: { map: mapModel }} }
+			var view = { "_id" : id, views: { collection: { map: mapCollection }, model: { map: mapModel }} };
 			self.createDocument( view, function( err, res ){
 				cb( err, res );
 			});
@@ -156,18 +156,18 @@ exports.module = function(){
 	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Method for creating a document (calls makeRequest )
+	//Method for creating a document (calls makeRequest )
 	this.createDocument = function( doc, cb ){
 		self.makeRequest( bb.conf.couchdb.database, "POST", JSON.stringify( doc ), function( err, res ){
 			cb( err, res );
 		});	
-	}
+	};
 	////-----------------------------------------------------------------------------------------
- 	//Makes the real requests to the database
+	//Makes the real requests to the database
 	this.makeRequest = function( uri, method, body, cb ){
 		var headers = {
 			"Host": bb.conf.couchdb.host,
-			"Content-Type": "application/json",
+			"Content-Type": "application/json"
 		};
 
 		if( body ){
@@ -210,10 +210,10 @@ exports.module = function(){
 			req.write( body );
 		}	
 		req.end();
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Builds the new document
+	//Builds the new document
 	this.buildDocument = function( col, newCol,user ){
 		for( var colKey in newCol ){
 			if( col[ colKey ] === undefined){
@@ -225,15 +225,15 @@ exports.module = function(){
 			}
 		}
 		return col;
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Default-Value for Collections
+	//Default-Value for Collections
 	this.Collection = function(){
-		this.type = "collection",
-		this.name = null,
-		this.application = null
-		this.user = null
+		this.type = "collection";
+		this.name = null;
+		this.application = null;
+		this.user = null;
 		this.rights = 
 			{
 				users: 
@@ -243,8 +243,8 @@ exports.module = function(){
 								create: true,
 								read: true,
 								update: true,
-								delete: true,
-							},
+								del: true
+							}
 					},
 				groups: 
 					{
@@ -253,30 +253,30 @@ exports.module = function(){
 								create: true,
 								read: true,
 								update: true,
-								delete: true,
-							},
+								del: true
+							}
 					},
 				rest:
 					{
 						create: false,
 						read: false,
 						update: false,
-						delete: false,
+						del: false
 					}
-			},
-		subs = []
-	}
+			};
+		subs = [];
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//Default-Value for Models
+	//Default-Value for Models
 	this.Model = function(){
-		this.type = "model",
-		this.name = null,
-		this.application = null,
-		this.user = null,//From the collection
-		this.owner = null,
-		this.group = null,
-		this.subs = [],
-		this.content = {}
-	}
+		this.type = "model";
+		this.name = null;
+		this.application = null;
+		this.user = null;//From the collection
+		this.owner = null;
+		this.group = null;
+		this.subs = [];
+		this.content = {};
+	};
 };

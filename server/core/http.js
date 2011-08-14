@@ -7,13 +7,13 @@ exports.module = function(){
 	var mime	= require( "mime" );
 
 	////-----------------------------------------------------------------------------------------
- 	//The Constructor
+	//The Constructor
 	this.main = function( cb ){
 		cb();
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
- 	//The http-server itself!
+	//The http-server itself!
 	this.httpServer = function(){
 		var self = this;
 		var server = http.createServer( function (req, res) {
@@ -26,7 +26,7 @@ exports.module = function(){
 			req.on( "end", function(){
 				if( req.content ){
 					var values = req.content.split('&') ;
-					var data = Array();
+					var data = [];
 
 					for( var valueIndex in values ){
 						var pair = values[ valueIndex ].split('=');
@@ -104,7 +104,7 @@ exports.module = function(){
 		this.origin.res.writeHead( status, header );
 		this.origin.res.write( response, encoding );
 		this.origin.res.end();
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//The file-handler
@@ -143,6 +143,5 @@ exports.module = function(){
 				req.writeFile( filename, 404 );
 			}
 		});
-	}	
-
+	};
 };

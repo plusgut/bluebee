@@ -2,7 +2,7 @@ exports.module = function(){
 	var fs = require( "fs" );
 	this.main = function( cb ){
 		cb();
-	}
+	};
 
 	this.on( "index", function( req ){
 		fs.readFile( bb.path + "/client/index.html", "utf8", function( err, file ) {
@@ -32,4 +32,4 @@ exports.module = function(){
 		url = url.split( "#" )[ 0 ] ;
 		req.writeFile( bb.path + url );
 	});
-}
+};

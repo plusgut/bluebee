@@ -1,17 +1,16 @@
 {
-	"debug"			: true,
-	"caching"		: false,
-	"http"			: 
+	"debug"		: true,
+	"caching"	: false,
+	"http"		: 
 	{
-		"bind"		: "127.0.0.1",
-		"port"		: 8080
+		"bind"	: "127.0.0.1",
+		"port"	: 8080
 	},
-	"database"		: "couchdb",
-	"couchdb"		:
+	"database"	: "couchdb",
+	"couchdb"	:
 	{
-		"host"		: "127.0.0.1",
-		"port"		: 5984,
-		"database"	: "bluebee"
+		"host"	: "127.0.0.1",
+		"port"	: 5984
 	},
-	"cloud9"		: false
+	"cloud9"	: false
 }
