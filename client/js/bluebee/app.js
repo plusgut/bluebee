@@ -1,13 +1,10 @@
-var bb = SC.Application.create();
+var bb = SC.Application.create({
+	store: SC.Store.create({commitRecordsAutomatically: YES}).from('bb.DataSource')
+});
 
 
 SC.$(document).ready(function() {//I had to use this one, instead of BB.ready.. because frameworks were not loaded
-	bb.DataSource = SC.DataSource.extend()
-	bb.store = SC.Store.create().from('BB.DataSource');
-	var data = bb.store.createRecord( bb.Data, { title: "blub"} );
-	bb.store.find( SC.Query.local( bb.Data ) ).forEach( function( con ){
-		console.log( con.get( "title" ) );
-	});
+	var user = bb.store.createRecord( bb.User, 1 );
 });
 
 bb.debug = true;
