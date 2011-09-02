@@ -3,8 +3,8 @@
 	"caching"		: false,
 	"http"			: 
 	{
-		"bind"		: "127.0.0.1",
-		"port"		: 8080
+		"bind"		: "0.0.0.0",
+		"port"		: 2901
 	},
 	"database"		: "couchdb",
 	"couchdb"		:
