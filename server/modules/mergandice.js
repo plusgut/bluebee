@@ -1,11 +1,13 @@
 exports.module = function(){
 	var fs = require( "fs" );
+	var self = this;
+
 	this.main = function( cb ){
 		cb();
 	};
 
 	this.on( "stylesheet.css", function( req ){
-		bb.modules.mergandice.readDir( "client", "css", null, function( results ){
+		self.readDir( "client", "css", null, function( results ){
 			var content = "";
 			var i = results.length;
 			results.forEach( function( path ){
@@ -27,10 +29,6 @@ exports.module = function(){
 		});
 	});
 
-/*	bb.modules.mergandice.readDir( "client", "js", "client/js/libs/sproutcore" ,function( results ){
-		req.write( content, 200, { "Content-Type": "application/javascript"} );	
-	});*/
-
 	this.readDir = function( path, fileType, exclude, cb ){
 		var results = [];
 		fs.readdir( bb.path + "/" + path, function( err, files ){
@@ -47,7 +45,7 @@ exports.module = function(){
 								var newPath = path + "/" + file;
 								if( stat && stat.isDirectory() ){
 									if( newPath != exclude ){
-										bb.modules.mergandice.readDir( newPath, fileType, exclude, function( res ){
+										self.readDir( newPath, fileType, exclude, function( res ){
 											results = results.concat( res );
 											if( !--i ){
 												cb( results );
