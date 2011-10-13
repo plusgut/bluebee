@@ -19,7 +19,7 @@ var bluebee = bluebee || (function(){
 
 	    system    = {};						//Some System ressources
 		core	= {};//,						//Holds all Core-Modules
-		modules	= {},						//Holds all feature-modules
+		modules	= {};						//Holds all feature-modules
 
 	////=============================================================================================
 	// Methods
@@ -40,7 +40,7 @@ var bluebee = bluebee || (function(){
 						function(){
 							loadConfig( loadCore );
 						}, function(){ 
-							log( "BlueBee is already started") 	
+							log( "BlueBee is already started");
 					});
 					break;
 				case "stop":
@@ -57,10 +57,10 @@ var bluebee = bluebee || (function(){
 					loadConfig( function(){
 						var couch			= new require( bb.path + "/server/core/couchdb.js" );
 						couch.module.prototype		= new EventEmitter();
-						bb.core[ "couchdb" ]		= new couch.module();
-						bb.core[ "couchdb" ].bb		= bb;
-						bb.core[ "couchdb" ].main( function(){
-							bb.core[ "couchdb" ].install( function(){
+						bb.core.couchdb		= new couch.module();
+						bb.core.couchdb.bb		= bb;
+						bb.core.couchdb.main( function(){
+							bb.core.couchdb.install( function(){
 								log( "finished installing" );
 							});
 						} );
@@ -80,10 +80,10 @@ var bluebee = bluebee || (function(){
 			//First the config
 			var conf			= new require( bb.path + "/server/core/config.js" );
 			conf.module.prototype		= new EventEmitter();
-			bb.core[ "config" ]		= new conf.module();
-			bb.core[ "config" ].bb		= bb;
-			bb.core[ "config" ].main( cb );
-		}
+			bb.core.config		= new conf.module();
+			bb.core.config.bb		= bb;
+			bb.core.config.main( cb );
+		};
 
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
@@ -156,7 +156,7 @@ var bluebee = bluebee || (function(){
 			moduleArr[ name ]		= new mod.module();
 			moduleArr[ name ].bb		= bb;
 			moduleArr[ name ].main( cb );
-		}		
+		};	
 
 		////-----------------------------------------------------------------------------------------
 		// Process handler
@@ -180,14 +180,14 @@ var bluebee = bluebee || (function(){
 			process.on('SIGINT', function () {//Handles shutdown
 				process.exit();
 			});
-		},
+		};
 
 		
 		////-----------------------------------------------------------------------------------------
 		// Writes the Pid
 		writePid = function( cbSuccess, cbFail ){
 			cbSuccess(); //ToDo the real handling, and deactivation if in debug-mode
-		},
+		};
 
 		////-----------------------------------------------------------------------------------------
 		// Output Messages
