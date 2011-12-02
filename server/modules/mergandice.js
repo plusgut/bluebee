@@ -48,13 +48,13 @@ exports.module = function(){
 										self.readDir( newPath, fileType, exclude, function( res ){
 											results = results.concat( res );
 											if( !--i ){
-												cb( results );
+												cb( self.sortResults( results ) );
 											}
 										});
 									} else { 
 										if( !--i ){
-											cb( results );
-											}
+											cb( self.sortResults( results ) );
+										}
 									}
 								} else {
 									var splittedFile = file.split( "." );
@@ -62,7 +62,7 @@ exports.module = function(){
 										results.push( newPath );
 									}
 									if( !--i ){
-										cb( results );
+										cb( self.sortResults( results ) );
 									}
 								}
 							}
@@ -76,4 +76,8 @@ exports.module = function(){
 			}
 		});
 	};
+
+	this.sortResults = function( results ){
+		return results;
+	}
 };
