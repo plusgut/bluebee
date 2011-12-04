@@ -44,7 +44,13 @@ exports.module = function(){
 							} else {
 								var newPath = path + "/" + file;
 								if( stat && stat.isDirectory() ){
-									if( newPath != exclude ){
+									var check = false
+									for( var excludeIndex in exclude ){
+										if( newPath == exclude[ excludeIndex ] ){
+											check = true
+										}
+									}
+									if( !check ){
 										self.readDir( newPath, fileType, exclude, function( res ){
 											results = results.concat( res );
 											if( !--i ){

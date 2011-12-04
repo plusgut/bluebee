@@ -51,17 +51,17 @@ exports.module = function(){
 
 		});
 
+		io.listen( server );
+
 		server.listen( bb.conf.http.port, bb.conf.http.bind );
 		// Add Socket-Support
 
-		/*var socket = io.listen( server, { log: function(){} } );//ToDo deactivate loggin-function
-		socket.on('connection', function(client){
-			log( "here we have a new connection" );
-			client.on('message', function(msg){
-				log( "ohai message" );
-				socket.broadcast(msg);
-			})
-		});*/
+		io.sockets.on('connection', function (socket) {
+			socket.emit('news', { hello: 'world' });
+			socket.on('my other event', function (data) {
+				console.log(data);
+			});
+		});
 	};
 
 	////-----------------------------------------------------------------------------------------

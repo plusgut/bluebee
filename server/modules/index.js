@@ -10,7 +10,7 @@ exports.module = function(){
 				bb.log( err, "error" );
 			} else {
 				if( file.search( /((scripts))/ ) ){
-					bb.modules.mergandice.readDir( "client", "js", "client/js/libs/sproutcore" ,function( results ){
+					bb.modules.mergandice.readDir( "client", "js", [ "client/js/libs/sproutcore", "client/js/libs/socket.io"] ,function( results ){
 						var scripts = "";
 						results.forEach( function( path ) {
 							scripts += "<script src='"+ path + "'></script>\n";

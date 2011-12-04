@@ -26,8 +26,3 @@ bb.log = function log( content, type ){
 		console.log( content )
 	}
 };
-
-
-bb.Data = SC.Record.extend({
-	title: SC.Record.attr(String),
-});
