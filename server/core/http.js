@@ -7,6 +7,10 @@ exports.module = function(){
 	var mime	= require( "mime" );
 
 	////-----------------------------------------------------------------------------------------
+	//The socket-server
+	this.socketServer = null;
+
+	////-----------------------------------------------------------------------------------------
 	//The Constructor
 	this.main = function( cb ){
 		cb();
@@ -51,17 +55,11 @@ exports.module = function(){
 
 		});
 
-		io.listen( server );
+		self.socketServer = io.listen( server , { "log level": 1 } );
 
 		server.listen( bb.conf.http.port, bb.conf.http.bind );
-		// Add Socket-Support
 
-		io.sockets.on('connection', function (socket) {
-			socket.emit('news', { hello: 'world' });
-			socket.on('my other event', function (data) {
-				console.log(data);
-			});
-		});
+		self.socketServer.sockets.on('connection', bb.core.http.socketHandler );
 	};
 
 	////-----------------------------------------------------------------------------------------
@@ -142,6 +140,20 @@ exports.module = function(){
 			} else {
 				req.writeFile( filename, 404 );
 			}
+		});
+	};
+
+	////-----------------------------------------------------------------------------------------
+	//The socket-handler
+	this.socketHandler = function( socket ){
+		socket.emit('s2c', { ohai: 'socket-world' });
+		socket.on('c2s', function (data) {
+			bb.log( "client: " );
+			bb.log(data);
+		});
+		socket.on('s2s', function (data) {
+			bb.log( "server: " );
+			bb.log(data);
 		});
 	};
 };
