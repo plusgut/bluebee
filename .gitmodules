@@ -1,6 +1,6 @@
-[submodule "lib/sproutcore"]
-	path = lib/sproutcore
-	url = git://github.com/sproutcore/sproutcore20.git
+[submodule "lib/amberjs"]
+	path = lib/amberjs
+	url = git://github.com/amberjs/amber.js.git
 [submodule "lib/sproutcore-datastore"]
 	path = lib/sproutcore-datastore
 	url = git://github.com/sproutcore/sproutcore-datastore.git
