@@ -6,7 +6,7 @@ var bluebee = bluebee || (function(){
 	////=============================================================================================
 	// Requirements
 
-		sys		= require( "sys" ),
+		util		= require( "util" ),
 		fs		= require( "fs" ),
 		socket		= require( "socket.io" ),
 		EventEmitter	= require( "events" ).EventEmitter,
@@ -17,7 +17,7 @@ var bluebee = bluebee || (function(){
 		debug	= true;
 		path	= process.cwd();
 
-	    system    = {};						//Some System ressources
+	    	system    = {};						//Some System ressources
 		core	= {};//,						//Holds all Core-Modules
 		modules	= {};						//Holds all feature-modules
 
@@ -213,7 +213,7 @@ var bluebee = bluebee || (function(){
 				}
 			} else if( type == "prompt" ){
 				//Prints it directly to the console
-				sys.puts( content );
+				util.puts( content );
 			} else if( bb.debug ){
 				//Print if debug-mode #ToDo safe to file
 				console.log( content );

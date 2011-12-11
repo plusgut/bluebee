@@ -41,6 +41,8 @@ exports.module = function(){
 							write: bb.core.http.write, 
 							writeFile: bb.core.http.writeFile, 
 							writeNotFound: bb.core.http.writeNotFound, 
+							writeNotAllowed: bb.core.http.writeNotAllowed, 
+							writeServerFailure: bb.core.http.writeServerFailure, 
 							ready: false, 
 							url: req.url,
 							method: req.method,
@@ -115,14 +117,18 @@ exports.module = function(){
 			if( !exists ){
 				req.writeNotFound();
 			} else {
-				fs.readFile( filename, "binary", function( err, file ) {
-					if ( err ) {
-						req.write( 500, err );
-					} else {
-
-						var mimeType = mime.lookup( filename );
-
-						req.write( file, status, {"Content-Type": mimeType }, "binary" );
+				fs.stat( filename, function (err, stats) {
+					if( stats.isFile() ){
+						fs.readFile( filename, "binary", function( err, file ) {
+							if ( err ) {
+								req.writeServerFailure();
+							} else {
+								var mimeType = mime.lookup( filename );
+								req.write( file, status, {"Content-Type": mimeType }, "binary" );
+							}
+						});
+					} else{
+						req.writeNotAllowed();
 					}
 				});	
 			}
@@ -142,6 +148,36 @@ exports.module = function(){
 			}
 		});
 	};
+
+	////-----------------------------------------------------------------------------------------
+	//The 401-handler
+	this.writeNotAllowed = function(){
+		var req	= this;
+		var filename	= bb.path + "/client/401.html";
+		path.exists( filename , function( exists ) {
+			if( !exists ) {
+				req.write( "Not Allowed", 401 );
+			} else {
+				req.writeFile( filename, 401 );
+			}
+		});
+
+	}
+
+	////-----------------------------------------------------------------------------------------
+	//The 500-handler
+	this.writeServerFailure = function(){
+		var req	= this;
+		var filename	= bb.path + "/client/500.html";
+		path.exists( filename , function( exists ) {
+			if( !exists ) {
+				req.write( "Something went wrong on our Server", 500 );
+			} else {
+				req.writeFile( filename, 500 );
+			}
+		});
+
+	}
 
 	////-----------------------------------------------------------------------------------------
 	//The socket-handler
