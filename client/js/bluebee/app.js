@@ -1,17 +1,16 @@
-var bb = SC.Application.create({
-	store: SC.Store.create({commitRecordsAutomatically: YES}).from('bb.DataSource')
-//	store: SC.Store.create({commitRecordsAutomatically: YES}).from('SC.FIXTURES')
+var bb = Em.Application.create({
+	store: Em.Store.create({commitRecordsAutomatically: YES}).from('bb.DataSource')
 });
 
 user = null;
 
-SC.$(document).ready(function() {//I had to use this one, instead of BB.ready.. because frameworks were not loaded
+Em.$(document).ready(function() {//I had to use this one, instead of BB.ready.. because frameworks were not loaded
 	user = bb.store.createRecord( bb.User, { name: "bar" } );
 });
 
 bb.debug = true;
 
-bb.Index = SC.View.extend({
+bb.Index = Em.View.extend({
 	mouseDown: function() {
 		bb.log( "ah, clicki is working" );
 		user.set( "name", "blarg" );

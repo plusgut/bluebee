@@ -3,7 +3,7 @@ bb.socket.on('s2c', function (data) {
 	bb.log(data);
 });
 
-bb.DataSource = SC.DataSource.extend({
+bb.DataSource = Em.DataSource.extend({
 	url: "http://" + bb.config.server.host + ":" + bb.config.server.port + bb.config.server.apiPath,
 	createRecord: function( store, storeKey, params){
 		var record = store.readDataHash(storeKey);

@@ -1,3 +1,3 @@
-bb.User = SC.Record.extend({
-	name: SC.Record.attr(String),
+bb.User = Em.Record.extend({
+	name: Em.Record.attr(String),
 });
