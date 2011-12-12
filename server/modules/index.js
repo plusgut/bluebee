@@ -32,4 +32,7 @@ exports.module = function(){
 		url = url.split( "#" )[ 0 ] ;
 		req.writeFile( bb.path + url );
 	});
+	this.on( "favicon.ico", function( req ){
+		req.writeFile( bb.path + "/client/favicon.ico" );
+	});
 };
