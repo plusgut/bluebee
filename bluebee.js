@@ -6,20 +6,19 @@ var bluebee = bluebee || (function(){
 	////=============================================================================================
 	// Requirements
 
-		util		= require( "util" ),
-		fs		= require( "fs" ),
-		socket		= require( "socket.io" ),
+		util		    = require( "util" ),
+		fs		        = require( "fs" ),
 		EventEmitter	= require( "events" ).EventEmitter,
 
 	////=============================================================================================
 	// Propertys
 
-		debug	= true;
-		path	= process.cwd();
+		debug	= true,
+		path	= process.cwd(),
 
-	    	system    = {};						//Some System ressources
-		core	= {};//,						//Holds all Core-Modules
-		modules	= {};						//Holds all feature-modules
+	    system  = {},						//Some System ressources
+		core	= {},//						//Holds all Core-Modules
+		modules	= {},						//Holds all feature-modules
 
 	////=============================================================================================
 	// Methods
@@ -72,7 +71,7 @@ var bluebee = bluebee || (function(){
 			}
 
 
-		};
+		},
 
 		////-----------------------------------------------------------------------------------------
 		//Loads the config
@@ -83,23 +82,23 @@ var bluebee = bluebee || (function(){
 			bb.core.config		= new conf.module();
 			bb.core.config.bb		= bb;
 			bb.core.config.main( cb );
-		};
+		},
 
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Core-Ressources
 		loadCore = function(){
 			loader( bb.path + "/server/core", bb.core, loadModules );
-		};
+		},
         
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Modules
 		loadModules = function(){
 			loader( bb.path + "/server/modules", bb.modules, bb.core.http.httpServer);
-		};
+		},
 
 		////-----------------------------------------------------------------------------------------
 		//The loader itself
-	        loader = function( path, modulesObj, cb ){
+        loader = function( path, modulesObj, cb ){
 			fs.readdir( path, function( err, files ){
 				if( err ){
 					log( err, "error" );
@@ -138,7 +137,7 @@ var bluebee = bluebee || (function(){
 					});
 				}
 			});	
-		};
+		},
 
 		////-----------------------------------------------------------------------------------------
 		// loadModule
@@ -156,7 +155,7 @@ var bluebee = bluebee || (function(){
 			moduleArr[ name ]		= new mod.module();
 			moduleArr[ name ].bb		= bb;
 			moduleArr[ name ].main( cb );
-		};	
+		}.	
 
 		////-----------------------------------------------------------------------------------------
 		// Process handler
@@ -180,14 +179,14 @@ var bluebee = bluebee || (function(){
 			process.on('SIGINT', function () {//Handles shutdown
 				process.exit();
 			});
-		};
+		},
 
 		
 		////-----------------------------------------------------------------------------------------
 		// Writes the Pid
 		writePid = function( cbSuccess, cbFail ){
 			cbSuccess(); //ToDo the real handling, and deactivation if in debug-mode
-		};
+		},
 
 		////-----------------------------------------------------------------------------------------
 		// Output Messages

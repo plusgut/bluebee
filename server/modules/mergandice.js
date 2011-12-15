@@ -44,10 +44,10 @@ exports.module = function(){
 							} else {
 								var newPath = path + "/" + file;
 								if( stat && stat.isDirectory() ){
-									var check = false
+									var check = false;
 									for( var excludeIndex in exclude ){
 										if( newPath == exclude[ excludeIndex ] ){
-											check = true
+											check = true;
 										}
 									}
 									if( !check ){
@@ -85,5 +85,5 @@ exports.module = function(){
 
 	this.sortResults = function( results ){
 		return results;
-	}
+	};
 };

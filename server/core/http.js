@@ -118,7 +118,9 @@ exports.module = function(){
 				req.writeNotFound();
 			} else {
 				fs.stat( filename, function (err, stats) {
-					if( stats.isFile() ){
+                    if ( err ) {
+						req.writeServerFailure();
+					} else  if( stats.isFile() ){
 						fs.readFile( filename, "binary", function( err, file ) {
 							if ( err ) {
 								req.writeServerFailure();
@@ -162,7 +164,7 @@ exports.module = function(){
 			}
 		});
 
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//The 500-handler
@@ -177,7 +179,7 @@ exports.module = function(){
 			}
 		});
 
-	}
+	};
 
 	////-----------------------------------------------------------------------------------------
 	//The socket-handler
