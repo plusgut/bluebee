@@ -20,16 +20,6 @@
 	<![endif]-->
 </head>
 <body>
-	<script type="text/html" data-view="bb.views.index">
-		<h1>My name is BlueBee and I'm a webdesktop ;)</h1>
-		<span>Its a web-thing</span>
-		<input type="text" {{bindAttr value="userName"}}>
-		<input type="text" {{bindAttr value="userPass"}}>
-		{{#view registerView}}
-			<span>Registrieren</span>
-		{{/view}}
-
-	</script>
 
 
 	<script src="client/js/libs/sproutcore/jquery-1.6.1.min.js"></script>
@@ -38,5 +28,16 @@
 	<script src="client/js/libs/sproutcore/sproutcore-datastore.js"></script>
 	scripts
 	<div id="application"></div><!-- Here goes all the content-->
+
+	<script type="text/x-handlebars" data-view="bb.views.index">
+		<h1>My name is BlueBee and I'm a webdesktop ;)</h1>
+		<span>Its a web-thing</span>
+		<input type="text" {{bindAttr value="userName"}}>
+		<input type="text" {{bindAttr value="userPass"}}>
+		{{#view registerView}}
+			{{bb.tmp.blarg}}
+			<span>Registrieren</span>
+		{{/view}}
+	</script>
 </body>
 </html>

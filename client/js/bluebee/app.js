@@ -1,13 +1,11 @@
 var bb = Em.Application.create({
-	store: Em.Store.create({commitRecordsAutomatically: YES}).from('bb.DataSource')
+	store: Em.Store.create({commitRecordsAutomatically: YES}).from('bb.DataSource'),
+	title: "BlueBee - Please login"
 });
 
 bb.controllers	= {};
 bb.models	= {};
 bb.views	= {};
-
-Em.$(document).ready(function() {//I had to use this one, instead of BB.ready.. because frameworks were not loaded
-});
 
 bb.debug = true;
 
