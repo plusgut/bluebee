@@ -1,9 +1,9 @@
-bb.views.index = Em.View.extend({
-	userNameBinding: "bb.controllers.index.content.userName",
-	userPassBinding: "bb.controllers.index.content.userPass",
+App.views.index = Em.View.extend({
+	userNameBinding: "App.controllers.index.content.userName",
+	userPassBinding: "App.controllers.index.content.userPass",
 	registerView: Em.View.extend({
 		mouseDown: function() {
-			bb.controllers.index.register();
+			App.controllers.index.register();
 		}
 	})
 });

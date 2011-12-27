@@ -29,13 +29,12 @@
 	scripts
 	<div id="application"></div><!-- Here goes all the content-->
 
-	<script type="text/x-handlebars" data-view="bb.views.index">
+	<script type="text/x-handlebars" data-view="App.views.index">
 		<h1>My name is BlueBee and I'm a webdesktop ;)</h1>
 		<span>Its a web-thing</span>
-		<input type="text" {{bindAttr value="userName"}}>
-		<input type="text" {{bindAttr value="userPass"}}>
+		{{view Em.TextField valueBinding="userName"}}
+		{{view Em.TextField valueBinding="userPass"}}
 		{{#view registerView}}
-			{{bb.tmp.blarg}}
 			<span>Registrieren</span>
 		{{/view}}
 	</script>

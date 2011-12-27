@@ -1,4 +1,4 @@
-bb.config = {
+App.config = {
 	server: {
 		host : "localhost",
 		port: 2901,

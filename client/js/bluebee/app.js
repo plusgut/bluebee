@@ -1,19 +1,19 @@
-var bb = Em.Application.create({
-	store: Em.Store.create({commitRecordsAutomatically: YES}).from('bb.DataSource'),
+var App = Em.Application.create({
+	store: Em.Store.create({commitRecordsAutomatically: YES}).from('App.DataSource'),
 	title: "BlueBee - Please login"
 });
 
-bb.controllers	= {};
-bb.models	= {};
-bb.views	= {};
+App.controllers	= {};
+App.models	= {};
+App.views	= {};
 
-bb.debug = true;
+App.debug = true;
 
-bb.log = function log( content, type ){
+App.log = function log( content, type ){
 	if( type == "error" ){
 		console.log( "ERROR:" );
 		console.log( content );
-	} else if( bb.debug ){
+	} else if( App.debug ){
 		console.log( content )
 	}
 };

@@ -1,14 +1,18 @@
-bb.controllers.index = Em.Object.create({
+App.controllers.index = Em.Object.create({
 	content: Em.Object.create({
 		user: Em.Object.create(),
-		userName: "foo",
-		userPass: "bar"
+		userName: "name",
+		userPass: "pass"
 	}),
 	
 	register: function(){
-		bb.log( this.content.get( "userName") );
-		var userName = this.content.get( "userName");
-		var userPass = this.content.get( "userPass");
-		this.content.set( "user", bb.store.createRecord( bb.User, { name: userName , pass: userPass } ) );
+		var content = this.get( "content" );
+		App.log( content );
+		var userName = content.get( "userName");
+		App.log( userName );
+		var userPass = content.get( "userPass");
+		if( userName && userPass ){
+			content.set( "user", App.store.createRecord( App.User, { name: userName , pass: userPass } ) );
+		}
 	}
 });
