@@ -1,1 +1,1 @@
-../../../../lib/sproutcore-datastore/dist/sproutcore-datastore.js
+../../../../lib/datastore/dist/sproutcore-datastore.js
