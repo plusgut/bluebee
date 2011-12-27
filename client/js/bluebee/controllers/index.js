@@ -7,9 +7,7 @@ App.controllers.index = Em.Object.create({
 	
 	register: function(){
 		var content = this.get( "content" );
-		App.log( content );
 		var userName = content.get( "userName");
-		App.log( userName );
 		var userPass = content.get( "userPass");
 		if( userName && userPass ){
 			content.set( "user", App.store.createRecord( App.User, { name: userName , pass: userPass } ) );
