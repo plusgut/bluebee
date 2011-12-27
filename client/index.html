@@ -20,11 +20,17 @@
 	<![endif]-->
 </head>
 <body>
-	<script type="text/html" data-view="bb.Index">
+	<script type="text/html" data-view="bb.views.index">
 		<h1>My name is BlueBee and I'm a webdesktop ;)</h1>
 		<span>Its a web-thing</span>
-		<span>Registrieren</span>
+		<input type="text" {{bindAttr value="userName"}}>
+		<input type="text" {{bindAttr value="userPass"}}>
+		{{#view registerView}}
+			<span>Registrieren</span>
+		{{/view}}
+
 	</script>
+
 
 	<script src="client/js/libs/sproutcore/jquery-1.6.1.min.js"></script>
 	<script src="socket.io/socket.io.js"></script>
