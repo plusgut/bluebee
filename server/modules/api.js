@@ -8,7 +8,8 @@ exports.module = function(){
 	this.apiModules = [];
 
 	this.main = function( cb ){
-		this.apiModules.updateRecord= this.updateRecord;
+		this.apiModules.createRecord = this.createRecord;
+		this.apiModules.updateRecord = this.updateRecord;
 		cb();
 	};
 
@@ -17,12 +18,38 @@ exports.module = function(){
 			var api;
 			try{
 				api = JSON.parse( req.data.api );
+				this.handleApi( api, function( response, code ){
+					if( code == 500 ){
+						req.writeServerFailure();
+					} else if( code == 401 ){
+						req.writeNotAllowed();
+					} else{
+						try{
+							req.write( JSON.stringify( response ), code );
+						} catch( err ){
+							bb.log( err, "error" );
+							req.writeServerFailure();
+						}
+					}						
+				});
 			} catch( err ) {
 				bb.log( "Parsing JSON went wrong", "error" );
-				req.write( "invalid request!" );
+				req.write( "{error: invalid request!}" );
 				return;
 			}
 
+		} else if( req.data && req.data.duration && req.data.duration > 0 ){
+			req.write( 500, { error: "waiting for some data.." });
+			return;
+		} else {
+			bb.log( "uh, someone wants to use the api :)" );
+			var apiDefault = { bluebee: "Oh, hi!", version: bb.version };
+			req.write( JSON.stringify( apiDefault ), 200 );
+			return;
+		}
+	});
+
+	this.handleApi = function( api, cb ){
 			var apiResult;
 			if ( api instanceof Array ){
 				apiResult	= [];
@@ -59,33 +86,25 @@ exports.module = function(){
 						}
 						v++;
 						if( i == v && finish ){
-							this.shoot( req, apiResult);
+							cb( apiResult, 200 );
 						}
 					});
 				} else {
-					req.write( "your type isn't supported" );//ToDo better handling for not supported types
+					cb( { error: "your type isn't supported"}, 200 );//ToDo better handling for not supported types
 				}
 				i++;
 			}
 			finish = true;
 			if( i == v ){
-				this.shoot( req, apiResult );
-			}
-		} else if( req.data && req.data.duration && req.data.duration > 0 ){
-			req.write( "waiting for some data.." );
-			return;
-		} else {
-			bb.log( "uh, someone wants to use the api :)" );
-			var apiDefault = { bluebee: "Oh, hi!", version: bb.version };
-			req.write( JSON.stringify( apiDefault ) );
-		}
-	});
-
-	this.shoot = function( req, result ){
-		req.write( JSON.stringify( result ) );
+				cb( apiResult, 200 );
+			} 
 	};
 
-	this.updateRecord = function( content, cb ){
-		cb( { content: content } );
+	this.createRecord = function( req, cb ){
+		cb( { content: req.content, ack: true, requestKey: req.requestKey } );
+	};
+
+	this.updateRecord = function( req, cb ){
+		cb( { content: req.content, ack: true, requestKey: req.requestKey } );
 	};
 };

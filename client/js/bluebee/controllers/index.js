@@ -1,4 +1,4 @@
-App.controllers.index = Em.Object.create({
+App.Controllers.index = Em.Object.create({
 	content: Em.Object.create({
 		user: Em.Object.create(),
 		userName: "name",

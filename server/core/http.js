@@ -184,10 +184,12 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
 	//The socket-handler
 	this.socketHandler = function( socket ){
-		socket.emit('s2c', { ohai: 'socket-world' });
 		socket.on('c2s', function (data) {
 			bb.log( "client: " );
 			bb.log(data);
+			bb.modules.api.handleApi( data, function( response, status ){
+				socket.emit( "s2c", response );
+			});			
 		});
 		socket.on('s2s', function (data) {
 			bb.log( "server: " );

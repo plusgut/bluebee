@@ -11,7 +11,14 @@ App.DataSource = Em.DataSource.extend({
 		var recType = store.recordTypeFor(storeKey).toString();
 		recType = recType.replace( "App.", "" );
 
-		App.socket.emit('c2s', { createRecord: record, model: recType, storeKey: storeKey, requestKey: Math.random() } );
+		App.socket.emit('c2s', { createRecord: 	
+			{ 
+				content: record, 
+				model: recType,
+				storeKey: storeKey, 
+				requestKey: Math.random()
+			}
+		});
 
 		store.dataSourceDidComplete(storeKey,record );
 		return NO;
@@ -26,7 +33,7 @@ App.DataSource = Em.DataSource.extend({
 	},
 
 	destroyRecord: function( store, storeKey, params){
-		console.log( "OH NOES, its deleting itself" );
+		App.log( "OH NOES, its deleting itself" );
 		var record = store.readDataHash(storeKey);
 		App.socket.emit('c2s', { deleteRecord: record } );
 		return NO;

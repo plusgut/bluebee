@@ -3,9 +3,9 @@ var App = Em.Application.create({
 	title: "BlueBee - Please login"
 });
 
-App.controllers	= {};
-App.models	= {};
-App.views	= {};
+App.Controllers	= {};
+App.Models	= {};
+App.Views	= {};
 
 App.debug = true;
 
