@@ -8,7 +8,8 @@ App.DataSource = Em.DataSource.extend({
 	createRecord: function( store, storeKey, params){
 		var record = store.readDataHash(storeKey);
 
-		var recType = store.recordTypeFor(storeKey);
+		var recType = store.recordTypeFor(storeKey).toString();
+		recType = recType.replace( "App.", "" );
 
 		App.socket.emit('c2s', { createRecord: record, model: recType, storeKey: storeKey, requestKey: Math.random() } );
 
