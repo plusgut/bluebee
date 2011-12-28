@@ -50,54 +50,53 @@ exports.module = function(){
 	});
 
 	this.handleApi = function( api, cb ){
-			var apiResult;
+		var apiResult;
+		if ( api instanceof Array ){
+			apiResult	= [];
+		} else {
+			apiResult	= Object();
+		}
+
+		var i = 0;
+		var v = 0;
+		var finish = false;
+
+		for( var apiIndex in api ){
+			var type;
+			var content;
 			if ( api instanceof Array ){
-				apiResult	= [];
+				for( var apiType in api[ apiIndex ] ){
+					type = apiType;
+					content = api[ apiIndex ][ apiType ];
+				}
 			} else {
-				apiResult	= Object();
+				type = apiIndex;
+				content = api[ apiIndex ];
 			}
-
-			var i = 0;
-			var v = 0;
-			var finish = false;
-
-			for( var apiIndex in api ){
-				var type;
-				var content;
-				if ( api instanceof Array ){
-					for( var apiType in api[ apiIndex ] ){
-						type = apiType;
-						content = api[ apiIndex ][ apiType ];
-					}
-				} else {
-					type = apiIndex;
-					content = api[ apiIndex ];
-				}
-
 				if( this.apiModules[ type ] ){
-					this[ type ]( content, function( result ){
-						var key	= type + "Result";
-						if ( api instanceof Array ){
-							var resultObject = {};
-							resultObject[ key ] = result;
-							apiResult.push( resultObject );
-						} else {
-							apiResult[ key ] = result;
-						}
-						v++;
-						if( i == v && finish ){
-							cb( apiResult, 200 );
-						}
-					});
-				} else {
-					cb( { error: "your type isn't supported"}, 200 );//ToDo better handling for not supported types
-				}
-				i++;
+				this[ type ]( content, function( result ){
+					var key	= type + "Result";
+					if ( api instanceof Array ){
+						var resultObject = {};
+						resultObject[ key ] = result;
+						apiResult.push( resultObject );
+					} else {
+						apiResult[ key ] = result;
+					}
+					v++;
+					if( i == v && finish ){
+						cb( apiResult, 200 );
+					}
+				});
+			} else {
+				cb( { error: "your type isn't supported"}, 200 );//ToDo better handling for not supported types
 			}
-			finish = true;
-			if( i == v ){
-				cb( apiResult, 200 );
-			} 
+			i++;
+		}
+		finish = true;
+		if( i == v ){
+			cb( apiResult, 200 );
+		} 
 	};
 
 	this.createRecord = function( req, cb ){
