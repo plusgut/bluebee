@@ -57,7 +57,7 @@ exports.module = function(){
 
 		});
 
-		self.socketServer = io.listen( server , { "log level": 1 } );
+		self.socketServer = io.listen( server, { "log level": 1 } );
 
 		server.listen( bb.conf.http.port, bb.conf.http.bind );
 
