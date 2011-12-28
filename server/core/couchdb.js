@@ -9,9 +9,9 @@ exports.module = function(){
 	this.main = function( cb ){
 		self.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
-				log( "CouchDB: " + err, "error" );
+				bb.log( "CouchDB: " + err, "error" );
 			} else if ( !result ){ 
-				log( "Database " + bb.conf.couchdb.database + " doesn't exist" );
+				bb.log( "Database " + bb.conf.couchdb.database + " doesn't exist" );
 			} else {
 				cb();
 			}
@@ -23,14 +23,14 @@ exports.module = function(){
 	this.install = function( cb ){
 		self.databaseExists( bb.conf.couchdb.database, function( err, result ){
 			if( err ){
-				log( "CouchDB: " + err );
-				log( "Stopping installation" );
+				bb.log( "CouchDB: " + err );
+				bb.log( "Stopping installation" );
 			} else {
 				if( result ){
 					self.readInserts( cb );
 				} else {
-					log( "Database " + bb.conf.couchdb.database + " doesn't exist", "prompt" );
-					log( "If you fixed this, try installing installing bluebee again" );
+					bb.log( "Database " + bb.conf.couchdb.database + " doesn't exist", "prompt" );
+					bb.log( "If you fixed this, try installing installing bluebee again" );
 				}
 			}
 		});
@@ -43,14 +43,14 @@ exports.module = function(){
 		var content = null;
 		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
 			if( err ){
-				log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "error" );
-				log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "prompt" );
+				bb.log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "error" );
+				bb.log( "CouchDB-file loading went wrong, installation stopped [" + err + "]", "prompt" );
 			} else{
 				try{
 					content	= JSON.parse( file );
 				} catch( error ) {
-					log( "CouchDB-file was invalid, installation stopped  [" + error + "]", "error" );
-					log( "CouchDB-file was invalid, installation stopped", "prompt" );
+					bb.log( "CouchDB-file was invalid, installation stopped  [" + error + "]", "error" );
+					bb.log( "CouchDB-file was invalid, installation stopped", "prompt" );
 					return;
 				}
 
@@ -80,9 +80,9 @@ exports.module = function(){
 				}
 				function handleResponse( err, res, cb){
 					if( err ){
-						log( "CouchDB: " + err, "error" );
+						bb.log( "CouchDB: " + err, "error" );
 					} else if( res.error ){
-						log( "CouchDB: " + err, "error" );
+						bb.log( "CouchDB: " + err, "error" );
 					} else {
 						if( !--length ){
 							cb();
@@ -114,10 +114,10 @@ exports.module = function(){
 	this.createCollection = function( newCol, user, cb){
 		self.createViews( newCol.user, newCol.application, newCol.name, function( err, res ){
 			if( err ){
-				log( "CouchDB: " + err );
+				bb.log( "CouchDB: " + err );
 				cb( err, res );
 			} else if( res.error ){
-				log( "CouchDB: " + err );
+				bb.log( "CouchDB: " + err );
 				cb( err, res.error );
 			} else {
 				var col = self.buildDocument( new self.Collection(), newCol, user );

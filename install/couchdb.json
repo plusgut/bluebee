@@ -1,5 +1,5 @@
 [
-	{"createCollection":{ "user": "user0", "application": "system", "name":"user"}},
-	{"createModel":{"_id": "user0", "user": "user0", "application": "system", "name": "user", "owner": 0, "content":{"name":"root","group":0}}}
+	{"createCollection":{ "user": "root", "application": "system", "name":"user"}},
+	{"createModel":{"_id": "root", "user": "root", "application": "system", "name": "user", "owner": "root", "content":{"name":"root","group":"guest"}}}
 ]
 
