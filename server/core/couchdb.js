@@ -129,7 +129,7 @@ exports.module = function(){
 	};
 
 	////-----------------------------------------------------------------------------------------
-	//Abstract method to create a collection
+	//Abstract method to create a model
 	this.createModel = function( newMod, user, cb){
 		var mod = self.buildDocument( new self.Model(), newMod, user );
 
@@ -139,7 +139,7 @@ exports.module = function(){
 	};
 
 	////-----------------------------------------------------------------------------------------
-	//Method for creating a view (calls makeRequest
+	//Method for creating a view (calls makeRequest)
 	this.createViews = function( user, application, name, cb ){
 		if( !user || !application || !name ){
 			cb( "incomplete" );

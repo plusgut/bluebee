@@ -1,18 +1,17 @@
-/*   { fetch: { bucket: '', conditions: '', returnData: {} }} 
-   { createRecord: { bucket: '', record: {}, returnData: {} }}
-   { updateRecord: { bucket: '', key: '', record: {}, returnData: {} }}
-   { deleteRecord: { bucket: '', key: '', returnData: {} }}
-*/
 exports.module = function(){
-
+        var self        = this;
 	this.apiModules = [];
 
+	////-----------------------------------------------------------------------------------------
+	//The Constructor, defines what methods the api knows
 	this.main = function( cb ){
 		this.apiModules.createRecord = this.createRecord;
 		this.apiModules.updateRecord = this.updateRecord;
 		cb();
 	};
 
+	////-----------------------------------------------------------------------------------------
+	//Handles the requests which are coming threw /api
 	this.on( "api", function( req ){
 		if( req.data && req.data.api ){
 			var api;
@@ -49,7 +48,9 @@ exports.module = function(){
 		}
 	});
 
-	this.handleApi = function( api, cb ){
+	////-----------------------------------------------------------------------------------------
+	// makes the real-handling of the methods
+	this.handleApi = function( api, user, cb ){
 		var apiResult;
 		if ( api instanceof Array ){
 			apiResult	= [];
@@ -74,7 +75,7 @@ exports.module = function(){
 				content = api[ apiIndex ];
 			}
 				if( this.apiModules[ type ] ){
-				this[ type ]( content, function( result ){
+				this[ type ]( content, user, function( result ){
 					var key	= type + "Result";
 					if ( api instanceof Array ){
 						var resultObject = {};
@@ -99,10 +100,33 @@ exports.module = function(){
 		} 
 	};
 
-	this.createRecord = function( req, cb ){
-		cb( { content: req.content, ack: true, requestKey: req.requestKey } );
+	////-----------------------------------------------------------------------------------------
+	// Makes new records into the database
+	this.createRecord = function( req, user, cb ){
+		var content = req.content;
+		if( req.content.model == "User" ){ //Special handling for user-model
+			if( !user ){ //Creating a user is only allowed for guests
+				bb.modules.user.createUser( req.content, function( result, err ){
+					user = result.user;
+					if( err ){
+						cb( { content: req.content, ack: false, requestKey: req.requestKey } );
+					} else if( user ){ //Everything is fine, returns the user for continuative api-handling
+						cb( { content: req.content, ack: true, requestKey: req.requestKey }, null, user );
+					} else {//Something went weird
+						err = "something went wrong";
+						cb( { content: req.content, ack: false, requestKey: req.requestKey, error: err } );
+					}
+				});
+			} else {
+				cb( { content: req.content, ack: false, requestKey: req.requestKey } );
+			}			
+		} else {
+			cb( { content: req.content, ack: true, requestKey: req.requestKey } );
+		}
 	};
 
+	////-----------------------------------------------------------------------------------------
+	// Updates the records
 	this.updateRecord = function( req, cb ){
 		cb( { content: req.content, ack: true, requestKey: req.requestKey } );
 	};

@@ -187,7 +187,13 @@ exports.module = function(){
 		socket.on('c2s', function (data) {
 			bb.log( "client: " );
 			bb.log(data);
-			bb.modules.api.handleApi( data, function( response, status ){
+
+			var user = null;
+			if( socket.user ){
+				user = socket.user;
+			}
+
+			bb.modules.api.handleApi( data, user, function( response, status, user ){
 				socket.emit( "s2c", response );
 			});			
 		});
