@@ -1,5 +1,5 @@
 var App = Em.Application.create({
-	store: Em.Store.create({commitRecordsAutomatically: YES}).from('App.DataSource'),
+	/*store: Em.Store.create().from('App.DataSource'),*/
 	title: "BlueBee - Please login"
 });
 

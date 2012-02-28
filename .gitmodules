@@ -1,6 +1,3 @@
 [submodule "lib/ember.js"]
 	path = lib/ember.js
 	url = git://github.com/emberjs/ember.js.git
-[submodule "lib/datastore"]
-	path = lib/datastore
-	url = git://github.com/emberjs-addons/sproutcore-datastore.git

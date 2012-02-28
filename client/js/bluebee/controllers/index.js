@@ -10,8 +10,10 @@ App.Controllers.index = Em.Object.create({
 		var userName = content.get( "userName");
 		var userPass = content.get( "userPass");
 		if( userName && userPass ){
-			var user = { name: userName, pass: userPass, owner: "user0" };
+			var user = { name: userName, pass: userPass, owner: "root" };
 			content.set( "user", App.store.createRecord( App.User, user ) );
+		} else {//Invalid data
+			
 		}
 	}
 });

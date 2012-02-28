@@ -39,7 +39,7 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
 	//Abstract method for checking if database is their
 	this.readInserts = function( cb ){
-		var user	= { id: "user0", group: 0};
+		var user	= { id: "root", group: 0};
 		var content = null;
 		fs.readFile( bb.path + "/install/couchdb.json" , "binary", function( err, file ) {
 			if( err ){
@@ -217,7 +217,7 @@ exports.module = function(){
 	this.buildDocument = function( col, newCol,user ){
 		for( var colKey in newCol ){
 			if( col[ colKey ] === undefined){
-				if( user.id == "user0" ){
+				if( user.id == "root" ){
 					col[ colKey ] = newCol[ colKey ];
 				}
 			} else {
@@ -238,22 +238,24 @@ exports.module = function(){
 			{
 				users: 
 					{
-						user0: 
+						root:
 							{
 								create: true,
 								read: true,
 								update: true,
-								del: true
+								del: true,
+								attr: []
 							}
 					},
 				groups: 
 					{
-						group0: 
+						rout: 
 							{
 								create: true,
 								read: true,
 								update: true,
-								del: true
+								del: true,
+								attr: []
 							}
 					},
 				rest:
@@ -261,7 +263,8 @@ exports.module = function(){
 						create: false,
 						read: false,
 						update: false,
-						del: false
+						del: false,
+						attr: []
 					}
 			};
 		this.subs = [];
