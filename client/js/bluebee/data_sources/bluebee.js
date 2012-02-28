@@ -6,16 +6,16 @@ App.socket.on('s2c', function (data) {
 App.adapter = DS.Adapter.create({
 	url: "http://" + App.config.server.host + ":" + App.config.server.port + App.config.server.apiPath,
 	createRecord: function( store, type, model){
-		App.socket.emit('c2s', { createRecord: 	
+		App.socket.emit('c2s', { createRecord:
 			{
-				content: record, 
-				model: recType,
-				storeKey: storeKey, 
+				content: model,
+				model: type,
+				storeKey: model.clientId,
 				requestKey: Math.random()
 			}
 		});
 
-		store.didCreateRecord(model, data);
+		store.didCreateRecord(model, model);
 	},
 
 	updateRecord: function( store, type, model){

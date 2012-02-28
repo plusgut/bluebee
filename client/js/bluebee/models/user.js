@@ -1,3 +1,5 @@
 App.User = DS.Model.extend({
-	name: DS.attr(String),
+	owner: DS.attr('string'),
+	name: DS.attr('string'),
+	pass: DS.attr('string')	
 });
