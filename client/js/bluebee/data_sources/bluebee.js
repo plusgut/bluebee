@@ -30,5 +30,12 @@ App.adapter = DS.Adapter.create({
 
 App.store = DS.Store.create({
 	revision: 1,
-	adapter: App.adapter
+	adapter: App.adapter,
+	commitAutomatically: true,
+	hashWasUpdated: function(type, clientId, record) {//Temporary fix for automatic commit
+		this.updateModelArrays(type, clientId, this.get(record, 'data'));
+		if (this.get('commitAutomatically')) this.commit();
+	},
 });
+
+
