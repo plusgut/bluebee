@@ -1,3 +1,3 @@
-App.User = Em.Record.extend({
-	name: Em.Record.attr(String),
+App.User = DS.Model.extend({
+	name: DS.attr(String),
 });
