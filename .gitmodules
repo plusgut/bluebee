@@ -1,3 +1,6 @@
 [submodule "lib/ember.js"]
 	path = lib/ember.js
 	url = git://github.com/emberjs/ember.js.git
+[submodule "lib/data"]
+	path = lib/data
+	url = git://github.com/emberjs/data.git
