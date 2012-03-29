@@ -182,6 +182,10 @@ exports.module = function(){
 			headers: headers
 		};
 
+		if( bb.conf.couchdb.user && bb.conf.couchdb.pass ){
+			options.auth = bb.conf.couchdb.user + ":" + bb.conf.couchdb.pass;
+		}
+
 		var req = http.request(options, function(res) {
 			res.setEncoding( "utf8" );
 			var content = "";
