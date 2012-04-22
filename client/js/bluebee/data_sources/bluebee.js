@@ -9,7 +9,7 @@ App.adapter = DS.Adapter.create({
 		App.socket.emit('c2s', { createRecord:
 			{
 				content: model,
-				model: type,
+				model: type.toString(),
 				storeKey: model.clientId,
 				requestKey: Math.random()
 			}

@@ -104,24 +104,24 @@ exports.module = function(){
 	// Makes new records into the database
 	this.createRecord = function( req, user, cb ){
 		var content = req.content;
-		if( req.content.model == "User" ){ //Special handling for user-model
+		if( req.content.model == "Bb.User" ){ //Special handling for user-model
 			if( !user ){ //Creating a user is only allowed for guests
 				bb.modules.user.createUser( req.content, function( result, err ){
 					user = result.user;
 					if( err ){
-						cb( { content: req.content, ack: false, requestKey: req.requestKey } );
+						cb( { content: req.content, model: req.model, ack: false, requestKey: req.requestKey } );
 					} else if( user ){ //Everything is fine, returns the user for continuative api-handling
-						cb( { content: req.content, ack: true, requestKey: req.requestKey }, null, user );
+						cb( { content: req.content, model: req.model, ack: true, requestKey: req.requestKey }, null, user );
 					} else {//Something went weird
 						err = "something went wrong";
-						cb( { content: req.content, ack: false, requestKey: req.requestKey, error: err } );
+						cb( { content: req.content, model: req.model, ack: false, requestKey: req.requestKey, error: err } );
 					}
 				});
 			} else {
-				cb( { content: req.content, ack: false, requestKey: req.requestKey } );
+				cb( { content: req.content, model: req.model, ack: false, requestKey: req.requestKey } );
 			}			
 		} else {
-			cb( { content: req.content, ack: true, requestKey: req.requestKey } );
+			cb( { content: req.content, model: req.model, ack: true, requestKey: req.requestKey } );
 		}
 	};
 
