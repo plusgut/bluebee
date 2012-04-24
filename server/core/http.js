@@ -5,6 +5,7 @@ exports.module = function(){
 	var path	= require( "path" );
 	var fs		= require( "fs" );
 	var mime	= require( "mime" );
+	var urlParser	= require( "url" );
 
 	////-----------------------------------------------------------------------------------------
 	//The socket-server
@@ -37,24 +38,28 @@ exports.module = function(){
 						data[ pair[ 0 ] ] = pair[ 1 ];
 					}
 				}
+
+				var protocol = "http://";
+
+				var url = urlParser.parse( protocol + req.headers.host + req.url );
 				var bbRequest = {
 							write: bb.core.http.write, 
-							writeFile: bb.core.http.writeFile, 
+							writeFile: bb.core.http.writeFile,
+							writeMovedPermanently: bb.core.http.writeMovedPermanently, 
 							writeNotFound: bb.core.http.writeNotFound, 
 							writeNotAllowed: bb.core.http.writeNotAllowed, 
 							writeServerFailure: bb.core.http.writeServerFailure, 
 							ready: false, 
-							url: req.url,
+							url: url,
 							method: req.method,
 							data: data,
 							origin: { 
 								req: req, 
 								res: res 
 							}
-						}; 
-					bb.core.http.httpHandler( bbRequest );
+				}; 
+				bb.core.http.httpHandler( bbRequest );
 			});
-
 		});
 
 		self.socketServer = io.listen( server, { "log level": 1 } );
@@ -69,24 +74,36 @@ exports.module = function(){
 	this.httpHandler = function( req ){//#ToDo outsorce in an core-file
 		//#ToDo throw 401 if a .. exists
 		var found = false;
-		var url		= req.url.split( "/" )[ 1 ] ;
-		if( !url ){
-			url = "index";
-		}
-		for( var moduleIndex in this.bb.modules ){
-			var module = bb.modules[ moduleIndex ];
-			var listeners	= module.listeners( url ).length;
-			if( listeners ){
-				found = true;
-				module.emit( url, req );
-				break;
+		var path = req.url.pathname.split("/")[1];
+
+		if(bb.conf.http.domain && bb.conf.http.domain != req.url.hostname){
+		
+			req.url.href = req.url.href.replace( req.url.hostname, bb.conf.http.domain );
+			req.url.host = req.url.host.replace( req.url.hostname, bb.conf.http.domain );
+			req.url.hostname = bb.conf.http.domain;
+
+			var newUrl = urlParser.format( req.url );
+			req.writeMovedPermanently( newUrl );
+		} else {
+			if( !path ){
+				path = "index";
+			}
+			for( var moduleIndex in this.bb.modules ){
+				var module = bb.modules[ moduleIndex ];
+				var listeners	= module.listeners( path ).length;
+				if( listeners ){
+					found = true;
+					module.emit( path, req );
+					break;
+				}
+			}
+
+			if( !found ){ //No Module wanted to handle the request
+				req.writeNotFound();
 			}
 		}
-
-		if( !found ){ //No Module wanted to handle the request
-			req.writeNotFound();
-		}
 	};
+
 	////-----------------------------------------------------------------------------------------
 	//The http-answerer
 	this.write = function( response, status, header, encoding ){
@@ -118,7 +135,7 @@ exports.module = function(){
 				req.writeNotFound();
 			} else {
 				fs.stat( filename, function (err, stats) {
-                    if ( err ) {
+					if ( err ) {
 						req.writeServerFailure();
 					} else  if( stats.isFile() ){
 						fs.readFile( filename, "binary", function( err, file ) {
@@ -135,6 +152,15 @@ exports.module = function(){
 				});	
 			}
 		});
+	};
+
+	////-----------------------------------------------------------------------------------------
+	//The 301-handler
+	this.writeMovedPermanently = function( url ){
+		var req = this;
+		header = { "Content-Type": "text/plain", "Location": url };
+
+		req.write( "Moved Permanently", 301, header );
 	};
 
 	////-----------------------------------------------------------------------------------------
