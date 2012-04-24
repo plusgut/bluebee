@@ -28,9 +28,7 @@ exports.module = function(){
 	});
 
 	this.on( "client", function( req ){
-		var url = req.url.split( "?" )[ 0 ];
-		url = url.split( "#" )[ 0 ] ;
-		req.writeFile( bb.path + url );
+		req.writeFile( bb.path + req.url.pathname );
 	});
 	this.on( "favicon.ico", function( req ){
 		req.writeFile( bb.path + "/client/favicon.ico" );
