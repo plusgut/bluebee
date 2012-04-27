@@ -9,7 +9,7 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	//Creates user-model
-	this.createUser = function( data, cb ){
+	this.createUser = function( data, user, cb ){
 		var err = null;
 		var result = {};
 		if( !data.name ){
@@ -19,7 +19,7 @@ exports.module = function(){
 		} else {
 						
 		}
-		cb()
+		cb({})
 	};
 
 	////-----------------------------------------------------------------------------------------

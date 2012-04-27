@@ -17,7 +17,7 @@ exports.module = function(){
 			var api;
 			try{
 				api = JSON.parse( req.data.api );
-				this.handleApi( api, function( response, code ){
+				this.handleApi( api, req.user, function( response, code ){
 					if( code == 500 ){
 						req.writeServerFailure();
 					} else if( code == 401 ){
@@ -74,8 +74,8 @@ exports.module = function(){
 				type = apiIndex;
 				content = api[ apiIndex ];
 			}
-				if( this.apiModules[ type ] ){
-				this[ type ]( content, user, function( result ){
+			if( this.apiModules[ type ] ){
+				this.apiModules[ type ]( content, user, function( result ){
 					var key	= type + "Result";
 					if ( api instanceof Array ){
 						var resultObject = {};
@@ -103,15 +103,17 @@ exports.module = function(){
 	////-----------------------------------------------------------------------------------------
 	// Makes new records into the database
 	this.createRecord = function( req, user, cb ){
-		var content = req.content;
-		if( req.content.model == "Bb.User" ){ //Special handling for user-model
+		var content	= req.content;
+		var user	= req.user;
+		if( req.model == "Bb.User" ){ //Special handling for user-model
+			console.log("uh, you want to create a user? interesting..");
 			if( !user ){ //Creating a user is only allowed for guests
-				bb.modules.user.createUser( req.content, function( result, err ){
-					user = result.user;
+				bb.core.user.createUser( content, user, function( result, err ){
 					if( err ){
 						cb( { content: req.content, model: req.model, ack: false, requestKey: req.requestKey } );
-					} else if( user ){ //Everything is fine, returns the user for continuative api-handling
-						cb( { content: req.content, model: req.model, ack: true, requestKey: req.requestKey }, null, user );
+					} else if( result.user ){ //Everything is fine, returns the user for continuative api-handling
+						user = result.user;
+						cb( { content: req.content, model: req.model, ack: true, requestKey: req.requestKey }, null, result.user );
 					} else {//Something went weird
 						err = "something went wrong";
 						cb( { content: req.content, model: req.model, ack: false, requestKey: req.requestKey, error: err } );

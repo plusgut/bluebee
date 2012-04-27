@@ -16,8 +16,8 @@ var bluebee = bluebee || (function(){
 		debug	= true,
 		path	= process.cwd(),
 
-	    system  = {},						//Some System ressources
-		core	= {},//						//Holds all Core-Modules
+		system  = {},						//Some System ressources
+		core	= {},						//Holds all Core-Modules
 		modules	= {},						//Holds all feature-modules
 
 	////=============================================================================================

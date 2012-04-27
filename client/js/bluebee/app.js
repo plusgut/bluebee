@@ -3,6 +3,10 @@ var App = Em.Application.create({
 	title: "BlueBee - Please login"
 });
 
+Bb = Em.Namespace.create({
+	VERSION: '0.1.0'
+});
+
 App.Controllers	= {};
 App.Models	= {};
 App.Views	= {};
