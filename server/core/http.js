@@ -7,6 +7,8 @@ exports.module = function(){
 	var mime	= require( "mime" );
 	var urlParser	= require( "url" );
 
+	var self = this;
+
 	////-----------------------------------------------------------------------------------------
 	//The socket-server
 	this.socketServer = null;
@@ -19,8 +21,7 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	//The http-server itself!
-	this.httpServer = function(){
-		var self = this;
+	this.ready = function(){
 		var server = http.createServer( function (req, res) {
 			req.setEncoding("utf8");
 			req.content = "";
@@ -211,17 +212,9 @@ exports.module = function(){
 	//The socket-handler
 	this.socketHandler = function( socket ){
 		socket.on('c2s', function (data) {
-			bb.log( "client: " );
-			bb.log(data);
-
-			var user = null;
-			if( socket.user ){
-				user = socket.user;
-			}
-
-			bb.modules.api.handleApi( data, user, function( response, status, user ){
+			bb.modules.api.handleApi( data, socket, function( response, status ){
 				socket.emit( "s2c", response );
-			});			
+			});
 		});
 		socket.on('s2s', function (data) {
 			bb.log( "server: " );

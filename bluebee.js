@@ -6,8 +6,8 @@ var bluebee = bluebee || (function(){
 	////=============================================================================================
 	// Requirements
 
-		util		    = require( "util" ),
-		fs		        = require( "fs" ),
+		util		= require( "util" ),
+		fs		= require( "fs" ),
 		EventEmitter	= require( "events" ).EventEmitter,
 
 	////=============================================================================================
@@ -92,12 +92,29 @@ var bluebee = bluebee || (function(){
 		////-----------------------------------------------------------------------------------------
 		//Loads all the Modules
 		loadModules = function(){
-			loader( bb.path + "/server/modules", bb.modules, bb.core.http.httpServer);
+			loader( bb.path + "/server/modules", bb.modules, ready);
+		},
+
+		////-----------------------------------------------------------------------------------------
+		//Loads all the Modules
+		ready = function(){
+			for( var index in bb.core ){
+				var elem = bb.core[ index ];
+				if(elem.ready){
+					elem.ready();
+				}
+			}
+			for( var index in bb.modules ){
+				var elem = bb.modules[ index ];
+				if(elem.ready){
+					elem.ready();
+				}
+			}
 		},
 
 		////-----------------------------------------------------------------------------------------
 		//The loader itself
-        loader = function( path, modulesObj, cb ){
+	        loader = function( path, modulesObj, cb ){
 			fs.readdir( path, function( err, files ){
 				if( err ){
 					log( err, "error" );

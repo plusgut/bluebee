@@ -50,7 +50,7 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	// makes the real-handling of the methods
-	this.handleApi = function( api, user, cb ){
+	this.handleApi = function( api, userHandle, cb ){
 		var apiResult;
 		if ( api instanceof Array ){
 			apiResult	= [];
@@ -75,7 +75,7 @@ exports.module = function(){
 				content = api[ apiIndex ];
 			}
 			if( this.apiModules[ type ] ){
-				this.apiModules[ type ]( content, user, function( result ){
+				this.apiModules[ type ]( content, userHandle, function( result ){
 					var key	= type + "Result";
 					if ( api instanceof Array ){
 						var resultObject = {};
@@ -102,13 +102,25 @@ exports.module = function(){
 
 	////-----------------------------------------------------------------------------------------
 	// Makes new records into the database
-	this.createRecord = function( req, user, cb ){
+	this.createRecord = function( req, userHandle, cb ){
 		var content	= req.content;
 		var user	= req.user;
+		
+		var namespace	= req.model.split(".")[0];
+		var eventName	= "api_create_" + namespace.toLowerCase();
+		for( var moduleIndex in bb.modules ){
+			var module = bb.modules[ moduleIndex ];
+			var listeners   = module.listeners( eventName ).length;
+			if( listeners ){
+				found = true;
+                                module.emit( eventName, req, userHandle, cb );
+			}
+		}
+
 		if( req.model == "Bb.User" ){ //Special handling for user-model
 			console.log("uh, you want to create a user? interesting..");
 			if( !user ){ //Creating a user is only allowed for guests
-				bb.core.user.createUser( content, user, function( result, err ){
+				bb.core.user.createUser( content, userHandle, function( result, err ){
 					if( err ){
 						cb( { content: req.content, model: req.model, ack: false, requestKey: req.requestKey } );
 					} else if( result.user ){ //Everything is fine, returns the user for continuative api-handling
