@@ -21,7 +21,7 @@ exports.module = function(){
 
 			client.on("message" +content.channel, function (from, message) {
 				var record = { createRecord: { content: 
-									{ message: message, channel: content.channel, user: message }, 
+									{ message: message, channel: content.channel, user: message, type: "s2c" }, 
 								model: 'Irc.Message', 
 								requestKey: Math.random() } };
 				userHandle.emit( "s2c", record );
