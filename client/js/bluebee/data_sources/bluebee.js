@@ -11,7 +11,6 @@ App.socket.on('s2c', function (data) {
 App.adapter = DS.Adapter.create({
 	url: "http://" + App.config.server.host + ":" + App.config.server.port + App.config.server.apiPath,
 	createRecord: function( store, type, model){
-		App.log(model.get("type"));
 		if(model.get("type") != "s2c" ){
 			App.socket.emit('c2s', { createRecord:
 				{
