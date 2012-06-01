@@ -67,11 +67,9 @@
 				<h1>I'm a webdesktop ;)</h1>
 				<span>Its a web-thing</span>
 				<div>
-					{{view Em.TextField valueBinding="userName"}}
-					{{view Em.TextField valueBinding="userPass"}}
-					{{#view registerView}}
-						<button class="btn">Registrieren</button>
-					{{/view}}
+					{{view Em.TextField valueBinding="userName"}}<br>
+					{{view Em.TextField valueBinding="userPass" type="password"}}<br>
+					{{#view registerView tagName="button" class="btn btn-primary" id="register"}}Registrieren{{/view}}
 				</div>
 			</div>
 		</div>

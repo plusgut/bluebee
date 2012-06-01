@@ -5,7 +5,7 @@ Currently it's in development and not productionready™.
 
 
 * On the serverside node.js is used
-* clientside uses [ember.js](http://github.com/emberjs/ember.js)
+* clientside uses [ember.js](http://github.com/emberjs/ember.js) and [bootstrap](http://twitter.github.com/bootstrap)
 * for the datatransfer, websockets are used via socket.io
 
 Features of BlueBee
