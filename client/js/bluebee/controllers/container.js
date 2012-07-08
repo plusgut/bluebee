@@ -1,6 +1,11 @@
 App.Controllers.container = Em.Object.create({
+	hash: "",
+
 	init: function(){
-		var templateContainer = {app:{index:"client/js/bluebee/templates/app/index.handlebars"}};//Just for testing, generation has to be made automatically
+		$(window).bind('hashchange', this.hashChange);
+		this.hashChange();
+
+		var templateContainer = {app:{index:"client/js/bluebee/templates/index.handlebars"},irc:{index:"client/js/apps/irc/templates/index.handlebars"}};//Just for testing, generation has to be made automatically
 		var count = 1; //Just for testing
 
 		var rendered = 0;
@@ -11,7 +16,6 @@ App.Controllers.container = Em.Object.create({
 					if(templates.hasOwnProperty(templateIndex)){
 						var templatePath = templates[templateIndex];
 
-						console.log(templatePath);
 						$.ajax({
 							url: "/" + templatePath,
 						}).done(function(data){
@@ -25,6 +29,21 @@ App.Controllers.container = Em.Object.create({
 					}
 				}
 			}
+		}
+	},
+
+	hashChange: function(){
+		var hash  = window.location.hash;
+		if(!hash){
+			hash = "index";
+		} else{
+			hash = hash.substring(1);
+		}
+		if( this.set ){//Needed because of different scopes (window and this container)
+			this.set("hash", hash);
+
+		} else{
+			App.Controllers.container.set("hash", hash);
 		}
 	}
 });

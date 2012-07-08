@@ -1,0 +1,13 @@
+{{#view App.Views.index}}
+	{{#if App.Helpers.index.hashIsIndex}}
+		<h1>I'm a webdesktop ;)</h1>
+		<span>Its a web-thing</span>
+		<div>
+			{{view Em.TextField valueBinding="userName"}}
+			{{view Em.TextField valueBinding="userPass"}}
+			{{#view registerView}}
+				<button class="btn" data-loading-text="Sending..." >Registrieren</button>
+			{{/view}}
+		</div>
+	{{/if}}
+{{/view}}

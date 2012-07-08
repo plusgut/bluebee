@@ -1,5 +1,6 @@
+//Ember.LOG_BINDINGS = true;
+
 var App = Em.Application.create({
-	/*store: Em.Store.create().from('App.DataSource'),*/
 	title: "BlueBee - Please login"
 });
 
@@ -9,6 +10,7 @@ Bb = Em.Namespace.create({
 
 App.Controllers	= {};
 App.Models	= {};
+App.Helpers	= {};
 App.Views	= {};
 
 App.debug = true;

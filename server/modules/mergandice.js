@@ -1,3 +1,5 @@
+//Known issues: its broken if no files are in an directory
+
 exports.module = function(){
 	var fs = require( "fs" );
 	var self = this;

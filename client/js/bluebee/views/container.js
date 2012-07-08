@@ -8,7 +8,6 @@ App.Views.container = Em.ContainerView.create({
 	},
 
 	addView: function( namespace, name, template ){
-		console.log(template)
 		var compiledTemplate = Em.Handlebars.compile(template)
 		var view = Ember.View.create( {template: compiledTemplate, tagName: "span"} );
 		this.get("childViews").pushObject(view);
