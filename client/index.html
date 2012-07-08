@@ -28,61 +28,45 @@
 	<script src="client/js/libs/ember/ember.min.js"></script>
 	<script src="client/js/libs/ember/ember-data.min.js"></script>
 	scripts
-	<div id="application"></div><!-- Here goes all the content-->
 
-	<script type="text/x-handlebars" data-view="App.Views.index">
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">BlueBee</a>
+				<div class="btn-group pull-right">
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="icon-user"></i> Guest
+						<span class="caret"></span>
 					</a>
-					<a class="brand" href="#">BlueBee</a>
-					<div class="btn-group pull-right">
-						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-							<i class="icon-user"></i> Guest
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Sign Out</a></li>
-						</ul>
-					</div>
-					<div class="nav-collapse">
-						<ul class="nav">
-							<li class="active"><a href="#">Home</a></li>
-							<li><a href="#about">About</a></li>
-							<li><a href="#contact">Contact</a></li>
-						</ul>
-					</div><!--/.nav-collapse -->
+					<ul class="dropdown-menu">
+						<li><a href="#">Profile</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Sign Out</a></li>
+					</ul>
 				</div>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
 			</div>
 		</div>
+	</div>
 
-		<div id="content" class="container">
-			<div class="hero-unit">
-				<h1>I'm a webdesktop ;)</h1>
-				<span>Its a web-thing</span>
-				<div>
-					{{view Em.TextField valueBinding="userName"}}<br>
-					{{view Em.TextField valueBinding="userPass" type="password"}}<br>
-					{{#view registerView tagName="button" class="btn btn-primary" id="register"}}Registrieren{{/view}}
-				</div>
-				<div>
-					{{#each Irc.MessageCollection}}
-						<div>
-							<b>{{author}}</b>: {{message}}
-						</div>
-					{{/each}}
-				</div>
-			</div>
+	<div id="content" class="container">
+		<div class="hero-unit">
+			<div id="applications"></div><!-- Here goes all the content-->
+			<noscript>
+				Aktivieren Sie JavaScript.
+			</noscript>
 		</div>
-	</script>
-	<noscript>
-		Aktivieren Sie JavaScript.
-	</noscript>
+	</div>
 </body>
 </html>
