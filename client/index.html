@@ -71,8 +71,18 @@
 					{{view Em.TextField valueBinding="userPass" type="password"}}<br>
 					{{#view registerView tagName="button" class="btn btn-primary" id="register"}}Registrieren{{/view}}
 				</div>
+				<div>
+					{{#each Irc.MessageCollection}}
+						<div>
+							<b>{{author}}</b>: {{message}}
+						</div>
+					{{/each}}
+				</div>
 			</div>
 		</div>
 	</script>
+	<noscript>
+		Aktivieren Sie JavaScript.
+	</noscript>
 </body>
 </html>

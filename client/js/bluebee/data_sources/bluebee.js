@@ -1,6 +1,5 @@
 App.socket = io.connect( "http://" + App.config.server.host + ":" + App.config.server.port );
 App.socket.on('s2c', function (data) {
-	App.log(data);
 	if( data.createRecord ){
 		var content = data.createRecord;
 		var model = App.getModel( content.model, window);
@@ -22,7 +21,24 @@ App.adapter = DS.Adapter.create({
 			});
 		}
 
+		var modelName = type.toString().split(".");
+		modelName[ modelName.length - 1 ] = modelName[ modelName.length - 1 ] + "Collection";
+		modelNameString = modelName.join(".");
+
+		var collection = App.getModel(modelNameString, window);
+
+		if(!collection){
+
+			collection = App.getModel(modelNameString, window, true);
+			collection.set(modelName[ modelName.length - 1 ], Em.ArrayController.create({
+				content: [model.toJSON()]
+			}));
+		} else{
+			collection.content.pushObject( model.toJSON() );
+		}
+
 		store.didCreateRecord(model, model);
+
 	},
 
 	updateRecord: function( store, type, model){
@@ -46,12 +62,17 @@ App.store = DS.Store.create({
 });
 
 
-App.getModel = function( modelString, parent ){
+App.getModel = function( modelString, parent, last){
 	if(!modelString){
 		return parent;
 	}
 	var modelArray = modelString.split(".");
 	var model = parent[ modelArray[ 0 ] ];
+
+	if(!model && last){
+		model = parent;
+	}
 	var newModelArray = modelArray.slice( 1, modelArray.length );
-	return App.getModel( newModelArray.join("."), model );
+
+	return App.getModel( newModelArray.join("."), model, last );
 }
