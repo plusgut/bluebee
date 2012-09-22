@@ -15,7 +15,7 @@ App.Controllers.container = Em.Object.create({
 				for( var templateIndex in templates ){
 					if(templates.hasOwnProperty(templateIndex)){
 						var templatePath = templates[templateIndex];
-						console.log(templatePath);
+
 						$.ajax({
 							url: "/" + templatePath,
 						}).done(function(data){

@@ -1,0 +1,21 @@
+{ "name": "bluebee"
+, "description": "Its a cool webdesktop"
+, "main": "./bluebee.js"
+, "author": "Carlo Jeske"
+, "version": "0.1.0"
+, "repository" :
+  { "type" : "git"
+  , "url" : "http://github.com/plusgut/bluebee.git"
+  }
+, "bugs" : { "url" : "http://github.com/plusgut/bluebee/issues" }
+, "licenses" :
+  [ { "type" : "MIT"
+    , "url" : "http://github.com/plusgut/bluebee/raw/master/LICENSE"
+    }
+  ]
+, "devDependencies":
+  { "irc": ">0.0.0"
+  , "mime": ">0.0.0"
+  , "socket.io": ">0.0.0"
+  }
+}

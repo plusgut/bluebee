@@ -10,16 +10,19 @@ App.socket.on('s2c', function (data) {
 App.adapter = DS.Adapter.create({
 	url: "http://" + App.config.server.host + ":" + App.config.server.port + App.config.server.apiPath,
 	createRecord: function( store, type, model){
+		var key = Math.random();
+
 		if(model.get("type") != "s2c" ){
 			App.socket.emit('c2s', { createRecord:
 				{
 					content: model,
 					model: type.toString(),
 					storeKey: model.clientId,
-					requestKey: Math.random()
+					requestKey: key
 				}
 			});
 		}
+
 
 		var modelName = type.toString().split(".");
 		modelName[ modelName.length - 1 ] = modelName[ modelName.length - 1 ] + "Collection";
@@ -37,7 +40,7 @@ App.adapter = DS.Adapter.create({
 			collection.content.pushObject( model.toJSON() );
 		}
 
-		store.didCreateRecord(model, model);
+		store.didCreateRecord(model, model.toJSON());
 
 	},
 
